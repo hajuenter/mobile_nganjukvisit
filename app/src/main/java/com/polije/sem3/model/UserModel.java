@@ -8,28 +8,30 @@ public class UserModel {
     @Expose
     @SerializedName("id_user")
     private String idUser;
-    @SerializedName("username")
-    private String username;
-    @SerializedName("kata_sandi")
+    @SerializedName("nama")
+    private String nama;
+    @SerializedName("password")
     private String passwordUser;
-    @SerializedName("fullname")
-    private String fullName;
+/*    @SerializedName("fullname")
+    private String fullName;*/
     @SerializedName("email")
     private String emailUser;
-    @SerializedName("level")
+    @SerializedName("role")
     private String levelUser;
-    @SerializedName("no_telepon")
+    @SerializedName("no_hp")
     private String noTelepon;
     @SerializedName("alamat")
     private String alamat;
     @SerializedName("gambar")
     private String gambar;
 
-    public UserModel(String idUser, String username, String passwordUser, String fullName, String emailUser, String noTelepon, String alamat, String gambar) {
+    public UserModel(String idUser, String username, String passwordUser, String emailUser, String noTelepon, String alamat, String gambar) {
         this.idUser = idUser;
-        this.username = username;
+        this.nama = username;
         this.passwordUser = passwordUser;
+/*
         this.fullName = fullName;
+*/
         this.emailUser = emailUser;
         this.noTelepon = noTelepon;
         this.alamat = alamat;
@@ -53,11 +55,11 @@ public class UserModel {
     }
 
     public String getUsername() {
-        return username;
+        return nama;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.nama = username;
     }
 
     public String getPasswordUser() {
@@ -68,14 +70,14 @@ public class UserModel {
         this.passwordUser = passwordUser;
     }
 
-    public String getFullName() {
+    /*public String getFullName() {
         return fullName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
+*/
     public String getEmailUser() {
         return emailUser;
     }

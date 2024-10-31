@@ -18,12 +18,16 @@ public class Client {
 
 //        public static final String BASE_URL = "http://192.168.1.62/nganjukvisit/"; // local
 //    public static final String BASE_URL = "http://192.168.1.7/nganjukvisit/"; // wifi
-//        public static final String BASE_URL = "http://172.16.103.67/nganjukvisit/"; // local
-        public static final String BASE_URL = "https://nganjukvisit.tifnganjuk.com/"; // local
+//public static final String BASE_URL = "http://192.168.43.115/nganjukvisit/"; // local
+    public static final String BASE_URL = "http://172.16.106.52/web_nganjukvisit-main/"; //ip karo folder web e
+//        public static final String BASE_URL = "https://nganjukvisit.tifnganjuk.com/"; // local
+/*
+    C:\xampp\htdocs\web_nganjukvisit-main\api\loginApi.php
+*/
 
-    public static final String CONTROLLERS = BASE_URL + "controllers/";
+    public static final String CONTROLLERS = BASE_URL + "api/";
 
-    public static final String IMG_DATA = BASE_URL + "resource_mobile/";
+    public static final String IMG_DATA = BASE_URL + "public/gambar/";
 
     public static final String PUBLIC_IMG = "public/img/";
 

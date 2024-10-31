@@ -2,6 +2,7 @@ package com.polije.sem3.datashare;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -43,7 +44,9 @@ public class DataShared {
 
     public void setData(@NonNull KEY key, @NonNull String value){
         this.sharedEditor.putString(key.name(), value).apply();
+        Log.d("DataShared", "Data disimpan: Key=" + key.name() + ", Value=" + value);
     }
+
 
     public void setNullData(@NonNull KEY key){
         this.setData(key, "");

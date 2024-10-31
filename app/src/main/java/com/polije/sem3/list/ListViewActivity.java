@@ -1,13 +1,13 @@
-package com.polije.sem3;
+package com.polije.sem3.list;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.polije.sem3.R;
 
 public class ListViewActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     ListView listView;

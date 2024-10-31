@@ -31,11 +31,18 @@ import retrofit2.http.Query;
 
 public interface RetrofitEndPoint {
     @FormUrlEncoded
-    @POST("login.php")
+    @POST("loginApi.php")
     Call<UserResponse> login(
-            @Field("userid") String userid,
+            @Field("email") String email,
             @Field("password") String password
     );
+    @FormUrlEncoded
+    @POST("dataUserApi.php")
+    Call<UserResponse> addToken(
+            @Field("email") String email,
+            @Field("token") String token
+    );
+
 
     @FormUrlEncoded
     @POST("login_google.php")
@@ -45,11 +52,11 @@ public interface RetrofitEndPoint {
     );
 
     @FormUrlEncoded
-    @POST("register.php")
+    @POST("registerApi.php")
     Call<UserResponse> register(
-            @Field("username") String username,
+            @Field("alamat") String alamat,
             @Field("email") String email,
-            @Field("fullname") String fullName,
+            @Field("nama") String fullName,
             @Field("password") String password
         );
 
@@ -69,15 +76,15 @@ public interface RetrofitEndPoint {
     Call<KulinerResponse> kuliner(
     );
 
-    @GET("populer_penginapan.php")
+    @GET("endpoint_penginapan_rekomendasi.php")
     Call<PenginapanResponse> penginapanpopuler(
     );
 
-    @GET("populer_wisata.php")
+    @GET("endpoint_wisata_populer.php")
     Call<WisataResponse> wisatapopuler(
     );
 
-    @GET("populer_kuliner.php")
+    @GET("endpoint_kuliner_terpopuler.php")
     Call<KulinerResponse> kulinerpopuler(
     );
 
@@ -149,21 +156,21 @@ public interface RetrofitEndPoint {
     );
 
     @FormUrlEncoded
-    @POST("favorit_wisata.php")
+    @POST("fav_wisata.php")
     Call<FavoritWisataResponse> favwisata(
-        @Field("idpengguna") String iduser
+        @Field("id_user") String iduser
     );
 
     @FormUrlEncoded
-    @POST("favorit_penginapan.php")
+    @POST("fav_penginapan.php")
     Call<FavoritPenginapanResponse> favpenginapan(
-            @Field("idpengguna") String iduser
+            @Field("id_user") String iduser
     );
 
     @FormUrlEncoded
-    @POST("favorit_kuliner.php")
+    @POST("fav_kuliner.php")
     Call<FavoritKulinerResponse> favkuliner(
-            @Field("idpengguna") String iduser
+            @Field("id_user") String iduser
     );
 
     @FormUrlEncoded

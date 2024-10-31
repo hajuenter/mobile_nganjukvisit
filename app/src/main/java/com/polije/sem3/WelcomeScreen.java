@@ -17,8 +17,12 @@ public class WelcomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
         Button tombolPindah = findViewById(R.id.btnStart);
         tombolPindah.setOnClickListener(v -> {
-            Intent intent = new Intent(WelcomeScreen.this, Login.class);
-            startActivity(intent);
+            try {
+                Intent intent = new Intent(WelcomeScreen.this, Login.class);
+                startActivity(intent);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
     }
 }

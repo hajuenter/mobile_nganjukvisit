@@ -12,15 +12,25 @@
           "package_name": "com.polije.sem3"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "51850660532-r74apiav80k5jgh6qu6g6hhffic784rp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyA2kQUlaZl1C2K1JN0mJYDbIca9vaxzuEU"
+          "current_key": "AIzaSyCIGPza3FQQR5tornDxDUdOuUHSHeCOm8k"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51850660532-r74apiav80k5jgh6qu6g6hhffic784rp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

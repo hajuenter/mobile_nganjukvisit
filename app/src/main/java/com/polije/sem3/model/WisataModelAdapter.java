@@ -1,7 +1,6 @@
 package com.polije.sem3.model;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
@@ -13,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.polije.sem3.ListWisata;
 import com.polije.sem3.R;
-import com.polije.sem3.network.Config;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;

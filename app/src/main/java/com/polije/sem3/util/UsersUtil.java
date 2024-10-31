@@ -15,7 +15,6 @@ public class UsersUtil {
             setId(String.valueOf(model.getIdUser()));
             setEmail(model.getEmailUser());
             setUsername(model.getUsername());
-            setFullName(model.getFullName());
             setAlamat(model.getAlamat());
 //            setVerified(model.getVerified());
             setUserPhoto(model.getGambar());

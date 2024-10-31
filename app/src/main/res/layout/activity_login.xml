@@ -60,7 +60,7 @@
             android:layout_marginStart="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="Email:"
             android:textColor="@color/white"
             android:textSize="16sp"/>
 
@@ -75,7 +75,7 @@
             android:longClickable="false"
             android:imeOptions="actionNone"
             android:paddingLeft="10dp"
-            android:hint="username"
+            android:hint="Email"
             android:background="@drawable/shapebackgroundtextfield"
             android:textColorHint="@color/abuabu_transparent"
             />
@@ -85,7 +85,7 @@
             android:layout_marginStart="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Password"
+            android:text="Password:"
             android:textColor="@color/white"
             android:textSize="16sp"/>
 
@@ -97,7 +97,7 @@
             android:layout_marginHorizontal="30dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:hint="password"
+            android:hint="Password"
             android:inputType="textPassword"
             android:longClickable="false"
             android:background="@drawable/shapebackgroundtextfield"

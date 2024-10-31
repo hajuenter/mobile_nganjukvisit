@@ -68,26 +68,6 @@
         android:layout_height="600dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_marginStart="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
-
-        <EditText
-            android:id="@+id/txtusername"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:inputType="text"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="30dp"
-            android:paddingLeft="10dp"
-            android:hint="username"
-            android:background="@drawable/shapebackgroundtextfield"
-            android:textColorHint="@color/abuabu_transparent"
-            />
 
         <TextView
             android:layout_marginStart="30dp"
@@ -158,6 +138,29 @@
             android:drawableEnd="@drawable/eyeicon"
             />
 
+        <TextView
+            android:layout_marginTop="23dp"
+            android:layout_marginStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alamat"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/txtalamat"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:inputType="text"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:hint="alamat"
+            android:background="@drawable/shapebackgroundtextfield"
+            android:textColorHint="@color/abuabu_transparent"
+            />
+
 
         <Button
             android:id="@+id/signupButton"
@@ -172,6 +175,7 @@
             android:textAllCaps="false"
             android:enabled="true"
             />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

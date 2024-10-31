@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
@@ -17,13 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.polije.sem3.detail.DetailInformasi;
+import com.polije.sem3.detail.DetailKuliner;
+import com.polije.sem3.detail.DetailPenginapan;
 import com.polije.sem3.model.FavoritKulinerModelAdapter;
 import com.polije.sem3.model.FavoritPenginapanModel;
 import com.polije.sem3.model.FavoritPenginapanModelAdapter;
 import com.polije.sem3.model.FavoritKulinerModel;
 import com.polije.sem3.model.FavoritWisataModelAdapter;
 import com.polije.sem3.model.FavoritWisataModel;
-import com.polije.sem3.model.WisataModelAdapter;
 import com.polije.sem3.response.FavoritKulinerResponse;
 import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.response.FavoritWisataResponse;

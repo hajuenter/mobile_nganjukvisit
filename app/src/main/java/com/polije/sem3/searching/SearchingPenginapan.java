@@ -1,4 +1,4 @@
-package com.polije.sem3;
+package com.polije.sem3.searching;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,12 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.polije.sem3.model.KulinerModel;
-import com.polije.sem3.model.KulinerModelAdapter;
+import com.polije.sem3.detail.DetailPenginapan;
+import com.polije.sem3.R;
 import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.model.PenginapanModelAdapter;
-import com.polije.sem3.model.WisataModel;
-import com.polije.sem3.model.WisataModelAdapter;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.retrofit.Client;
 

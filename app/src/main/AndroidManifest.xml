@@ -32,70 +32,70 @@
             </intent-filter>
         </service>
         <activity
-            android:name=".SearchingPenginapan"
+            android:name=".searching.SearchingPenginapan"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".SearchingKuliner"
+            android:name=".searching.SearchingKuliner"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".SearchingWisata"
+            android:name=".searching.SearchingWisata"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".SearchingHomepage"
+            android:name=".searching.SearchingHomepage"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DetailPenginapan"
+            android:name=".detail.DetailPenginapan"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DetailKuliner"
+            android:name=".detail.DetailKuliner"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DetailEvent"
+            android:name=".detail.DetailEvent"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ListKuliner"
+            android:name=".list.ListKuliner"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ListPenginapan"
+            android:name=".list.ListPenginapan"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ListEvent"
+            android:name=".list.ListEvent"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -116,7 +116,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".DetailInformasi"
+            android:name=".detail.DetailInformasi"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -130,7 +130,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ListWisata"
+            android:name=".list.ListWisata"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -229,7 +229,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ListViewActivity"
+            android:name=".list.ListViewActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

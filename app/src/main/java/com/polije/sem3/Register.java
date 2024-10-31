@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class Register extends AppCompatActivity {
 
-    EditText username, email, password, fullname;
+    EditText alamat, email, password, fullname;
     boolean passwordVisible;
     private AppCompatImageButton btnBack;
     Button btnSubmit;
@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity {
         progressDialog.setMessage("Harap Tunggu");
         progressDialog.setCancelable(false);
 
-        username = (EditText) findViewById(R.id.txtusername);
+        alamat = (EditText) findViewById(R.id.txtalamat);
         password = (EditText) findViewById(R.id.txtpassword);
         email = (EditText) findViewById(R.id.txtemails);
         fullname = (EditText) findViewById(R.id.txtfullname);
@@ -52,12 +52,12 @@ public class Register extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(v -> {
             progressDialog.show();
-            String usernameKey = username.getText().toString();
+            String alamatkey = alamat.getText().toString();
             String fullnameKey = fullname.getText().toString();
             String emailKey = email.getText().toString();
             String passwordKey = password.getText().toString();
 
-            Client.getInstance().register(usernameKey, emailKey, fullnameKey, passwordKey).enqueue(new Callback<UserResponse>() {
+            Client.getInstance().register(alamatkey, emailKey, fullnameKey, passwordKey).enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){

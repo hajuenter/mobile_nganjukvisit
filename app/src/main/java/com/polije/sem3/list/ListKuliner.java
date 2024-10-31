@@ -1,7 +1,6 @@
-package com.polije.sem3;
+package com.polije.sem3.list;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -13,12 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.polije.sem3.model.EventModel;
-import com.polije.sem3.model.EventModelAdapter;
-import com.polije.sem3.model.PenginapanModel;
-import com.polije.sem3.model.PenginapanModelAdapter;
+import com.polije.sem3.Dashboard;
+import com.polije.sem3.detail.DetailKuliner;
+import com.polije.sem3.R;
+import com.polije.sem3.searching.SearchingKuliner;
+import com.polije.sem3.model.KulinerModel;
+import com.polije.sem3.model.KulinerModelAdapter;
 import com.polije.sem3.network.Config;
-import com.polije.sem3.response.PenginapanResponse;
+import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 
@@ -28,11 +29,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListPenginapan extends AppCompatActivity {
-
+public class ListKuliner extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private PenginapanModelAdapter adapter;
-    private ArrayList<PenginapanModel> PenginapanArrayList;
+    private KulinerModelAdapter adapter;
+    private ArrayList<KulinerModel> KulinerArrayList;
     private TextView txtSearch, txtNama;
     private ImageView imgUser, btnNotify;
 
@@ -40,7 +40,7 @@ public class ListPenginapan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_penginapan);
+        setContentView(R.layout.activity_list_kuliner);
 
         UsersUtil usersUtil = new UsersUtil(this);
         String profilePhoto = usersUtil.getUserPhoto();
@@ -51,9 +51,6 @@ public class ListPenginapan extends AppCompatActivity {
 
         Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
         txtNama.setText("Halo! " + namaPengguna);
-
-        // searching
-        txtSearch = findViewById(R.id.searchbox);
 
         // link to notify
         btnNotify = (ImageView) findViewById(R.id.btnNotif);
@@ -72,12 +69,15 @@ public class ListPenginapan extends AppCompatActivity {
             }
         });
 
+        // searching
+        txtSearch = findViewById(R.id.searchbox);
+
         txtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     txtSearch.setEnabled(false);
-                    Intent i = new Intent(ListPenginapan.this, SearchingPenginapan.class);
+                    Intent i = new Intent(ListKuliner.this, SearchingKuliner.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 } else {
@@ -86,34 +86,32 @@ public class ListPenginapan extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListPenginapan);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListKuliner);
 
-        Client.getInstance().penginapan().enqueue(new Callback<PenginapanResponse>() {
+        Client.getInstance().kuliner().enqueue(new Callback<KulinerResponse>() {
             @Override
-            public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    PenginapanArrayList = response.body().getData();
-
-                    adapter = new PenginapanModelAdapter(response.body().getData(), new PenginapanModelAdapter.OnClickListener() {
+            public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    KulinerArrayList = response.body().getData();
+                    adapter = new KulinerModelAdapter(KulinerArrayList, new KulinerModelAdapter.OnClickListener() {
                         @Override
                         public void onItemClick(int position) {
                             startActivity(
-                                    new Intent(ListPenginapan.this, DetailPenginapan.class)
-                                            .putExtra(DetailPenginapan.ID_PENGINAPAN, PenginapanArrayList.get(position).getIdPenginapan())
+                                    new Intent(ListKuliner.this, DetailKuliner.class)
+                                            .putExtra(DetailKuliner.ID_KULINER, KulinerArrayList.get(position).getIdKuliner())
                             );
                         }
                     });
                     recyclerView.setAdapter(adapter);
-                } else {
-                    Toast.makeText(ListPenginapan.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(ListKuliner.this, "Data Kosong", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
-            public void onFailure(Call<PenginapanResponse> call, Throwable t) {
+            public void onFailure(Call<KulinerResponse> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(ListPenginapan.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListKuliner.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -129,4 +127,5 @@ public class ListPenginapan extends AppCompatActivity {
         i.putExtra("fragmentToLoad", "Notify");
         startActivity(i);
     }
+
 }

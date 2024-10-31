@@ -16,10 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +25,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.polije.sem3.detail.DetailInformasi;
+import com.polije.sem3.detail.DetailKuliner;
+import com.polije.sem3.detail.DetailPenginapan;
+import com.polije.sem3.list.ListEvent;
+import com.polije.sem3.list.ListKuliner;
+import com.polije.sem3.list.ListPenginapan;
+import com.polije.sem3.list.ListWisata;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.model.KulinerModel;
@@ -41,9 +45,9 @@ import com.polije.sem3.network.Config;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
-import com.polije.sem3.response.SendNotifResponse;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.searching.SearchingHomepage;
 import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
@@ -155,7 +159,7 @@ public class Home extends Fragment {
 
 //        getnamapengguna
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
-        namaPengguna.setText("Halo! " + userUtil.getFullName());
+        namaPengguna.setText("Halo," + userUtil.getUsername()+"!");
         imgUser = (ImageView) rootView.findViewById(R.id.userImg);
         String profilePhoto = userUtil.getUserPhoto();
 

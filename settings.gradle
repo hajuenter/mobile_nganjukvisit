@@ -24,3 +24,26 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Nganjuk Visit"
 include ':app'
+
+//pluginManagement {
+//    repositories {
+//        gradlePluginPorta-]l()
+//        google()
+//        mavenCentral()
+//        maven { url 'https://jitpack.io' }
+//        // Hapus JCenter karena tidak lagi diperbarui
+//    }
+//}
+//
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//        maven { url 'https://jitpack.io' }
+//        // Hapus JCenter karena tidak lagi diperbarui
+//    }
+//}
+
+//rootProject.name = "Nganjuk Visit"
+//include ':app'

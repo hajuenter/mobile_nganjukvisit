@@ -1,7 +1,6 @@
-package com.polije.sem3;
+package com.polije.sem3.list;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -13,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.polije.sem3.Dashboard;
+import com.polije.sem3.detail.DetailEvent;
+import com.polije.sem3.R;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.network.Config;

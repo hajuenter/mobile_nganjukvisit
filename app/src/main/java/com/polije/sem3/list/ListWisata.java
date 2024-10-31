@@ -1,9 +1,6 @@
-package com.polije.sem3;
+package com.polije.sem3.list;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -16,6 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.polije.sem3.Dashboard;
+import com.polije.sem3.detail.DetailInformasi;
+import com.polije.sem3.R;
+import com.polije.sem3.searching.SearchingWisata;
 import com.polije.sem3.model.RekomendasiWisataAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
@@ -23,8 +24,6 @@ import com.polije.sem3.network.Config;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

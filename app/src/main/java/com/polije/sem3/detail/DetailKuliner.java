@@ -1,7 +1,6 @@
-package com.polije.sem3;
+package com.polije.sem3.detail;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,11 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.polije.sem3.R;
 import com.polije.sem3.model.KulinerModel;
 import com.polije.sem3.response.DetailKulinerResponse;
 import com.polije.sem3.retrofit.Client;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

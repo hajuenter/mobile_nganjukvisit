@@ -1,4 +1,4 @@
-package com.polije.sem3;
+package com.polije.sem3.detail;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.polije.sem3.R;
 import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.response.DetailPenginapanResponse;
 import com.polije.sem3.retrofit.Client;

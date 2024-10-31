@@ -19,7 +19,7 @@
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp"
         android:paddingTop="30dp"
-        android:paddingBottom="300dp">
+        android:paddingBottom="100dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                 android:textColor="@color/greyfont"/>
 
             <EditText
-                android:id="@+id/edt_namalengkap"
+                android:id="@+id/textnama"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"

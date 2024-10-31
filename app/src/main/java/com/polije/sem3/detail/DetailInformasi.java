@@ -1,10 +1,7 @@
-package com.polije.sem3;
+package com.polije.sem3.detail;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -15,10 +12,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.GpsStatus;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -30,17 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.textview.MaterialTextView;
+import com.polije.sem3.R;
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
-import com.polije.sem3.databinding.ActivityMapJavaBinding;
 import com.polije.sem3.model.UlasanModel;
 import com.polije.sem3.model.UlasanModelAdapter;
 import com.polije.sem3.model.WisataModel;
-import com.polije.sem3.model.WisataModelAdapter;
 import com.polije.sem3.response.DetailWisataResponse;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
-import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 
