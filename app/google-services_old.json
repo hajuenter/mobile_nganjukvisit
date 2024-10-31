@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "51850660532",
+    "project_id": "nganjukvisit",
+    "storage_bucket": "nganjukvisit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51850660532:android:e6bdc0cbe90a2dbc24a5e1",
+        "android_client_info": {
+          "package_name": "com.polije.sem3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2kQUlaZl1C2K1JN0mJYDbIca9vaxzuEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
