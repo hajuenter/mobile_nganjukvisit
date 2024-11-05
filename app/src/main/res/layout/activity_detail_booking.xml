@@ -9,21 +9,35 @@
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:hint="Masukan nama anda"
+        android:textSize="15dp"
+        android:background="@drawable/borderedittext"
         android:layout_marginBottom="250dp"/>
     <EditText
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:hint="Masukan email anda"
+        android:textSize="15dp"
+        android:background="@drawable/borderedittext"
         android:layout_marginBottom="165dp"/>
     <EditText
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:hint="Masukan nomor anda"
+        android:textColor="@color/greyfont"
+        android:textSize="15dp"
+        android:background="@drawable/borderedittext"
         android:layout_marginBottom="80dp"/>
     <EditText
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:hint="Pilih Tanggal"
+        android:textSize="15dp"
+        android:background="@drawable/borderedittext"
+        android:inputType="none"
         android:layout_marginBottom="-8dp"/>
     <Spinner
         android:id="@+id/comboboxmember"
@@ -31,6 +45,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_height="50dp"
+        android:background="@drawable/borderedittext"
         android:layout_gravity="center"
         android:layout_marginBottom="-90dp"/>
 
@@ -54,6 +69,7 @@
         android:layout_marginBottom="145dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
+        android:fontFamily="@font/ralewayreguler"
         android:text="Tiket" />
 
     <TextView
@@ -65,6 +81,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textSize="25dp"
+        android:textColor="@color/grey"
         android:textScaleX="2"
         android:text="----------------------------" />
 
@@ -77,7 +94,30 @@
         android:textColor="@color/black"
         android:layout_marginBottom="80dp"
         android:layout_marginLeft="10dp"
+        android:fontFamily="@font/ralewayreguler"
         android:text="Total Cost" />
+
+    <TextView
+        android:id="@+id/txttotalcost"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="290dp"
+        android:layout_marginBottom="80dp"
+        android:fontFamily="@font/ralewaybold"
+        android:text="Rp.200.000"
+        android:textColor="@color/bluebutton"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/txthargatiket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:fontFamily="@font/ralewaybold"
+        android:layout_marginLeft="290dp"
+        android:layout_marginBottom="145dp"
+        android:text="Rp.10.000"
+        android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/textbooking"
@@ -86,6 +126,7 @@
         android:layout_marginLeft="135dp"
         android:layout_marginTop="10dp"
         android:textSize="20dp"
+        android:fontFamily="@font/urbanistbold"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:text="Detail Booking" />
@@ -106,5 +147,67 @@
         android:layout_marginBottom="215dp"
         android:layout_marginLeft="30dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/ralewayreguler"
         android:text="I consent to the processing of my personal data." />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="273dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:fontFamily="@font/urbanistbold"
+        android:text="Nama Pemesan" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginBottom="190dp"
+        android:layout_marginRight="138dp"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:fontFamily="@font/urbanistbold"
+        android:layout_height="wrap_content"
+        android:text="Email:" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginRight="135dp"
+        android:layout_marginBottom="105dp"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:fontFamily="@font/urbanistbold"
+        android:layout_height="wrap_content"
+        android:text="No.Tlp" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginBottom="17dp"
+        android:layout_marginRight="129dp"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:fontFamily="@font/urbanistbold"
+        android:layout_height="wrap_content"
+        android:text="Tanggal" />
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginBottom="-65dp"
+        android:layout_marginRight="87dp"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:fontFamily="@font/urbanistbold"
+        android:layout_height="wrap_content"
+        android:text="Jumlah Pengunjung" />
+
+
 </FrameLayout>

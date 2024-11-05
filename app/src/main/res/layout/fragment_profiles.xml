@@ -18,31 +18,29 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp"
-        android:paddingTop="30dp"
+        android:paddingTop="15dp"
         android:paddingBottom="100dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile Anda"
-                android:textColor="@color/black"
+                android:text="Profile"
+                android:fontFamily="@font/urbanistbold"
+                android:textColor="@color/greyfont"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="30dp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:background="#000000"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="75dp"
-                android:layout_gravity="center"
-                >
+                app:cardCornerRadius="75dp">
 
                 <ImageView
                     android:id="@+id/img_thumb"
@@ -50,21 +48,25 @@
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:background="@drawable/profilespicturetumb" />
-
             </androidx.cardview.widget.CardView>
+
 
             <TextView
                 android:id="@+id/choosePictures"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
+                android:background="@drawable/iceditpoto"
+                android:fontFamily="@font/poppins"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/bluebutton"
-                android:layout_gravity="center"
-                android:layout_marginTop="7dp"/>
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="6dp"
+                android:elevation="5dp" />
+        </FrameLayout>
 
-<!--            <Button-->
+        <!--            <Button-->
 <!--                android:id="@+id/btn_choose"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->
@@ -76,11 +78,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nama Lengkap"
+                android:fontFamily="@font/ralewayreguler"
                 android:textSize="20sp"
                 android:textColor="@color/greyfont"/>
 
             <EditText
                 android:id="@+id/textnama"
+                android:fontFamily="@font/poppins"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"
@@ -98,6 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Email"
+            android:fontFamily="@font/ralewayreguler"
             android:textSize="20sp"
             android:textColor="@color/greyfont"/>
 
@@ -108,6 +113,7 @@
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
+            android:fontFamily="@font/poppins"
             android:hint="Email Anda"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
@@ -120,6 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Alamat"
+            android:fontFamily="@font/ralewayreguler"
             android:textSize="20sp"
             android:textColor="@color/greyfont"/>
 
@@ -130,6 +137,7 @@
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
+            android:fontFamily="@font/poppins"
             android:hint="(Kosong)"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
@@ -142,6 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Nomor Telepon"
+            android:fontFamily="@font/ralewayreguler"
             android:textSize="20sp"
             android:textColor="@color/greyfont"/>
 
@@ -152,6 +161,7 @@
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
             android:inputType="textPhonetic"
+            android:fontFamily="@font/poppins"
             android:hint="(Kosong)"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
@@ -182,7 +192,7 @@
             android:layout_marginTop="20dp"
             app:backgroundTint="@null"
             android:background="@drawable/rounded_button_danger"
-            android:text="Logout / Keluar"
+            android:text="Logout"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textAllCaps="false"

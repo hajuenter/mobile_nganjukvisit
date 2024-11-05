@@ -30,12 +30,17 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface RetrofitEndPoint {
+
+    //API Login:
     @FormUrlEncoded
-    @POST("loginApi.php")
+    @POST("APIakun.php")
     Call<UserResponse> login(
+            @Field("action") String action,
             @Field("email") String email,
             @Field("password") String password
     );
+
+    //API Get detail info user:
     @FormUrlEncoded
     @POST("dataUserApi.php")
     Call<UserResponse> addToken(
@@ -43,7 +48,7 @@ public interface RetrofitEndPoint {
             @Field("token") String token
     );
 
-
+    //API Login dengan Google:
     @FormUrlEncoded
     @POST("login_google.php")
     Call<UserResponse> logingoogle(
@@ -51,6 +56,7 @@ public interface RetrofitEndPoint {
             @Field("device_token") String deviceToken
     );
 
+    //API Register:
     @FormUrlEncoded
     @POST("registerApi.php")
     Call<UserResponse> register(
@@ -60,27 +66,28 @@ public interface RetrofitEndPoint {
             @Field("password") String password
         );
 
-    @GET("data_wisata.php")
+    //API Ambil Detail Wisata:
+    @GET("get_detail_wisata.php")
     Call<WisataResponse> wisata(
     );
-
-    @GET("data_event.php")
+    //API Ambil Detail Event:
+    @GET("get_detail_event.php")
     Call<EventResponse> event(
     );
-
-    @GET("data_penginapan.php")
+    //API Ambil Detail Penginapan:
+    @GET("get_detail_penginapan.php")
     Call<PenginapanResponse> penginapan(
     );
-
-    @GET("data_kuliner.php")
+    //API Ambil Detail Kuliner:
+    @GET("get_detail_kuliner.php")
     Call<KulinerResponse> kuliner(
     );
-
+    //API Ambil Rekomendasi Penginapan:
     @GET("endpoint_penginapan_rekomendasi.php")
     Call<PenginapanResponse> penginapanpopuler(
     );
-
-    @GET("endpoint_wisata_populer.php")
+    //API Ambil Wisata Terpopuler:
+    @GET("endpoint_wisata_terpopuler.php")
     Call<WisataResponse> wisatapopuler(
     );
 
@@ -155,10 +162,10 @@ public interface RetrofitEndPoint {
             @Query("id_selected") String idSelected
     );
 
-    @FormUrlEncoded
-    @POST("fav_wisata.php")
-    Call<FavoritWisataResponse> favwisata(
-        @Field("id_user") String iduser
+
+    @GET("fav_wisata.php")
+    Call<FavoritWisataResponse>favwisata(
+        @Query("id_user") String iduser
     );
 
     @FormUrlEncoded
@@ -179,10 +186,12 @@ public interface RetrofitEndPoint {
             @Field("idPengguna") String idPengguna
     );
 
-    @GET("tambahfavorit_wisata.php")
+    //API Tambah Fav Wisata:
+    @FormUrlEncoded
+    @POST("fav_wisata.php")
     Call<FavoritWisataResponse> tambahfavwisata(
-            @Query("id_pengguna") String idPengguna,
-            @Query("id_wisata") String idWisata
+            @Field("id_pengguna") String idPengguna,
+            @Field("id_wisata") String idWisata
     );
 
     @GET("cekfav_wisata.php")

@@ -70,11 +70,11 @@ public class Login extends AppCompatActivity {
             String passwordKey = password.getText().toString();
 
             // Mengirim login request
-            Client.getInstance().login(usernameKey, passwordKey).enqueue(new Callback<UserResponse>() {
+            Client.getInstance().login("login",usernameKey, passwordKey).enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     progressDialog.dismiss();
-                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
 //                        // Generate a random token
 //                        String token = UUID.randomUUID().toString();
 //

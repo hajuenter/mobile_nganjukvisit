@@ -47,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Halo, Justin!"
+                    android:fontFamily="@font/urbanistbold"
                     android:textStyle="bold"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
@@ -75,6 +76,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="Where do you want to explore today ?"
                     android:textStyle="bold"
+                    android:fontFamily="@font/urbanistbold"
                     android:textSize="30dp"
                     android:textColor="@color/black"/>
 
@@ -339,7 +341,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     tools:listitem="@layout/activity_row_wisata_slide"
-                    android:scrollbars="horizontal"
+                    android:scrollbars="none"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             </LinearLayout>

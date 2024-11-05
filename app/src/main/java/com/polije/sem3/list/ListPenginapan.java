@@ -1,6 +1,7 @@
 package com.polije.sem3.list;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -45,7 +46,7 @@ public class ListPenginapan extends AppCompatActivity {
 
         UsersUtil usersUtil = new UsersUtil(this);
         String profilePhoto = usersUtil.getUserPhoto();
-        String namaPengguna = usersUtil.getFullName();
+        String namaPengguna = usersUtil.getUsername();
 
         txtNama = (TextView) findViewById(R.id.userfullname);
         imgUser = findViewById(R.id.userImg);
@@ -88,11 +89,13 @@ public class ListPenginapan extends AppCompatActivity {
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListPenginapan);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         Client.getInstance().penginapan().enqueue(new Callback<PenginapanResponse>() {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                     PenginapanArrayList = response.body().getData();
 
                     adapter = new PenginapanModelAdapter(response.body().getData(), new PenginapanModelAdapter.OnClickListener() {

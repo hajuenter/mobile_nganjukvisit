@@ -10,12 +10,19 @@ public class WisataModel {
     private String idwisata;
     @SerializedName("nama_wisata")
     private String nama;
+    @SerializedName("deskripsi")
     private String deskripsi;
+    @SerializedName("koordinat")
     private String coordinate;
+    @SerializedName("link_maps")
     private String linkmaps;
+    @SerializedName("gambar")
     private String gambar;
+    @SerializedName("jadwal")
     private String jadwal;
+    @SerializedName("harga_tiket")
     private String harga_tiket;
+    @SerializedName("alamat")
     private String alamat;
 
     public WisataModel(String idwisata, String nama, String deskripsi, String coordinate, String linkmaps, String gambar, String jadwal, String harga_tiket, String alamat) {

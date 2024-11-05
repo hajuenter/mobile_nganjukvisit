@@ -1,0 +1,20 @@
+<!-- res/drawable/edittext_rounded_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Warna background -->
+    <solid android:color="@android:color/white" />
+
+    <!-- Garis tepi dengan warna dan ketebalan -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/abuabu_bgimg" />
+
+    <!-- Radius untuk efek rounded -->
+    <corners android:radius="12dp" />
+
+    <!-- Padding dalam (opsional) -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp" />
+</shape>

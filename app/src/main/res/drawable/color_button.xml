@@ -1,0 +1,5 @@
+<!-- res/color/color_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/bluebutton" android:state_checked="true"/>
+    <item android:color="@color/abuabu_bgimg"/>
+</selector>

@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_header"
             android:textColor="@color/white"
+            android:fontFamily="@font/ralewaybold"
             android:textSize="40sp"
             android:textStyle="bold"
             android:textAlignment="center"
@@ -43,6 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_subheader"
             android:textColor="@color/white"
+            android:fontFamily="@font/ralewayreguler"
             android:textSize="23sp"
             android:textAlignment="center"
             />

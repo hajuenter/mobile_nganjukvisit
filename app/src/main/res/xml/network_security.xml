@@ -6,6 +6,7 @@
         <domain includeSubdomains="true">172.16.103.67</domain>       <!-- Local -->
         <domain includeSubdomains="true">172.16.103.5</domain>        <!-- Lab MMC -->
         <domain includeSubdomains="true">192.168.137.193</domain>        <!-- Classroom A -->
-        <domain includeSubdomains="true">172.16.106.52</domain>     <!-- IP address laptop ku -->
+        <domain includeSubdomains="true">192.168.43.115</domain>
+    <domain includeSubdomains="true">192.168.122.214</domain>     <!-- IP address laptop ku -->
     </domain-config>
 </network-security-config>

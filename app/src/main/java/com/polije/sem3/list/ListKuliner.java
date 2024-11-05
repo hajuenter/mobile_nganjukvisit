@@ -91,7 +91,7 @@ public class ListKuliner extends AppCompatActivity {
         Client.getInstance().kuliner().enqueue(new Callback<KulinerResponse>() {
             @Override
             public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
-                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                     KulinerArrayList = response.body().getData();
                     adapter = new KulinerModelAdapter(KulinerArrayList, new KulinerModelAdapter.OnClickListener() {
                         @Override

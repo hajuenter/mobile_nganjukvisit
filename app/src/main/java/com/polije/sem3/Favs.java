@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,8 +103,9 @@ public class Favs extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_favs, container, false);
 
-        UsersUtil userUtil = new UsersUtil(requireContext());
-        String idUser = userUtil.getId();
+        UsersUtil util = new UsersUtil(requireContext());
+        String idUser = util.getId();
+        Log.d("FavsFragment", "User ID: " + idUser);
 
         // inisialisasi layout
         contentLayout = rootView.findViewById(R.id.content);
@@ -123,7 +125,7 @@ public class Favs extends Fragment {
         favsKulinerJudul = rootView.findViewById(R.id.favsKulinerJudul);
 
         // menampilkan recview wisata favorit
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewListWisataFavorit);
+        recyclerView = rootView.findViewById(R.id.recyclerviewListWisataFavorit);
 
         Client.getInstance().favwisata(idUser).enqueue(new Callback<FavoritWisataResponse>() {
             @Override
@@ -194,7 +196,7 @@ public class Favs extends Fragment {
         });
 
         // menampilkan recview kuliner favorit
-        recyclerView3 = (RecyclerView) rootView.findViewById(R.id.recyclerviewListKulinerFavorit);
+        recyclerView3 = rootView.findViewById(R.id.recyclerviewListKulinerFavorit);
 
         Client.getInstance().favkuliner(idUser).enqueue(new Callback<FavoritKulinerResponse>(){
 
