@@ -14,7 +14,9 @@ public class FavoritWisataModel {
     private String idUser;
     @SerializedName("nama_wisata")
     private String namaWisata;
+    @SerializedName("deskripsi")
     private String deskripsi;
+    @SerializedName("gambar")
     private String gambar;
 
     public FavoritWisataModel(String id, String idWisata, String idUser, String namaWisata, String deskripsi, String gambar) {

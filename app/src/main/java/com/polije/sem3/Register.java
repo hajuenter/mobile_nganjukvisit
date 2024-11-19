@@ -57,7 +57,7 @@ public class Register extends AppCompatActivity {
             String emailKey = email.getText().toString();
             String passwordKey = password.getText().toString();
 
-            Client.getInstance().register(alamatkey, emailKey, fullnameKey, passwordKey).enqueue(new Callback<UserResponse>() {
+            Client.getInstance().register("register",alamatkey, emailKey, fullnameKey, passwordKey).enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){

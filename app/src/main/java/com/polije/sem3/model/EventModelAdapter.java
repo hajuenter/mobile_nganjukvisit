@@ -43,7 +43,7 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
     public void onBindViewHolder(EventModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
-        holder.txtJadwal.setText(dataList.get(position).getHari() + ", " + convertToDate(dataList.get(position).getTanggaldanwaktu()));
+        holder.txtJadwal.setText(dataList.get(position).getTanggaldanwaktu());
 
         Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgView);
 
@@ -76,10 +76,14 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
     }
 
     public static String convertToDate1(String date) {
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        if (date == null || date.isEmpty()) {
+            // Kembalikan null atau tanggal default jika dateString kosong atau null
+            return null; // atau Date default
+        }
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date inputDate = inputDateFormat.parse(date);
-            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMM yyyy | HH:mm", new Locale("id"));
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMM yyyy", new Locale("id"));
             assert inputDate != null;
             return outputDateFormat.format(inputDate);
         } catch (java.text.ParseException e) {

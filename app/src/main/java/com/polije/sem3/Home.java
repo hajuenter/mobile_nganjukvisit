@@ -202,6 +202,7 @@ public class Home extends Fragment {
         catWisata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent i = new Intent(getActivity(), ListWisata.class);
                 startActivity(i);
             }
@@ -267,7 +268,7 @@ public class Home extends Fragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerviewListPenginapanRekomendasi);
 
-        Client.getInstance().penginapanpopuler().enqueue(new Callback<PenginapanResponse>() {
+        Client.getInstance().penginapanpopuler("rekomendasi_penginapan").enqueue(new Callback<PenginapanResponse>() {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -296,7 +297,7 @@ public class Home extends Fragment {
 
         RecyclerView recyclerView1 = rootView.findViewById(R.id.recyclerviewListWisataPopuler);
 
-        Client.getInstance().wisatapopuler().enqueue(new Callback<WisataResponse>() {
+        Client.getInstance().wisatapopuler("rekomendasi_wisata").enqueue(new Callback<WisataResponse>() {
             @Override
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -324,7 +325,7 @@ public class Home extends Fragment {
 
         RecyclerView recyclerView2 = rootView.findViewById(R.id.recyclerviewListKulinerPopuler);
 
-        Client.getInstance().kulinerpopuler().enqueue(new Callback<KulinerResponse>() {
+        Client.getInstance().kulinerpopuler("rekomendasi_kuliner").enqueue(new Callback<KulinerResponse>() {
             @Override
             public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -352,7 +353,7 @@ public class Home extends Fragment {
 
         ViewPager2 viewPager = rootView.findViewById(R.id.viewpagerEvent);
 
-        Client.getInstance().upcomingevent().enqueue(new Callback<EventResponse>() {
+        Client.getInstance().upcomingevent("rekomendasi_event").enqueue(new Callback<EventResponse>() {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
 

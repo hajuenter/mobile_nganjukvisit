@@ -52,12 +52,13 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
 
         Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
 
-        Client.getInstance().cekfavwisata(idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+        Client.getInstance().cekfavwisata("cek","wisata",idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
             @Override
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                }
+                }else {
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);}
             }
 
             @Override
@@ -70,7 +71,7 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
             @Override
             public void onClick(View v) {
                 holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavwisata(idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                Client.getInstance().tambahfavwisata("tambah","wisata",idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
                     @Override
                     public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                         if (response.body() != null && response.body().getMessage() == "success") {

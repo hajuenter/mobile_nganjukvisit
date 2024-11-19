@@ -56,12 +56,12 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
             }
         });
 
-        Client.getInstance().cekfavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+        Client.getInstance().cekfavpenginapan("cek","penginapan",idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                }
+                }else {holder.imgFavs.setImageResource(R.drawable.favorite_button_white);}
             }
             @Override
             public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
@@ -73,7 +73,7 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
             @Override
             public void onClick(View v) {
                 holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+                Client.getInstance().tambahfavpenginapan("tambah","penginapan",idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
                     @Override
                     public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                         if (response.body() != null && response.body().getMessage() == "success") {

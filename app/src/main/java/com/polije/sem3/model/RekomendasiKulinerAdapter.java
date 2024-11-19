@@ -60,7 +60,7 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
             }
         });
 
-        Client.getInstance().cekfavkuliner(idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
+        Client.getInstance().cekfavkuliner("cek","kuliner",idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
             @Override
             public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
@@ -78,7 +78,7 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
             @Override
             public void onClick(View v) {
                 holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavkuliner(idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
+                Client.getInstance().tambahfavkuliner("tambah","kuliner",idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
                     @Override
                     public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

@@ -1,5 +1,4 @@
 package com.polije.sem3.model;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,48 +8,51 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.polije.sem3.R;
-import com.polije.sem3.response.NotifyResponse;
+import com.polije.sem3.model.NotifyModelNew;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyViewHolder> {
-    private ArrayList<NotifyModelNew> dataList;
+    private List<NotifyModelNew> notifyList;
 
-    public NotifyAdapter(ArrayList<NotifyModelNew> dataList) {
-        this.dataList = dataList;
+    public NotifyAdapter(List<NotifyModelNew> notifyList) {
+        this.notifyList = notifyList;
     }
 
     @NonNull
     @Override
-    public NotifyAdapter.NotifyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_row_notif, parent, false);     // layoutfordisplay
-        return new NotifyAdapter.NotifyViewHolder(view);
+    public NotifyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_row_notif, parent, false);
+        return new NotifyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotifyAdapter.NotifyViewHolder holder, int position) {
-        holder.title.setText(dataList.get(position).getJudul());
-        holder.bodynotif.setText(dataList.get(position).getBodynotif());
-        holder.waktu.setText(EventModelAdapter.convertToDate1(dataList.get(position).getTanggalnotif()));
+    public void onBindViewHolder(@NonNull NotifyViewHolder holder, int position) {
+        NotifyModelNew notify = notifyList.get(position);
+        holder.title.setText(notify.getJudul());
+        holder.body.setText(notify.getBodynotif());
+        holder.time.setText(notify.getTanggalnotif());
     }
 
     @Override
     public int getItemCount() {
-        return (dataList != null) ? dataList.size() : 0;
-
+        return notifyList.size();
     }
 
-    public class NotifyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, bodynotif, waktu;
-        public NotifyViewHolder(@NonNull View itemView) {
+    // Method to update data in the adapter
+    public void updateData(List<NotifyModelNew> newNotifyList) {
+        this.notifyList = newNotifyList; // Update data
+        notifyDataSetChanged(); // Notify the adapter that the data has changed
+    }
+
+    public static class NotifyViewHolder extends RecyclerView.ViewHolder {
+        TextView title, body, time;
+
+        public NotifyViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.adminTitle);
-            bodynotif = (TextView) itemView.findViewById(R.id.bodyNotif);
-            waktu = (TextView) itemView.findViewById(R.id.timedate);
+            title = itemView.findViewById(R.id.notifTitle);
+            body = itemView.findViewById(R.id.bodyNotif);
+            time = itemView.findViewById(R.id.timedate);
         }
     }
 }

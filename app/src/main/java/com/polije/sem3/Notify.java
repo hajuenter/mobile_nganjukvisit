@@ -1,112 +1,127 @@
 package com.polije.sem3;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.polije.sem3.model.NotifyAdapter;
 import com.polije.sem3.model.NotifyModelNew;
-import com.polije.sem3.response.NotifyResponse;
-import com.polije.sem3.retrofit.Client;
-import com.polije.sem3.util.UsersUtil;
+import com.polije.sem3.model.NotifyViewModel;
+import com.polije.sem3.util.NotificationManager; // Your custom NotificationManager
+import com.polije.sem3.util.WebSocketMessageListener;
+import com.polije.sem3.util.WebSocketService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+public class Notify extends Fragment implements WebSocketMessageListener {
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Notify#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Notify extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Notify() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Notify.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Notify newInstance(String param1, String param2) {
-        Notify fragment = new Notify();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private NotifyAdapter adapter;
+    private RecyclerView recyclerView;
+    private NotifyViewModel viewModel;
+    private NotificationManager notificationManager; // Custom NotificationManager instance
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        viewModel = new ViewModelProvider(this).get(NotifyViewModel.class);
+        WebSocketService.setMessageListener(this); // Register WebSocket listener
+        notificationManager = new NotificationManager(getContext()); // Initialize your custom NotificationManager
     }
 
-    private NotifyAdapter adapter;
-    private ArrayList<NotifyModelNew> arrayList;
-    private RecyclerView recyclerView;
+    @Override
+    public void onMessageReceived(String message) {
+        handler.post(() -> {
+            Log.d("WebSocketMessage", message);
+            createNotificationFromWebSocket();
+            String pesan = "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.";
+            // Mendapatkan waktu saat ini dalam format String
+            String currentTime = getCurrentTime();
+
+            // Tambahkan item notifikasi baru dan perbarui RecyclerView
+            NotifyModelNew newNotify = new NotifyModelNew("Notif Konfirmasi Pembayaran Tiket", pesan, currentTime);
+            viewModel.addNotify(newNotify);
+
+            // Simpan notifikasi ke file lokal menggunakan custom NotificationManager
+            notificationManager.saveNotificationToFile(newNotify);
+
+            // Perbarui RecyclerView
+            adapter.notifyDataSetChanged();
+
+            // Tampilkan toast sebagai umpan balik
+            Toast.makeText(getContext(), "Pesan WebSocket: " + message, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private String getCurrentTime() {
+        // Mendapatkan waktu saat ini dalam format dd/MM/yyyy HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        return sdf.format(new Date());
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notify, container, false);
+        recyclerView = rootView.findViewById(R.id.recviewNotify);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recviewNotify);
+        // Mengatur adapter untuk RecyclerView
+        adapter = new NotifyAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
 
-        UsersUtil usersUtil = new UsersUtil(getContext());
-        Client.getInstance().mynotif(usersUtil.getId()).enqueue(new Callback<NotifyResponse>() {
-            @Override
-            public void onResponse(Call<NotifyResponse> call, Response<NotifyResponse> response) {
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    arrayList = response.body().getData();
-                    adapter = new NotifyAdapter(arrayList);
-
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d("error null", response.body().getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NotifyResponse> call, Throwable t) {
-                Toast.makeText(requireContext(), "Request Timeout", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-                Log.e("failure", t.getMessage());
-            }
+        // Mengamati LiveData untuk mendapatkan notifikasi terbaru
+        viewModel.getNotifyList().observe(getViewLifecycleOwner(), notifyList -> {
+            // Perbarui adapter dengan data baru
+            adapter.updateData(notifyList);
         });
 
+        // Hapus notifikasi yang lebih dari 24 jam menggunakan custom NotificationManager
+        notificationManager.removeExpiredNotifications();
+
         return rootView;
+    }
+
+    private void createNotificationFromWebSocket() {
+        // Mendapatkan waktu saat ini dalam format String
+        String currentTime = getCurrentTime();
+
+        // Tata letak kustom untuk notifikasi dari XML
+        RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
+        notificationLayout.setTextViewText(R.id.notifTitle, "Notif Konfirmasi Pembayaran Tiket");
+        notificationLayout.setTextViewText(R.id.timedate, currentTime);
+        notificationLayout.setTextViewText(R.id.bodyNotif, "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.");
+
+        // Gunakan custom NotificationManager untuk menampilkan notifikasi
+        notificationManager.createNotification("websocket_channel", "Notif Konfirmasi Pembayaran Tiket", notificationLayout);
+    }
+
+    private void checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+            }
+        }
     }
 }

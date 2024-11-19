@@ -62,10 +62,10 @@ public class ForgotPassword extends AppCompatActivity {
                 emaiUser = txtEmail.getText().toString();
                 String tipe = "ForgotPass";
 
-                Client.getInstance().sendmailotp(emaiUser, tipe, "new").enqueue(new Callback<VerificationResponse>() {
+                Client.getInstance().sendmailotp(emaiUser).enqueue(new Callback<VerificationResponse>() {
                     @Override
                     public void onResponse(Call<VerificationResponse> call, Response<VerificationResponse> response) {
-                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                             progressDialog.dismiss();
 
                             String otp = response.body().getData().getOtp();

@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@android:color/white"> <!-- Menggunakan warna bawaan Android -->
 
     <LinearLayout
         android:id="@+id/Linearlayouttop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/adminTitle"
+            android:id="@+id/notifTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Admin NganjukVisit"
-            android:textColor="@color/black"
+            android:text="Notif Konfirmasi Tiket"
+            android:textColor="@android:color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            />
+            android:fontFamily="sans-serif"/> <!-- Menggunakan font bawaan Android -->
 
         <TextView
             android:id="@+id/timedate"
@@ -30,25 +29,22 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:text="01/11/2003 13:00"
-            android:textColor="@color/grey"
-            />
-
+            android:textColor="@android:color/darker_gray"
+            android:fontFamily="sans-serif"/> <!-- Menggunakan font bawaan Android -->
     </LinearLayout>
 
     <TextView
         android:id="@+id/bodyNotif"
-        app:layout_constraintTop_toBottomOf="@+id/Linearlayouttop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="Selamat Datang di aplikasi nganjukvisit!, anda sekarang dapat melihat informasi wisata, event, kuliner, dan penginapan dalam satu aplikasi"
-        android:textColor="@color/greyfont"/>
+        android:text="Selamat Pembayaran Tiket Wisata: Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata."
+        android:textColor="@android:color/darker_gray"
+        android:fontFamily="sans-serif"/> <!-- Menggunakan font bawaan Android -->
 
-    <View
-        app:layout_constraintTop_toBottomOf="@id/bodyNotif"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
-        android:background="@color/grey"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:background="@android:color/darker_gray"/> <!-- Menggunakan warna bawaan Android -->
+</LinearLayout>

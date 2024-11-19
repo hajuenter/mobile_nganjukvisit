@@ -60,11 +60,13 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
     }
 
     private void checkFavoriteStatus(String idPengguna, String idPenginapan, ImageView imgFavs) {
-        Client.getInstance().cekfavpenginapan(idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
+        Client.getInstance().cekfavpenginapan("cek","penginapan",idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                 if (response.body() != null && "alreadyex".equalsIgnoreCase(response.body().getStatus())) {
                     imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                }else{
+                    imgFavs.setImageResource(R.drawable.favorite_button_white);
                 }
             }
 
@@ -77,7 +79,7 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
 
     private void toggleFavorite(String idPengguna, String idPenginapan, ImageView imgFavs) {
         imgFavs.setImageResource(R.drawable.favorite_button_danger);
-        Client.getInstance().tambahfavpenginapan(idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
+        Client.getInstance().tambahfavpenginapan("tambah","penginapan",idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                 if (response.body() != null) {

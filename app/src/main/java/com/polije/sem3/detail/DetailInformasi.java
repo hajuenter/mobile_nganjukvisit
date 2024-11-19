@@ -2,6 +2,7 @@ package com.polije.sem3.detail;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.polije.sem3.Booking;
 import com.polije.sem3.R;
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.model.UlasanModel;
@@ -59,7 +61,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     private MapView mMap;
     private IMapController controller;
     private MyLocationNewOverlay mMyLocationOverlay;
-    private Button btnLink;
+    private Button btnLink,buttonBooking;
     private WisataModel dataListWisata;
     private UlasanModelAdapter adapterUlasan;
     private UlasanModel ulasansayaList;
@@ -91,8 +93,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
         itemizedIconOverlay = new ItemizedIconOverlay<>(this, new ArrayList<>(), null);
 
-        availablelinkmaps = true;
-
+        availablelinkmaps = true; // TextView Harga Tiket Navbar
         emptyTextView = new TextView(DetailInformasi.this);
 
         binding = ActivityDetailInformasiBinding.inflate(getLayoutInflater());
@@ -106,7 +107,6 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         layoutComment.setVisibility(View.VISIBLE);
         layoutEditComment = binding.editCommentSection;
         layoutEditComment.setVisibility(View.GONE);
-
         layoutModifyButton = binding.layoutModifyButton;
         layoutModifyButton.setVisibility(View.GONE);
         binding.txtEditUlasan.setEnabled(false);
@@ -114,9 +114,26 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            binding.deskripsiWisata.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
 //        }
+        binding.buttonbooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("Button", "kepencet");
+                // Membuat Intent untuk pindah ke BookingActivity
+                Intent intent = new Intent(DetailInformasi.this, Booking.class);
+
+                // Menambahkan data ke Intent
+                intent.putExtra("idWisata", idSelected); // Menambahkan ID Wisata
+                intent.putExtra("namaWisata", dataListWisata.getNama()); // Menambahkan Nama Wisata
+                intent.putExtra("hargaTiket", dataListWisata.getHarga_tiket());
+                intent.putExtra("nohp", dataListWisata.getNo_hp());// Menambahkan Harga Tiket
+
+                // Memulai BookingActivity dengan membawa data
+                startActivity(intent);
+            }
+        });
 
         // kodingan retrofit get data
-        Client.getInstance().detailwisata(idSelected).enqueue(new Callback<DetailWisataResponse>() {
+        Client.getInstance().detailwisata("detail_wisata",idSelected).enqueue(new Callback<DetailWisataResponse>() {
 
             @Override
             public void onResponse(Call<DetailWisataResponse> call, Response<DetailWisataResponse> response) {
@@ -150,8 +167,8 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         controller.animateTo(startPoint);
                         controller.setZoom(16);
 
-                        Log.e("TAG", "onCreate:in " + controller.zoomIn());
-                        Log.e("TAG", "onCreate: out " + controller.zoomOut());
+                        Log.d("TAG", "onCreate:in " + controller.zoomIn());
+                        Log.d("TAG", "onCreate: out " + controller.zoomOut());
 
                         itemizedIconOverlay.addItem(overlayItem);
                         mMap.getOverlays().add(itemizedIconOverlay);
@@ -172,6 +189,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     binding.jamOperasional.setText(dataListWisata.getJadwal());
                     binding.hargaTiket.setText(dataListWisata.getHarga_tiket());
                     binding.alamatWisata.setText(dataListWisata.getAlamat());
+                    binding.hargaTiketNavbar.setText(dataListWisata.getHarga_tiket()+"/orang");
 
 //                    Toast.makeText(DetailInformasi.this, coordinates, Toast.LENGTH_SHORT).show();
 
@@ -241,7 +259,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             if (availablelinkmaps){
 
 //                destination = "Air+Terjun+Sedudo"; // Gantilah dengan nama atau alamat tujuan Anda
-                String mapUri = "https://www.google.com/maps/search/?api=1&query=" + destination;
+                String mapUri = "geo:0,0?q=" + destination;
 //                String mapUri = "https://maps.app.goo.gl/" + destination;
 
                 Uri gmmIntentUri = Uri.parse(mapUri);
@@ -269,7 +287,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
         UsersUtil usersUtil = new UsersUtil(this);
         idpengguna = usersUtil.getId();
-        String fullnama = usersUtil.getFullName();
+        String fullnama = usersUtil.getUsername();
 
         binding.btnSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -492,6 +510,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             }
         });
     }
+
 
     @Override
     public boolean onScroll(ScrollEvent event) {

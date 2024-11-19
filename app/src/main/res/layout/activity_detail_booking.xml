@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <EditText
+        android:id="@+id/namapesanan"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -14,6 +16,7 @@
         android:background="@drawable/borderedittext"
         android:layout_marginBottom="250dp"/>
     <EditText
+        android:id="@+id/emailpesanan"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -22,6 +25,7 @@
         android:background="@drawable/borderedittext"
         android:layout_marginBottom="165dp"/>
     <EditText
+        android:id="@+id/nomorpesanan"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -31,26 +35,30 @@
         android:background="@drawable/borderedittext"
         android:layout_marginBottom="80dp"/>
     <EditText
+        android:id="@+id/tanggalpesanan"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:hint="Pilih Tanggal"
+        android:focusable="false"
         android:textSize="15dp"
         android:background="@drawable/borderedittext"
         android:inputType="none"
         android:layout_marginBottom="-8dp"/>
-    <Spinner
+    <EditText
         android:id="@+id/comboboxmember"
         android:layout_width="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_height="50dp"
+        android:hint="Masukan Jumlah Pengunjung"
         android:background="@drawable/borderedittext"
         android:layout_gravity="center"
+        android:inputType="number"
         android:layout_marginBottom="-90dp"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonbayar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -99,15 +107,20 @@
 
     <TextView
         android:id="@+id/txttotalcost"
-        android:layout_width="120dp"
+        android:layout_width="295dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="290dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="80dp"
         android:fontFamily="@font/ralewaybold"
         android:text="Rp.200.000"
         android:textColor="@color/bluebutton"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textAlignment="viewEnd"
+    />
+
+
+
     <TextView
         android:id="@+id/txthargatiket"
         android:layout_width="wrap_content"
@@ -147,8 +160,9 @@
         android:layout_marginBottom="215dp"
         android:layout_marginLeft="30dp"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/comboboxmember"
         android:fontFamily="@font/ralewayreguler"
-        android:text="I consent to the processing of my personal data." />
+        android:text="Saya menyetujui pemrosesan data pribadi saya." />
 
     <TextView
         android:layout_gravity="center"

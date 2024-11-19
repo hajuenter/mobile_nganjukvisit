@@ -58,7 +58,7 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
             @Override
             public void onClick(View v) {
                 holder.imgButton.setImageResource(R.drawable.favorite_button_white);
-                Client.getInstance().deletefavwisata(idPengguna, dataList.get(position).getIdWisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                Client.getInstance().deletefavwisata("hapus","wisata",idPengguna, dataList.get(position).getIdWisata()).enqueue(new Callback<FavoritWisataResponse>() {
                     @Override
                     public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

@@ -24,8 +24,10 @@ public class WisataModel {
     private String harga_tiket;
     @SerializedName("alamat")
     private String alamat;
+    @SerializedName("no_hp_pengelola")
+    private String no_hp;
 
-    public WisataModel(String idwisata, String nama, String deskripsi, String coordinate, String linkmaps, String gambar, String jadwal, String harga_tiket, String alamat) {
+    public WisataModel(String idwisata, String nama, String deskripsi, String coordinate, String linkmaps, String gambar, String jadwal, String harga_tiket, String alamat, String no_hp) {
         this.idwisata = idwisata;
         this.nama = nama;
         this.deskripsi = deskripsi;
@@ -35,6 +37,7 @@ public class WisataModel {
         this.jadwal = jadwal;
         this.harga_tiket = harga_tiket;
         this.alamat = alamat;
+        this.no_hp = no_hp;
     }
 
     public String getIdwisata() {
@@ -107,5 +110,13 @@ public class WisataModel {
 
     public void setAlamat(String alamat) {
         this.alamat = alamat;
+    }
+
+    public String getNo_hp() {
+        return no_hp;
+    }
+
+    public void setNo_hp(String no_hp) {
+        this.no_hp = no_hp;
     }
 }

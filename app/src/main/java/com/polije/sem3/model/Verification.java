@@ -5,25 +5,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class Verification {
     @Expose
-    @SerializedName("id_verification")
-    String idVerification;
+    @SerializedName("email")
     String email;
+    @SerializedName("otp")
     String otp;
     String end_millis;
 
-    public Verification(String idVerification, String email, String otp, String end_millis) {
-        this.idVerification = idVerification;
+    public Verification(String email, String otp, String end_millis) {
         this.email = email;
         this.otp = otp;
         this.end_millis = end_millis;
-    }
-
-    public String getIdVerification() {
-        return idVerification;
-    }
-
-    public void setIdVerification(String idVerification) {
-        this.idVerification = idVerification;
     }
 
     public String getEmail() {

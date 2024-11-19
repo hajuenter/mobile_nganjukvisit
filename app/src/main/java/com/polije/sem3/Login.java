@@ -17,8 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.common.api.ApiException;
 
-import com.polije.sem3.apigoogle.GoogleUsers;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.polije.sem3.model.UserModel;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
@@ -32,15 +38,14 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
+    private static final int RC_SIGN_IN = 1000; // Request code for Google Sign-In
     EditText username, password;
     Button btnLogin, btnSignup, btnGoogle;
     TextView lupaPass;
     boolean passwordVisible;
 
-    private GoogleUsers googleUsers;
-
+    private GoogleSignInClient mGoogleSignInClient;
     private UsersUtil usersUtil;
-
     private ProgressDialog progressDialog;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -49,13 +54,11 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // progress bar
+        // Progress bar
         progressDialog = new ProgressDialog(Login.this);
-        progressDialog.setTitle("proses login...");
-        progressDialog.setMessage("Harap Tunggu");
+        progressDialog.setTitle("Proses login...");
+        progressDialog.setMessage("Harap tunggu");
         progressDialog.setCancelable(false);
-
-        googleUsers = new GoogleUsers(this);
 
         username = findViewById(R.id.txtusername);
         password = findViewById(R.id.txtpassword);
@@ -64,29 +67,32 @@ public class Login extends AppCompatActivity {
         btnSignup = findViewById(R.id.signupButton);
         btnGoogle = findViewById(R.id.loginButtonWithGoogle);
 
+        // Konfigurasi Google Sign-In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("1002502978577-q9trtjpv5c27cl3u8do9jel9sak7v7kp.apps.googleusercontent.com") // Ganti dengan Client ID dari Google Cloud Console
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // Login manual
         btnLogin.setOnClickListener(v -> {
             progressDialog.show();
             String usernameKey = username.getText().toString();
             String passwordKey = password.getText().toString();
 
             // Mengirim login request
-            Client.getInstance().login("login",usernameKey, passwordKey).enqueue(new Callback<UserResponse>() {
+            Client.getInstance().login("login", usernameKey, passwordKey).enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     progressDialog.dismiss();
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
-//                        // Generate a random token
-//                        String token = UUID.randomUUID().toString();
-//
-//                        // Send the token to the server
-//                        addTokenToServer(usernameKey, token);
                         UserModel userModel = response.body().getData();
                         Intent intent = new Intent(Login.this, Dashboard.class);
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                         // Simpan detail pengguna di lokal
                         usersUtil = new UsersUtil(Login.this, userModel);
-
 
                         // Mulai aktivitas selanjutnya
                         startActivity(intent);
@@ -103,6 +109,12 @@ public class Login extends AppCompatActivity {
             });
         });
 
+        // Login dengan Google
+        btnGoogle.setOnClickListener(v -> {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
+
         lupaPass.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, ForgotPassword.class);
             startActivity(intent);
@@ -114,15 +126,15 @@ public class Login extends AppCompatActivity {
                 if (event.getRawX() >= password.getRight() - password.getCompoundDrawables()[Right].getBounds().width()) {
                     int selection = password.getSelectionEnd();
                     if (passwordVisible) {
-                        // set drawable image
+                        // Set drawable image
                         password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eyeicon, 0);
-                        // hide password
+                        // Hide password
                         password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                         passwordVisible = false;
                     } else {
-                        // set drawable image
+                        // Set drawable image
                         password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eyeicon_close, 0);
-                        // show password
+                        // Show password
                         password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                         passwordVisible = true;
                     }
@@ -137,63 +149,46 @@ public class Login extends AppCompatActivity {
             Intent intent = new Intent(Login.this, Register.class);
             startActivity(intent);
         });
-
-        btnGoogle.setOnClickListener(v -> {
-            googleUsers.resetLastSignIn();
-            startActivityForResult(googleUsers.getIntent(), GoogleUsers.REQUEST_CODE);
-        });
-    }
-
-    private void addTokenToServer(String email, String token) {
-        Client.getInstance().addToken(email, token).enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    Log.i("Token Update", response.body().getMessage());
-                } else {
-                    Log.e("Token Update", "Failed to update token: " + response.body().getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("Token Update", "Error: " + t.getMessage());
-            }
-        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        googleUsers.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null) {
+                    String email = account.getEmail();
+                    String token = UUID.randomUUID().toString(); // Generate a new token for Google login
 
-        if (googleUsers.isAccountSelected()) {
-            // Send Google user login request
-            String email = googleUsers.getUserData().getEmail();
-            String token = UUID.randomUUID().toString(); // Generate a new token for Google login
+                    // Kirim token ke server untuk login
+                    Client.getInstance().logingoogle(email, token).enqueue(new Callback<UserResponse>() {
+                        @Override
+                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Intent intent = new Intent(Login.this, Dashboard.class);
 
-            Client.getInstance().logingoogle(email, token).enqueue(new Callback<UserResponse>() {
-                @Override
-                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                        Intent intent = new Intent(Login.this, Dashboard.class);
+                                // Simpan detail pengguna di lokal
+                                usersUtil = new UsersUtil(Login.this, response.body().getData());
 
-                        usersUtil = new UsersUtil(Login.this, response.body().getData());
+                                Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-                        Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                            Toast.makeText(Login.this, "Timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-
-                @Override
-                public void onFailure(Call<UserResponse> call, Throwable t) {
-                    Toast.makeText(Login.this, "Timeout", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(Login.this, "NO DATA", Toast.LENGTH_SHORT).show();
+            } catch (ApiException e) {
+                e.printStackTrace();
+                Toast.makeText(Login.this, "Login dengan Google gagal", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

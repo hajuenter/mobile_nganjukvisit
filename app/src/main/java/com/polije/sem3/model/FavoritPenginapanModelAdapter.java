@@ -62,7 +62,7 @@ public class FavoritPenginapanModelAdapter extends RecyclerView.Adapter<FavoritP
             @Override
             public void onClick(View v) {
                 holder.imgButton.setImageResource(R.drawable.favorite_button_white);
-                Client.getInstance().deletefavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+                Client.getInstance().deletefavpenginapan("hapus","penginapan",idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
                     @Override
                     public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                         if (response.body() != null && response.body().getMessage() == "success") {

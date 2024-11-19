@@ -10,7 +10,7 @@ public class VerificationResponse {
     private String status;
     @SerializedName("message")
     private String message;
-    @SerializedName("data")
+    @SerializedName("otp")
     private Verification data;
 
     public String getStatus() {

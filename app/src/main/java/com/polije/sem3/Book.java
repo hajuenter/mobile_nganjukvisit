@@ -1,63 +1,194 @@
 package com.polije.sem3;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Book#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
-public class Book extends Fragment {
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import com.polije.sem3.model.TiketModelAdapter;
+import com.polije.sem3.model.TiketModel;
+import com.polije.sem3.response.TiketResponse;
+import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
+import com.polije.sem3.util.WebSocketMessageListener;
+import com.polije.sem3.util.WebSocketService;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Book.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Book newInstance(String param1, String param2) {
-        Book fragment = new Book();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+import java.util.List;
 
-    public Book() {
-        // Required empty public constructor
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class Book extends Fragment implements WebSocketMessageListener {
+
+    private RecyclerView recyclerView;
+    private TiketModelAdapter tiketAdapter;
+    private LinearLayout layoutSearch;
+    private EditText searchBox;
+    private Handler handler= new Handler(Looper.getMainLooper());
+    private WebSocket webSocket;
+    private static final String SERVER_URL = "ws://172.16.103.107:8080"; // Ganti dengan IP yang benar untuk WebSocket server Anda
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_book, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerviewListPenginapan);
+        layoutSearch = view.findViewById(R.id.layoutSearch);
+        searchBox = view.findViewById(R.id.searchbox);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        UsersUtil userUtil = new UsersUtil(requireContext());
+        String idUser = userUtil.getId();
+        loadTiketUser(idUser);
+/*
+        setupWebSocket();*/ // Mengatur WebSocket
+        WebSocketService.setMessageListener((WebSocketMessageListener) this);
+        searchBox.setOnClickListener(v -> searchTiket(searchBox.getText().toString()));
+
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onMessageReceived(String message) {
+        // Tangani pesan yang diterima
+        handler.post(() -> {
+            UsersUtil util = new UsersUtil(requireContext());
+            loadTiketUser(util.getId());
+            Toast.makeText(getContext(), "Pesan WebSocket: " + message, Toast.LENGTH_SHORT).show();
+        });
+    }
+    /*private void updateUIWithMessage(String message) {
+        // Gunakan handler untuk memastikan eksekusi di main thread
+        handler.post(() -> {
+            // Misalnya, update TextView dengan pesan
+            UsersUtil util =new UsersUtil(requireContext());
+            loadTiketUser(util.getId());
+        });
+    }*/
+/*
+
+    private void setupWebSocket() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(SERVER_URL).build();
+        webSocket = client.newWebSocket(request, new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                // Koneksi WebSocket berhasil
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "WebSocket Terhubung", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                // Pesan diterima dari server
+                handleWebSocketMessage(text);
+            }
+
+            @Override
+            public void onMessage(WebSocket webSocket, ByteString bytes) {
+                // Jika pesan diterima dalam bentuk byte
+                handleWebSocketMessage(bytes.utf8());
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(1000, null);
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "WebSocket Menutup", Toast.LENGTH_SHORT).show());
+            }
+            @Override
+            public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
+                // Pastikan fragment masih terpasang sebelum memperbarui UI
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "WebSocket Gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show());
+                }
+            }
+
+        });
+    }
+*/
+
+    void handleWebSocketMessage(String message) {
+        // Tangani pesan yang diterima dari server WebSocket
+        requireActivity().runOnUiThread(() -> {
+            try {
+                // Coba untuk parsing data yang diterima sebagai JSON
+                JSONArray updatedTickets = new JSONArray(message);
+                // Menampilkan pesan pembaruan tiket
+                Toast.makeText(getContext(), "Ada pembaruan tiket!", Toast.LENGTH_SHORT).show();
+                // Anda bisa memproses tiket lebih lanjut di sini, misalnya memperbarui UI
+                UsersUtil util =new UsersUtil(requireContext());
+                loadTiketUser(util.getId());
+            } catch (JSONException e) {
+                // Menangani error jika pesan bukan dalam format yang diinginkan
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+    private void loadTiketUser(String idUser) {
+        Client.getInstance().getTiketUser("tampilkan", idUser).enqueue(new Callback<TiketResponse>() {
+            @Override
+            public void onResponse(Call<TiketResponse> call, Response<TiketResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<TiketModel> tiketList = response.body().getData();
+                    tiketAdapter = new TiketModelAdapter(getContext(), tiketList);
+                    recyclerView.setAdapter(tiketAdapter);
+                } else {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Gagal memuat tiket", Toast.LENGTH_SHORT).show());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TiketResponse> call, Throwable t) {
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Koneksi gagal", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+    private void searchTiket(String query) {
+        Client.getInstance().searchTiket("cari", query).enqueue(new Callback<TiketResponse>() {
+            @Override
+            public void onResponse(Call<TiketResponse> call, Response<TiketResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<TiketModel> tiketList = response.body().getData();
+                    tiketAdapter.updateTiketList(tiketList);
+                } else {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Tidak ditemukan tiket", Toast.LENGTH_SHORT).show());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TiketResponse> call, Throwable t) {
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Koneksi gagal", Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (webSocket != null) {
+            webSocket.close(1000, null);// Menutup koneksi WebSocket
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book, container, false);
+        WebSocketService.setMessageListener(null);
     }
 }

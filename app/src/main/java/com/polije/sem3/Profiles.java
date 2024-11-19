@@ -235,21 +235,23 @@ public class Profiles extends Fragment {
         UsersUtil util = new UsersUtil(requireActivity());
         String idPengguna = util.getId();
         String namaUser = editNamaText.getText().toString();
-        String emailUser = emailText.getText().toString();
         String alamatUser = alamatText.getText().toString();
         String notelpUser = notelpText.getText().toString();
+        String gambar = util.getUserPhoto();
 
-        Client.getInstance().updateprofiles(idPengguna, namaUser, emailUser, alamatUser, notelpUser).enqueue(new Callback<UserResponse>() {
+        Client.getInstance().updateprofiles("edit_user_info",idPengguna, namaUser, alamatUser, notelpUser,gambar).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 progressDialog.dismiss();
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                     Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     UserModel model = response.body().getData();
-                    util.setFullName(namaUser);
+                    util.setUsername(namaUser);
                     util.setAlamat(alamatUser);
                     util.setNoTelp(notelpUser);
-                    Log.d("Profiles", "Update success for user: " + model.toString());
+                    util.setUserPhoto(gambar);
+                    updateUserData();
+                    Log.d("Profiles", "Update success for user: " + "Sukses");
                 } else {
                     Toast.makeText(requireActivity(), "Gagal mengupdate profil", Toast.LENGTH_SHORT).show();
                 }

@@ -23,7 +23,7 @@ public interface UploadInterface {
     Call<BaseResponse> uploadPhotoBase64(
             @Field("action") String action,
             @Field("photo") String photo,
-            @Field("iduser") String idUser);
+            @Field("id_user") String idUser);
 
 
 }

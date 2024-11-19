@@ -11,10 +11,15 @@ public class PenginapanModel {
     private String idWisata;
     @SerializedName("nama_penginapan")
     private String judulPenginapan;
+    @SerializedName("deskripsi")
     private String deskripsi;
+    @SerializedName("lokasi")
     private String lokasi;
+    @SerializedName("link_maps")
     private String linkmaps;
+    @SerializedName("gambar")
     private String gambar;
+    @SerializedName("telepon")
     private String telepon;
 
     public PenginapanModel(String idPenginapan, String idWisata, String judulPenginapan,

@@ -51,6 +51,12 @@ public class Dashboard extends AppCompatActivity {
         FloatingActionButton fab;
         btnView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         btnView.setBackground(null);
+        btnView.setItemIconTintList(
+                getResources().getColorStateList(R.color.bottom_nav_item_color)
+        );
+        btnView.setItemTextColor(
+                getResources().getColorStateList(R.color.bottom_nav_item_color)
+        );
 
         // disable menuitem
         dashboardMenuItem = btnView.getMenu().findItem(R.id.placeholder);
@@ -58,7 +64,6 @@ public class Dashboard extends AppCompatActivity {
         dashboardMenuItem.setEnabled(false);
 
         fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

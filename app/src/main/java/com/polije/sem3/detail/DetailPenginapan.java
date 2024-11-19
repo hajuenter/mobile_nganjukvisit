@@ -56,7 +56,7 @@ public class DetailPenginapan extends AppCompatActivity {
 
 //        nama.setText(idSelected);
 
-        Client.getInstance().detailpenginapan(idSelected).enqueue(new Callback<DetailPenginapanResponse>() {
+        Client.getInstance().detailpenginapan("detail_penginapan",idSelected).enqueue(new Callback<DetailPenginapanResponse>() {
             @Override
             public void onResponse(Call<DetailPenginapanResponse> call, Response<DetailPenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

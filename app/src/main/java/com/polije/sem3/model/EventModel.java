@@ -10,9 +10,10 @@ public class EventModel {
     @SerializedName("nama_event")
     private String nama;
     private String lokasi;
-    @SerializedName("jadwal")
+    @SerializedName("tanggal_event")
     private String tanggaldanwaktu;
     private String hari;
+    @SerializedName("deskripsi_event")
     private String deskripsi;
     @SerializedName("contact_person")
     private String contactPerson;

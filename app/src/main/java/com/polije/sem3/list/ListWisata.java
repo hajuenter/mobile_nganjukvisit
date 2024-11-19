@@ -153,7 +153,7 @@ public class ListWisata extends AppCompatActivity {
     }
 
     private void loadDataWisataPopuler() {
-        Client.getInstance().wisatapopuler().enqueue(new Callback<WisataResponse>() {
+        Client.getInstance().wisatapopuler("rekomendasi_wisata").enqueue(new Callback<WisataResponse>() {
             @Override
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                 Log.d("API Response Wisata Populer", "Response Code: " + response.code());

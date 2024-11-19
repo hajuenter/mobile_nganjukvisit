@@ -83,13 +83,14 @@
 
         </LinearLayout>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/lightgrey"
             app:cardCornerRadius="20dp">
 
             <ImageView
-                android:id="@+id/gambarPenginapanList"
+                android:id="@+id/gambarQR"
                 android:layout_width="120dp"
                 android:layout_height="140dp"
                 android:background="@drawable/qrexample"

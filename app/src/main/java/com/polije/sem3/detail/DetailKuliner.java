@@ -54,7 +54,7 @@ public class DetailKuliner extends AppCompatActivity {
 
 //        namaKuliner.setText(idSelected);
 
-        Client.getInstance().detailkuliner(idSelected).enqueue(new Callback<DetailKulinerResponse>() {
+        Client.getInstance().detailkuliner("detail_kuliner",idSelected).enqueue(new Callback<DetailKulinerResponse>() {
             @Override
             public void onResponse(Call<DetailKulinerResponse> call, Response<DetailKulinerResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

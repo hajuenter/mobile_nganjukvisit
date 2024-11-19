@@ -127,7 +127,7 @@ public class Favs extends Fragment {
         // menampilkan recview wisata favorit
         recyclerView = rootView.findViewById(R.id.recyclerviewListWisataFavorit);
 
-        Client.getInstance().favwisata(idUser).enqueue(new Callback<FavoritWisataResponse>() {
+        Client.getInstance().favwisata("tampilkan","wisata",idUser).enqueue(new Callback<FavoritWisataResponse>() {
             @Override
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                 WisataArrayList = response.body().getData();
@@ -163,7 +163,7 @@ public class Favs extends Fragment {
         // menampilkan recview penginapan favorit
         recyclerView2 = (RecyclerView) rootView.findViewById(R.id.recyclerviewListPenginapanFavorit);
 
-        Client.getInstance().favpenginapan(idUser).enqueue(new Callback<FavoritPenginapanResponse>() {
+        Client.getInstance().favpenginapan("tampilkan","penginapan",idUser).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                 PenginapanArrayList = response.body().getData();
@@ -198,7 +198,7 @@ public class Favs extends Fragment {
         // menampilkan recview kuliner favorit
         recyclerView3 = rootView.findViewById(R.id.recyclerviewListKulinerFavorit);
 
-        Client.getInstance().favkuliner(idUser).enqueue(new Callback<FavoritKulinerResponse>(){
+        Client.getInstance().favkuliner("tampilkan","kuliner",idUser).enqueue(new Callback<FavoritKulinerResponse>(){
 
             @Override
             public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
