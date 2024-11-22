@@ -3,6 +3,7 @@ package com.polije.sem3.model;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,8 @@ public class UlasanModelAdapter extends RecyclerView.Adapter<UlasanModelAdapter.
         holder.namaPengguna.setText(dataList.get(position).getNamaPengguna());
         holder.tanggal.setText(dataList.get(position).getDateTime());
         holder.pesan.setText(dataList.get(position).getUlasan());
+        holder.rating.setText("Rating : "+dataList.get(position).getrating());
+        holder.ratingBar.setRating(Float.parseFloat(dataList.get(position).getrating()));
     }
 
     @Override
@@ -41,12 +44,15 @@ public class UlasanModelAdapter extends RecyclerView.Adapter<UlasanModelAdapter.
     }
 
     public class UlasanModelViewHolder extends RecyclerView.ViewHolder {
-        private TextView namaPengguna, tanggal, pesan;
+        private TextView namaPengguna, tanggal, pesan, rating;
+        private RatingBar ratingBar;
         public UlasanModelViewHolder(View itemView) {
             super(itemView);
             namaPengguna = (TextView) itemView.findViewById(R.id.namaPengguna);
             tanggal = (TextView) itemView.findViewById(R.id.tanggalKomen);
             pesan = (TextView) itemView.findViewById(R.id.contentUlasan);
+            rating = (TextView) itemView.findViewById(R.id.rating);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
         }
     }
 }

@@ -77,7 +77,7 @@ public class SearchingPenginapan extends AppCompatActivity {
 
                     emptyTextView.setVisibility(View.VISIBLE);
 
-                    Client.getInstance().caripenginapan(valueKey).enqueue(new Callback<PenginapanResponse>() {
+                    Client.getInstance().caripenginapan("search_all","penginapan",valueKey).enqueue(new Callback<PenginapanResponse>() {
                         @Override
                         public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

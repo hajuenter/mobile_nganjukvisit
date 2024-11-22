@@ -4,9 +4,9 @@
         <domain includeSubdomains="true">192.168.1.7</domain>        <!-- Lab KSI -->
         <domain includeSubdomains="true">172.16.108.160</domain>         <!-- Lab Mobile -->
         <domain includeSubdomains="true">172.16.103.67</domain>       <!-- Local -->
-        <domain includeSubdomains="true">172.16.103.5</domain>        <!-- Lab MMC -->
-        <domain includeSubdomains="true">192.168.137.193</domain>        <!-- Classroom A -->
-        <domain includeSubdomains="true">192.168.43.115</domain>
+        <domain includeSubdomains="true">172.16.108.67</domain>        <!-- Lab MMC -->
+        <domain includeSubdomains="true">192.168.1.10</domain>        <!-- Classroom A -->
+        <domain includeSubdomains="true">192.168.1.4</domain>
         <domain includeSubdomains="true">172.20.10.4</domain>     <!-- IP address laptop ku -->
     </domain-config>
 </network-security-config>

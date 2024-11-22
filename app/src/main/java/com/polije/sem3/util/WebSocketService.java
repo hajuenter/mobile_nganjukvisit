@@ -27,7 +27,7 @@ public class WebSocketService extends Service {
 
     private void setupWebSocket() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://172.20.10.4:8080").build();
+        Request request = new Request.Builder().url("ws://172.16.108.67:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {

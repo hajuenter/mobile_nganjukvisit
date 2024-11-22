@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +50,17 @@ public class OtpVerification extends AppCompatActivity {
         otpinterface = findViewById(R.id.votp_inp_otp);
         emailGet = getIntent().getStringExtra(EMAIL_USER);
         otpGet = getIntent().getStringExtra(OTP_USER);
+        // Mengambil nilai endMillis sebagai Long
+        long endMillis = getIntent().getLongExtra(OtpVerification.END_MILLIS, 0L); // Default 0L jika tidak ditemukan
+
+
+
+        // Validasi data
+        if (emailGet == null || otpGet == null) {
+            Toast.makeText(this, "Data tidak valid", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
 
 
@@ -59,31 +71,27 @@ public class OtpVerification extends AppCompatActivity {
         btnsubmitOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(OtpVerification.this, PasswordBaru.class));
                 stringOTP = otpinterface.getOtp();
-                String emailPenggunaString = getIntent().getStringExtra(EMAIL_USER);
-                endmillisget = getIntent().getStringExtra(END_MILLIS);
-                long endmillisgetconvert = Long.parseLong(endmillisget);
-                currentmillis = System.currentTimeMillis();
-//                Toast.makeText(OtpVerification.this, "OTP -> " + stringOTP , Toast.LENGTH_SHORT).show();
 
-//                Toast.makeText(OtpVerification.this, "end millis ->" + endmillisget, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(OtpVerification.this, "current millis ->" + currentmillis, Toast.LENGTH_SHORT).show();
+                try {
+                    currentmillis = 60000;
 
-                if (stringOTP.equalsIgnoreCase(otpGet)) {
-                    if (endmillisgetconvert > currentmillis) {
-
-                        startActivity(new Intent(OtpVerification.this, PasswordBaru.class).putExtra(
-                                PasswordBaru.OTP_USER, stringOTP
-                        ).putExtra(
-                                PasswordBaru.EMAIL_USER, emailPenggunaString
-                        ));
-
+                    if (stringOTP.equalsIgnoreCase(otpGet)) {
+                        if (endMillis > currentmillis) {
+                            Intent intent = new Intent(OtpVerification.this, PasswordBaru.class);
+                            intent.putExtra(PasswordBaru.OTP_USER, stringOTP);
+                            intent.putExtra(PasswordBaru.EMAIL_USER, emailGet);
+                            startActivity(intent);
+                            finish(); // Tutup aktivitas saat ini
+                        } else {
+                            Toast.makeText(OtpVerification.this, "Sesi OTP berakhir.", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(OtpVerification.this, "sesi OTP berakhir.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OtpVerification.this, "OTP tidak cocok", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(OtpVerification.this, "OTP tidak cocok", Toast.LENGTH_SHORT).show();
+                } catch (NumberFormatException e) {
+                    Log.e("OtpVerification", "Error parsing millis", e);
+                    Toast.makeText(OtpVerification.this, "Terjadi kesalahan pada sesi OTP", Toast.LENGTH_SHORT).show();
                 }
             }
         });

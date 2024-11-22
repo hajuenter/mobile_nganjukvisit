@@ -97,7 +97,7 @@ public class SearchingHomepage extends AppCompatActivity {
 
                     emptyTextView.setVisibility(View.VISIBLE);
 
-                    Client.getInstance().cariwisata(valueKey).enqueue(new Callback<WisataResponse>() {
+                    Client.getInstance().cariwisata("search_all","wisata",valueKey).enqueue(new Callback<WisataResponse>() {
                         @SuppressLint("ClickableViewAccessibility")
                         @Override
                         public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
@@ -131,7 +131,7 @@ public class SearchingHomepage extends AppCompatActivity {
                         }
                     });
 
-                    Client.getInstance().caripenginapan(valueKey).enqueue(new Callback<PenginapanResponse>() {
+                    Client.getInstance().caripenginapan("search_all","penginapan",valueKey).enqueue(new Callback<PenginapanResponse>() {
                         @Override
                         public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -163,7 +163,7 @@ public class SearchingHomepage extends AppCompatActivity {
                         }
                     });
 
-                    Client.getInstance().carikuliner(valueKey).enqueue(new Callback<KulinerResponse>() {
+                    Client.getInstance().carikuliner("search_all","kuliner",valueKey).enqueue(new Callback<KulinerResponse>() {
                         @Override
                         public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

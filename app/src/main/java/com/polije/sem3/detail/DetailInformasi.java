@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -143,7 +144,6 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     String linkmaps = dataListWisata.getLinkmaps();
 
                     if (!coordinates.isEmpty()){
-                        // Split the string by commas
                         String[] words = coordinates.split(",");
                         double firstCoordinates = Double.parseDouble(words[0].trim());  // Trim to remove leading and trailing whitespaces
                         double secondCoordinates = Double.parseDouble(words[1].trim());
@@ -206,7 +206,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
 //        RecyclerView recyclerView = findViewById(R.id.recyclerviewUlasan);
 
-        Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+        Client.getInstance().ulasan("get_all_ulasan","ulasan_wisata",idSelected).enqueue(new Callback<UlasanResponse>() {
             @Override
             public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -292,13 +292,15 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         binding.btnSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RatingBar ratingBar = findViewById(R.id.ratingBarUlasan);
                 getComment = String.valueOf(binding.txtAddComment.getText());
+                float ratingValue = ratingBar.getRating();
                 if(!getComment.isEmpty()) {
-                    Client.getInstance().kirimulasan(idpengguna, fullnama, getComment, idSelected).enqueue(new Callback<UlasanKirimResponse>() {
+                    Client.getInstance().kirimulasan("add_ulasan","ulasan_wisata",idpengguna, fullnama, getComment, String.valueOf(ratingValue),idSelected).enqueue(new Callback<UlasanKirimResponse>() {
                         @Override
                         public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                                Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+                                Client.getInstance().ulasan("get_all_ulasan","ulasan_wisata",idSelected).enqueue(new Callback<UlasanResponse>() {
                                     @Override
                                     public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
                                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -312,7 +314,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                                                 layoutModifyButton.setVisibility(View.GONE);
                                                 binding.btnModify.setVisibility(View.VISIBLE);
 
-                                                Client.getInstance().ulasansaya(idSelected, idpengguna).enqueue(new Callback<UlasanKirimResponse>() {
+                                                Client.getInstance().ulasansaya("get_all_ulasan","ulasan_wisata",idSelected, idpengguna).enqueue(new Callback<UlasanKirimResponse>() {
                                                     @Override
                                                     public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
                                                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -367,7 +369,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
         // cek ulasansaya
 
-        Client.getInstance().ulasansaya(idSelected, idpengguna).enqueue(new Callback<UlasanKirimResponse>() {
+        Client.getInstance().ulasansaya("get_all_ulasan","ulasan_wisata",idSelected, idpengguna).enqueue(new Callback<UlasanKirimResponse>() {
             @Override
             public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -407,19 +409,22 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             @Override
             public void onClick(View v) {
                 String commentValue = binding.txtEditUlasan.getText().toString();
-
+                String ratingedit = String.valueOf(binding.ratingBareditUlasan.getRating());
                 if (commentValue != null && commentValue.isEmpty()) {
                     Toast.makeText(DetailInformasi.this, "Komentar Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
                 } else {
                     binding.layoutModifyButton.setVisibility(View.GONE);
                     binding.btnModify.setVisibility(View.VISIBLE);
-                    binding.txtEditUlasan.setEnabled(false);
-                    Client.getInstance().editulasan(commentValue, idSelected, idpengguna).enqueue(new Callback<UlasanResponse>() {
+                    binding.txtEditUlasan.setEnabled(true);
+
+                    Client.getInstance().editulasan("edit_ulasan","ulasan_wisata",commentValue, idSelected,ratingedit,usersUtil.getUsername(), idpengguna).enqueue(new Callback<UlasanResponse>() {
                         @Override
                         public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                layoutComment.setVisibility(View.VISIBLE);
+                                layoutEditComment.setVisibility(View.GONE);
                                 getUlasan();
+                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -470,7 +475,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     }
 
     private void performDeleteAction() {
-        Client.getInstance().deleteulasan(idpengguna, idSelected).enqueue(new Callback<UlasanResponse>() {
+        Client.getInstance().deleteulasan("delete_ulasan","ulasan_wisata",idpengguna, idSelected).enqueue(new Callback<UlasanResponse>() {
             @Override
             public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -491,7 +496,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     }
 
     private void getUlasan() {
-        Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+        Client.getInstance().ulasan("get_all_ulasan","ulasan_wisata",idSelected).enqueue(new Callback<UlasanResponse>() {
             @Override
             public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

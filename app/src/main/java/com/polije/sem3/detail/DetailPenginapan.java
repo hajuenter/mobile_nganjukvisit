@@ -1,8 +1,10 @@
 package com.polije.sem3.detail;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -11,14 +13,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
 import com.polije.sem3.model.PenginapanModel;
+import com.polije.sem3.model.UlasanModelAdapter;
 import com.polije.sem3.response.DetailPenginapanResponse;
+import com.polije.sem3.response.UlasanKirimResponse;
+import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.List;
 
@@ -54,9 +61,10 @@ public class DetailPenginapan extends AppCompatActivity {
         gambarCover = findViewById(R.id.penginapanImage);
         backButton = findViewById(R.id.backButtonDetail);
 
+
 //        nama.setText(idSelected);
 
-        Client.getInstance().detailpenginapan("detail_penginapan",idSelected).enqueue(new Callback<DetailPenginapanResponse>() {
+        Client.getInstance().detailpenginapan("detail_penginapan", idSelected).enqueue(new Callback<DetailPenginapanResponse>() {
             @Override
             public void onResponse(Call<DetailPenginapanResponse> call, Response<DetailPenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -100,7 +108,7 @@ public class DetailPenginapan extends AppCompatActivity {
         linkmaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (availablelinkmaps){
+                if (availablelinkmaps) {
 
                     String mapUri = "https://www.google.com/maps/search/?api=1&query=" + destination;
 
@@ -122,7 +130,7 @@ public class DetailPenginapan extends AppCompatActivity {
                         // Jika Google Maps tidak terpasang, Anda dapat menampilkan pesan kesalahan
                         Toast.makeText(getApplicationContext(), "Aplikasi Google Maps tidak tersedia.", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(DetailPenginapan.this, "Lokasi maps tidak tersedia", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -136,7 +144,8 @@ public class DetailPenginapan extends AppCompatActivity {
         });
     }
 
-    public void onBackPressed() {
+
+public void onBackPressed() {
         super.onBackPressed();
     }
 

@@ -31,10 +31,10 @@ import com.polije.sem3.util.WebSocketService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Notify extends Fragment implements WebSocketMessageListener {
-
     private Handler handler = new Handler(Looper.getMainLooper());
     private NotifyAdapter adapter;
     private RecyclerView recyclerView;
@@ -49,36 +49,6 @@ public class Notify extends Fragment implements WebSocketMessageListener {
         notificationManager = new NotificationManager(getContext()); // Initialize your custom NotificationManager
     }
 
-    @Override
-    public void onMessageReceived(String message) {
-        handler.post(() -> {
-            Log.d("WebSocketMessage", message);
-            createNotificationFromWebSocket();
-            String pesan = "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.";
-            // Mendapatkan waktu saat ini dalam format String
-            String currentTime = getCurrentTime();
-
-            // Tambahkan item notifikasi baru dan perbarui RecyclerView
-            NotifyModelNew newNotify = new NotifyModelNew("Notif Konfirmasi Pembayaran Tiket", pesan, currentTime);
-            viewModel.addNotify(newNotify);
-
-            // Simpan notifikasi ke file lokal menggunakan custom NotificationManager
-            notificationManager.saveNotificationToFile(newNotify);
-
-            // Perbarui RecyclerView
-            adapter.notifyDataSetChanged();
-
-            // Tampilkan toast sebagai umpan balik
-            Toast.makeText(getContext(), "Pesan WebSocket: " + message, Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private String getCurrentTime() {
-        // Mendapatkan waktu saat ini dalam format dd/MM/yyyy HH:mm
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        return sdf.format(new Date());
-    }
-
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,31 +59,64 @@ public class Notify extends Fragment implements WebSocketMessageListener {
         adapter = new NotifyAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
+        // Memuat data notifikasi dari SharedPreferences
+        loadNotificationsFromSharedPreferences();
+
         // Mengamati LiveData untuk mendapatkan notifikasi terbaru
         viewModel.getNotifyList().observe(getViewLifecycleOwner(), notifyList -> {
             // Perbarui adapter dengan data baru
             adapter.updateData(notifyList);
         });
 
-        // Hapus notifikasi yang lebih dari 24 jam menggunakan custom NotificationManager
-        notificationManager.removeExpiredNotifications();
-
         return rootView;
     }
 
-    private void createNotificationFromWebSocket() {
-        // Mendapatkan waktu saat ini dalam format String
-        String currentTime = getCurrentTime();
+    // Metode untuk memuat notifikasi dari SharedPreferences
+    private void loadNotificationsFromSharedPreferences() {
+        // Memuat notifikasi dari SharedPreferences menggunakan custom NotificationManager
+        List<NotifyModelNew> notifications = notificationManager.loadNotificationsFromSharedPreferences();
 
-        // Tata letak kustom untuk notifikasi dari XML
+        // Perbarui ViewModel dengan data yang dimuat
+        viewModel.setNotifyList(notifications);
+
+        // Perbarui RecyclerView Adapter dengan data baru
+        adapter.updateData(notifications);
+    }
+
+    @Override
+    public void onMessageReceived(String message) {
+        handler.post(() -> {
+            Log.d("WebSocketMessage", message);
+            createNotificationFromWebSocket();
+            String pesan = "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.";
+            String currentTime = getCurrentTime();
+
+            NotifyModelNew newNotify = new NotifyModelNew("Notif Konfirmasi Pembayaran Tiket", pesan, currentTime);
+            viewModel.addNotify(newNotify);
+
+            // Simpan notifikasi ke SharedPreferences
+            notificationManager.saveNotificationToSharedPreferences(newNotify);
+
+            adapter.notifyDataSetChanged();
+            Toast.makeText(getContext(), "Pesan WebSocket: " + message, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
+    private void createNotificationFromWebSocket() {
+        String currentTime = getCurrentTime();
         RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
         notificationLayout.setTextViewText(R.id.notifTitle, "Notif Konfirmasi Pembayaran Tiket");
         notificationLayout.setTextViewText(R.id.timedate, currentTime);
         notificationLayout.setTextViewText(R.id.bodyNotif, "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.");
-
-        // Gunakan custom NotificationManager untuk menampilkan notifikasi
         notificationManager.createNotification("websocket_channel", "Notif Konfirmasi Pembayaran Tiket", notificationLayout);
     }
+
+
 
     private void checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

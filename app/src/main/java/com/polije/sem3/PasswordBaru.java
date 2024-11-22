@@ -123,10 +123,10 @@ public class PasswordBaru extends AppCompatActivity {
 
                 if (newpasswordvalue.equalsIgnoreCase(passwordvalueconfirm)) {
 
-                    Client.getInstance().lupapass(getEmailUser, newpasswordvalue).enqueue(new Callback<UserResponse>() {
+                    Client.getInstance().lupapass("forgot_password",getEmailUser, newpasswordvalue).enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                                 Toast.makeText(PasswordBaru.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(PasswordBaru.this, Login.class));
                             } else {

@@ -77,7 +77,7 @@ public class SearchingWisata extends AppCompatActivity {
                     valueKey = keySearch.getText().toString();
                     emptyTextView.setVisibility(View.VISIBLE);
 
-                    Client.getInstance().cariwisata(valueKey).enqueue(new Callback<WisataResponse>() {
+                    Client.getInstance().cariwisata("search_all","wisata",valueKey).enqueue(new Callback<WisataResponse>() {
                         @Override
                         public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {

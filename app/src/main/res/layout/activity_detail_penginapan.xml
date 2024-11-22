@@ -140,7 +140,156 @@
                 android:text="Google Maps"
                 android:textSize="16sp"
                 android:textColor="@color/bluebutton"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Ulasan :"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
+            <LinearLayout
+                android:id="@+id/linearLayoutUlasan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/material_dynamic_neutral95"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="5dp"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewUlasan"
+                    android:layout_width="match_parent"
+                    android:paddingHorizontal="4dp"
+                    android:orientation="vertical"
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/CommentSection"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RatingBar
+                    android:id="@+id/ratingBarUlasan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"
+                    android:progressTint="@color/bluebutton"
+                    android:isIndicator="false"
+                    android:layout_marginRight="4dp"/>
+                <EditText
+                    android:id="@+id/txtAddComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:longClickable="false"
+                    android:textSize="16sp"
+                    android:hint="Add Comment"/>
+
+                <Button
+                    android:id="@+id/btnSendComment"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_gravity="end"
+                    android:text="kirim"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editCommentSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ulasan Anda"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tanggalKomen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="01/11/2003"
+                    android:textColor="@color/grey"
+                    />
+
+                <EditText
+                    android:id="@+id/txtEditUlasan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:hint="ulasan anda"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:background="@null"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/layoutModifyButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp">
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/editButton"
+                        android:layout_width="96dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_button"
+                        android:layout_marginTop="10dp"
+                        android:text="Edit"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textAllCaps="false"
+                        android:enabled="true"
+                        />
+
+                    <Button
+                        android:id="@+id/deleteButton"
+                        android:layout_width="96dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/rounded_button_danger"
+                        android:layout_marginTop="10dp"
+                        android:text="Hapus"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textAllCaps="false"
+                        android:enabled="true"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btnModify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Edit Ulasan"
+                    android:textSize="16sp"
+                    android:textColor="@color/bluebutton"
+                    android:layout_gravity="center_horizontal"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -10,7 +10,7 @@ public class UlasanModel {
     private String idUlasan;
     @SerializedName("nama")
     private String namaPengguna;
-    @SerializedName("comment")
+    @SerializedName("komentar")
     private String ulasan;
     @SerializedName("tanggal")
     private String dateTime;
@@ -18,14 +18,17 @@ public class UlasanModel {
     private String idWisata;
     @SerializedName("id_user")
     private String idUser;
+    @SerializedName("rating")
+    private String rating;
 
-    public UlasanModel(String idUlasan, String namaPengguna, String ulasan, String dateTime, String idWisata, String idUser) {
+    public UlasanModel(String idUlasan, String namaPengguna, String ulasan, String dateTime, String idWisata, String idUser,String rating) {
         this.idUlasan = idUlasan;
         this.namaPengguna = namaPengguna;
         this.ulasan = ulasan;
         this.dateTime = dateTime;
         this.idWisata = idWisata;
         this.idUser = idUser;
+        this.rating = rating;
     }
 
     public String getIdUlasan() {
@@ -74,5 +77,13 @@ public class UlasanModel {
 
     public void setIdUser(String idUser) {
         this.idUser = idUser;
+    }
+
+    public String getrating() {
+        return rating;
+    }
+
+    public void setrating(String idUser) {
+        this.rating = rating;
     }
 }

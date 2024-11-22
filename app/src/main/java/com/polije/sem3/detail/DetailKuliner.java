@@ -28,10 +28,8 @@ import retrofit2.Response;
 public class DetailKuliner extends AppCompatActivity {
     public static String ID_KULINER = "id";
     private String idSelected;
-    private TextView namaKuliner, deskripsiKuliner, lokasiKuliner, linkMaps;
+    private TextView namaKuliner, deskripsiKuliner;
     private KulinerModel kulinerModel;
-    private boolean availablelinkmaps;
-    private String destination;
     private Button btnBack;
 
     @Override
@@ -43,14 +41,8 @@ public class DetailKuliner extends AppCompatActivity {
 
         namaKuliner = findViewById(R.id.namaKuliner);
         deskripsiKuliner = findViewById(R.id.deskripsiKuliner);
-        lokasiKuliner = findViewById(R.id.alamatKuliner);
-        linkMaps = findViewById(R.id.mapsKuliner);
         ImageView gambarCover = findViewById(R.id.KulinerImage);
         btnBack = findViewById(R.id.backButtonDetail);
-
-        // initiate link maps
-        availablelinkmaps = true;
-        destination = "";
 
 //        namaKuliner.setText(idSelected);
 
@@ -61,21 +53,10 @@ public class DetailKuliner extends AppCompatActivity {
                     kulinerModel = response.body().getData();
                     String getNamaKuliner =kulinerModel.getNama();
                     String getDeskripsiKuliner = kulinerModel.getDeskripsi();
-                    String lokasi = kulinerModel.getLokasi();
-                    String maps = kulinerModel.getLinkmaps();
 
                     namaKuliner.setText(getNamaKuliner);
                     deskripsiKuliner.setText(getDeskripsiKuliner);
-                    lokasiKuliner.setText(lokasi);
                     Glide.with(DetailKuliner.this).load(Client.IMG_DATA + kulinerModel.getGambar()).into(gambarCover);
-
-                    if (maps.isEmpty()) {
-                        availablelinkmaps = false;
-                        destination = null;
-                    } else {
-                        availablelinkmaps = true;
-                        destination = maps;
-                    }
 
                 }
             }
@@ -86,36 +67,6 @@ public class DetailKuliner extends AppCompatActivity {
             }
         });
 
-        linkMaps.setOnClickListener(v -> {
-
-            if (availablelinkmaps){
-
-//                destination = "Air+Terjun+Sedudo"; // Gantilah dengan nama atau alamat tujuan Anda
-                String mapUri = "https://www.google.com/maps/search/?api=1&query=" + destination;
-//                String mapUri = "https://maps.app.goo.gl/" + destination;
-
-                Uri gmmIntentUri = Uri.parse(mapUri);
-
-                // Buat intent untuk membuka Google Maps
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps"); // Hanya buka dengan aplikasi Google Maps
-
-                // Periksa apakah aplikasi Google Maps terpasang
-                PackageManager packageManager = getPackageManager();
-                List<ResolveInfo> activities = packageManager.queryIntentActivities(mapIntent, 0);
-                boolean isIntentSafe = activities.size() > 0;
-
-                if (isIntentSafe) {
-                    // Buka aplikasi Google Maps
-                    startActivity(mapIntent);
-                } else {
-                    // Jika Google Maps tidak terpasang, Anda dapat menampilkan pesan kesalahan
-                    Toast.makeText(getApplicationContext(), "Aplikasi Google Maps tidak tersedia.", Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                Toast.makeText(DetailKuliner.this, "Lokasi maps tidak tersedia", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

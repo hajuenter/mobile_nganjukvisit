@@ -209,7 +209,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <RatingBar
+                    android:id="@+id/ratingBarUlasan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"
+                    android:progressTint="@color/bluebutton"
+                    android:isIndicator="false"
+                    android:layout_marginRight="4dp"/>
                 <EditText
                     android:id="@+id/txtAddComment"
                     android:layout_width="match_parent"
@@ -252,7 +261,16 @@
                     android:text="01/11/2003"
                     android:textColor="@color/grey"
                     />
-
+                <RatingBar
+                    android:id="@+id/ratingBareditUlasan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.5"
+                    android:progressTint="@color/bluebutton"
+                    android:isIndicator="false"
+                    android:layout_marginRight="4dp"/>
                 <EditText
                     android:id="@+id/txtEditUlasan"
                     android:layout_width="match_parent"

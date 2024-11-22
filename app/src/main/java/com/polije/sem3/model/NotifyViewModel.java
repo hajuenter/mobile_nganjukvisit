@@ -14,6 +14,9 @@ public class NotifyViewModel extends ViewModel {
     public LiveData<List<NotifyModelNew>> getNotifyList() {
         return notifyList;
     }
+    public void setNotifyList(List<NotifyModelNew> notifyList) {
+        this.notifyList.setValue(notifyList);
+    }
 
     // Menambahkan item baru ke dalam list
     public void addNotify(NotifyModelNew newNotify) {

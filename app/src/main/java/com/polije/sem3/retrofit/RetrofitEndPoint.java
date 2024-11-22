@@ -79,8 +79,9 @@ public interface RetrofitEndPoint {
     );
     //API LUPA PASSWORD
     @FormUrlEncoded
-    @POST("OTP/lupa_password.php")
+    @POST("APIakun.php")
     Call<UserResponse> lupapass (
+            @Field("action") String action,
             @Field("email") String email,
             @Field("password") String password
     );
@@ -143,38 +144,51 @@ public interface RetrofitEndPoint {
             @Query("id_detail") String idPenginapan
     );
     //=================================================ULASAN=============================================
-    @GET("data_ulasan.php")
+    @GET("APIhome.php")
     Call<UlasanResponse> ulasan(
-            @Query("id_selected") String id_selected
+            @Query("action") String action,
+            @Query("table") String table,
+            @Query("id_foreign") String id_selected
     );
 
-    @GET("ulasan_saya.php")
+    @GET("APIhome.php")
     Call<UlasanKirimResponse> ulasansaya(
-            @Query("id_selected") String id_selected,
-            @Query("idPengguna") String idpengguna
+            @Query("action") String action,
+            @Query("table") String table,
+            @Query("id_foreign") String id_selected,
+            @Query("id_user") String idpengguna
     );
 
     @FormUrlEncoded
-    @POST("tambah_ulasan.php")
+    @POST("APIhome.php")
     Call<UlasanKirimResponse> kirimulasan(
-            @Field("idPengguna") String idPengguna,
-            @Field("nama_pengguna") String namaPengguna,
-            @Field("comment") String comment,
-            @Field("wisataid") String idWisata
+            @Query("action") String action,
+            @Field("table") String table,
+            @Field("id_user") String idPengguna,
+            @Field("nama") String namaPengguna,
+            @Field("komentar") String comment,
+            @Field("rating") String rating,
+            @Field("id_foreign") String idWisata
     );
 
     @FormUrlEncoded
-    @POST("edit_ulasan.php")
+    @POST("APIhome.php")
     Call<UlasanResponse> editulasan(
-            @Field("comment") String comment,
-            @Field("wisataid") String idwisata,
-            @Field("idPengguna") String idpengguna
+            @Query("action") String action,
+            @Field("table") String table,
+            @Field("komentar") String comment,
+            @Field("id_foreign") String idwisata,
+            @Field("rating") String rating,
+            @Field("nama") String nama,
+            @Field("id_user") String idpengguna
     );
-
-    @GET("delete_ulasan.php")
+    @FormUrlEncoded
+    @POST("APIhome.php")
     Call<UlasanResponse> deleteulasan(
-            @Query("idPengguna") String idpengguna,
-            @Query("wisataid") String idwisata
+            @Query("action") String action,
+            @Field("table") String table,
+            @Field("id_user") String idpengguna,
+            @Field("id_foreign") String idwisata
     );
     //=================================================PROFIL=============================================
     @FormUrlEncoded
@@ -302,19 +316,26 @@ public interface RetrofitEndPoint {
     );
     //================================SEARCHING=========================================================
     //API SEARCHING WISATA
-    @GET("searching/search_wisata.php")
+    @GET("APIhome.php")
     Call<WisataResponse> cariwisata (
-            @Query("key_value") String keyId
+            @Query("action") String action,
+            @Query("key") String keyId,
+            @Query("value") String value
     );
     //API SEARCHING PENGINAPAN
-    @GET("searching/search_penginapan.php")
+    @GET("APIhome.php")
     Call<PenginapanResponse> caripenginapan (
-            @Query("key_value") String keyId
+            @Query("action") String action,
+            @Query("key") String keyId,
+            @Query("value") String value
     );
     //API SEARCHING KULINER
-    @GET("searching/search_kuliner.php")
+    @GET("APIhome.php")
     Call<KulinerResponse> carikuliner (
-            @Query("key_value") String keyId
+            @Query("action") String action,
+            @Query("key") String keyId,
+            @Query("value") String value
+
     );
     //API SET FOTO PROFIL
     @FormUrlEncoded

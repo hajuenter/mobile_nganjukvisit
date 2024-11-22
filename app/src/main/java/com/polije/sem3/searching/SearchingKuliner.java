@@ -74,7 +74,7 @@ public class SearchingKuliner extends AppCompatActivity {
 
                     emptyTextView.setVisibility(View.VISIBLE);
 
-                    Client.getInstance().carikuliner(valueKey).enqueue(new Callback<KulinerResponse>() {
+                    Client.getInstance().carikuliner("search_all","kuliner",valueKey).enqueue(new Callback<KulinerResponse>() {
                         @Override
                         public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
