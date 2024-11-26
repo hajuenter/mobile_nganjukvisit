@@ -44,13 +44,12 @@ public class DetailEvent extends AppCompatActivity {
 
         namaEvent = findViewById(R.id.namaEvent);
         desc = findViewById(R.id.deskripsiEvent);
-        cp = findViewById(R.id.contactPerson);
         jadwal = findViewById(R.id.jadwalEvent);
         lokasi = findViewById(R.id.lokasiEvent);
         btnBack = findViewById(R.id.backButtonDetail);
         imgViewEvent = findViewById(R.id.imageView);
 
-        Client.getInstance().detailevent(idSelected).enqueue(new Callback<DetailEventResponse>() {
+        Client.getInstance().detailevent("detail_event",idSelected).enqueue(new Callback<DetailEventResponse>() {
             @Override
             public void onResponse(Call<DetailEventResponse> call, Response<DetailEventResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -59,10 +58,7 @@ public class DetailEvent extends AppCompatActivity {
 
                     namaEvent.setText(eventArrayList.getNama());
                     desc.setText(eventArrayList.getDeskripsi());
-                    cp.setText((!eventArrayList.getContactPerson().isEmpty()) ? eventArrayList.getContactPerson() : "Tidak Diketahui");
-                    jadwal.setText(
-                            eventArrayList.getHari() + ", " + convertToDate(eventArrayList.getTanggaldanwaktu())
-                    );
+                    jadwal.setText(eventArrayList.getTanggaldanwaktu());
 
                     Glide.with(DetailEvent.this).load(Client.IMG_DATA + eventArrayList.getGambar()).into(imgViewEvent);
 

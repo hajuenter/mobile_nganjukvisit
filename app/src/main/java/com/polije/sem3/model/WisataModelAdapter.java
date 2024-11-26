@@ -50,8 +50,9 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
         holder.txtNama.setText(dataList.get(position).getNama());
         holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
 
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
-
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
+                .into(holder.imgWisata);
         Client.getInstance().cekfavwisata("cek","wisata",idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
             @Override
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
@@ -98,7 +99,17 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
             }
         });
     }
-
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
+    }
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;

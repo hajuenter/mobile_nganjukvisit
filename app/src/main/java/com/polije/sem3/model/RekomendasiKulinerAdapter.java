@@ -47,9 +47,9 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
         String idPengguna = usersUtil.getId();
 
         holder.titleTxt.setText(dataList.get(position).getNama());
-        holder.lokasiTxt.setText(dataList.get(position).getLokasi());
-
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgKuliner);
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
+                .into(holder.imgKuliner);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,20 +96,29 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
             }
         });
     }
-
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
+    }
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;
     }
 
     public class RekomendasiKulinerViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleTxt, lokasiTxt;
+        private TextView titleTxt;
         private ImageView imgKuliner, imgFavs;
 
         public RekomendasiKulinerViewHolder(View itemView) {
             super(itemView);
             titleTxt = (TextView) itemView.findViewById(R.id.namaKuliner);
-            lokasiTxt = (TextView) itemView.findViewById(R.id.lokasiKuliner);
             imgKuliner = (ImageView) itemView.findViewById(R.id.imageViewKuliner);
             imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
         }

@@ -6,6 +6,15 @@ import android.os.IBinder;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.RemoteViews;
+import android.content.pm.PackageManager;
+
+import com.polije.sem3.Notify;
+import com.polije.sem3.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,18 +36,26 @@ public class WebSocketService extends Service {
 
     private void setupWebSocket() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://172.16.108.67:8080").build();
+        Request request = new Request.Builder().url("ws://192.168.1.4:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {
                 Log.d("WebSocket", "Terhubung");
             }
 
+
             @Override
             public void onMessage(WebSocket webSocket, String text) {
                 /*sendMessageToUi(text);*/
+                NotificationManager notificationManager = new NotificationManager(getApplicationContext());
                 sendMessageToListener(text);
                 Log.d("WebSocket", "Pesan diterima: " + text);
+                String currentTime = getCurrentTime();
+                RemoteViews notificationLayout = new RemoteViews(getApplicationContext().getPackageName(), R.layout.activity_row_notif);
+                notificationLayout.setTextViewText(R.id.notifTitle, "Notif Konfirmasi Pembayaran Tiket");
+                notificationLayout.setTextViewText(R.id.timedate, currentTime);
+                notificationLayout.setTextViewText(R.id.bodyNotif, "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.");
+                notificationManager.createNotification("websocket_channel", "Notif Konfirmasi Pembayaran Tiket", notificationLayout);
             }
 
             @Override
@@ -56,7 +73,24 @@ public class WebSocketService extends Service {
     public static void setMessageListener(WebSocketMessageListener listener) {
         messageListener = listener;
     }
-
+    /*private void showNotification() {
+        NotificationManager notificationManager = new NotificationManager(getApplicationContext());
+        String currentTime = getCurrentTime();
+        RemoteViews notificationLayout = new RemoteViews(getApplicationContext().getPackageName(), R.layout.activity_row_notif);
+        notificationLayout.setTextViewText(R.id.notifTitle, "Notif Konfirmasi Pembayaran Tiket");
+        notificationLayout.setTextViewText(R.id.timedate, currentTime);
+        notificationLayout.setTextViewText(R.id.bodyNotif, "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.");
+        // Membuat notifikasi
+        notificationManager.createNotification(
+                "websocket_channel",
+                "Pesan WebSocket",
+                notificationLayout // Pesan yang diterima dari WebSocket
+        );
+    }*/
+    private String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        return sdf.format(new Date());
+    }
     /*private void sendMessageToUi(final String message) {
         // Kirim pesan ke UI thread menggunakan Handler
         uiHandler.post(new Runnable() {

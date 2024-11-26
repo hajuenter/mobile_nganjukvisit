@@ -1,5 +1,7 @@
 package com.polije.sem3.model;
 
+import android.graphics.Bitmap;
+
 public class TiketModel {
     private int id_tiket;
     private int id_wisata;
@@ -9,6 +11,8 @@ public class TiketModel {
     private String tanggal;
     private String status;
     private String nama_pemesan;
+    private Bitmap qrCode;
+    private String id_detail_tiket;
 
     // Getter dan Setter
     public int getId_tiket() {
@@ -73,5 +77,20 @@ public class TiketModel {
 
     public void setNama_pemesan(String nama_pemesan) {
         this.nama_pemesan = nama_pemesan;
+    }
+    public Bitmap getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(Bitmap qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    public String get_id_detail_tiket() {
+        return id_detail_tiket;
+    }
+
+    public void setId_detail_tiket(String id_detail_tiket) {
+        this.id_detail_tiket = id_detail_tiket;
     }
 }

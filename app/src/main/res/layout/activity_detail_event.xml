@@ -124,23 +124,6 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Contact Person :"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/contactPerson"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="089343108904 (Bagas)"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
-
         </LinearLayout>
 
 

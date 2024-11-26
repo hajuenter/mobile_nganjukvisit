@@ -2,6 +2,8 @@ package com.polije.sem3;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,6 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.polije.sem3.model.TiketModelAdapter;
 import com.polije.sem3.model.TiketModel;
 import com.polije.sem3.response.TiketResponse;
@@ -26,6 +32,7 @@ import com.polije.sem3.util.WebSocketService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -143,13 +150,50 @@ public class Book extends Fragment implements WebSocketMessageListener {
         });
     }
 
+    private Bitmap generateQRCode(String data) throws WriterException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        int size = 120; // Ukuran QR code
+        BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, size, size);
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
 
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+            }
+        }
+        return bitmap;
+    }
     private void loadTiketUser(String idUser) {
         Client.getInstance().getTiketUser("tampilkan", idUser).enqueue(new Callback<TiketResponse>() {
             @Override
             public void onResponse(Call<TiketResponse> call, Response<TiketResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<TiketModel> tiketList = response.body().getData();
+                    // Pengecekan status dan generate QR code
+                    for (TiketModel tiket : tiketList) {
+                        if ("berhasil".equalsIgnoreCase(tiket.getStatus())) {
+                            try {
+                                // Membuat data JSON untuk QR Code
+                                JSONObject qrData = new JSONObject();
+                                qrData.put("id_detail_tiket", tiket.get_id_detail_tiket());
+                                qrData.put("nama_wisata", tiket.getNama_wisata());
+                                qrData.put("nama_pemesan", tiket.getNama_pemesan());
+                                qrData.put("jumlah_pengunjung", tiket.getJumlah());
+                                qrData.put("tanggal", tiket.getTanggal());
+                                qrData.put("status", tiket.getStatus());
+
+                                // Menghasilkan QR code
+                                String dataQR = qrData.toString(); // Mengubah JSON menjadi string
+                                Bitmap bitmap = generateQRCode(dataQR);
+
+                                // Menyimpan QR code di dalam tiket (bisa disesuaikan)
+                                tiket.setQrCode(bitmap);
+
+                            } catch (JSONException | WriterException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                     tiketAdapter = new TiketModelAdapter(getContext(), tiketList);
                     recyclerView.setAdapter(tiketAdapter);
                 } else {

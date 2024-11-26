@@ -46,8 +46,9 @@ public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapte
         String idPengguna = usersUtil.getId();
 
         holder.txtTitle.setText(dataList.get(position).getNama());
-        holder.txtLokasi.setText(dataList.get(position).getLokasi());
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
+                .into(holder.imgWisata);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +92,17 @@ public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapte
             }
         });
     }
-
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
+    }
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;

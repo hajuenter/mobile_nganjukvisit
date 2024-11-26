@@ -72,7 +72,18 @@ public class SearchingKuliner extends AppCompatActivity {
                         event.getRawX() >= (keySearch.getRight() - keySearch.getCompoundDrawables()[drawableEndIndex].getBounds().width())) {
                     valueKey = keySearch.getText().toString();
 
+
+                    if (KulinerArrayList != null) {
+                        KulinerArrayList.clear();
+                        if (adapter3 != null) adapter3.notifyDataSetChanged();
+                    }
+
+                    // Sembunyikan semua tampilan hasil sebelumnya
+                    recyclerView.setVisibility(View.GONE);
+                    judulKuliner.setVisibility(View.GONE);
+
                     emptyTextView.setVisibility(View.VISIBLE);
+                    emptyTextView.setText("Tidak ada Hasil yang cocok");
 
                     Client.getInstance().carikuliner("search_all","kuliner",valueKey).enqueue(new Callback<KulinerResponse>() {
                         @Override

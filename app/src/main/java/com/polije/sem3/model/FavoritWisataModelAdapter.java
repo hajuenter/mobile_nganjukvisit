@@ -51,8 +51,9 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
         holder.txtNama.setText(dataList.get(position).getNamaWisata());
         holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
         holder.imgButton.setImageResource(R.drawable.favorite_button_danger);
-
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgView);
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
+                .into(holder.imgView);
 
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +87,17 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
             }
         });
     }
-
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
+    }
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;

@@ -3,7 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.1.7</domain>        <!-- Lab KSI -->
         <domain includeSubdomains="true">172.16.108.160</domain>         <!-- Lab Mobile -->
-        <domain includeSubdomains="true">172.16.103.67</domain>       <!-- Local -->
+        <domain includeSubdomains="true">172.16.103.7</domain>       <!-- Local -->
         <domain includeSubdomains="true">172.16.108.67</domain>        <!-- Lab MMC -->
         <domain includeSubdomains="true">192.168.1.10</domain>        <!-- Classroom A -->
         <domain includeSubdomains="true">192.168.1.4</domain>

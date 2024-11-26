@@ -44,7 +44,7 @@ public class ListKuliner extends AppCompatActivity {
 
         UsersUtil usersUtil = new UsersUtil(this);
         String profilePhoto = usersUtil.getUserPhoto();
-        String namaPengguna = usersUtil.getFullName();
+        String namaPengguna = usersUtil.getUsername();
 
         txtNama = (TextView) findViewById(R.id.userfullname);
         imgUser = findViewById(R.id.userImg);

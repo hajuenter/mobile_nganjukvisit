@@ -45,7 +45,7 @@ public class ListEvent extends AppCompatActivity {
 
         // header profiles photo profiles and name of user
         UsersUtil util = new UsersUtil(this);
-        String namaUser = util.getFullName();
+        String namaUser = util.getUsername();
         String profilePhoto = util.getUserPhoto();
         imgUser = (ImageView) findViewById(R.id.userImg);
         txtNama = (TextView) findViewById(R.id.userfullname);
@@ -73,7 +73,7 @@ public class ListEvent extends AppCompatActivity {
         Client.getInstance().event().enqueue(new Callback<EventResponse>() {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                     EventArrayList = response.body().getData();
                     adapter = new EventModelAdapter(EventArrayList, new EventModelAdapter.OnClickListener() {
                         @Override

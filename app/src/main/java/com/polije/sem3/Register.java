@@ -60,11 +60,11 @@ public class Register extends AppCompatActivity {
             Client.getInstance().register("register",alamatkey, emailKey, fullnameKey, passwordKey).enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
+                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")){
                         progressDialog.dismiss();
                         Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Register.this, Login.class);
-                        startActivity(intent);
+                        Intent intent4 = new Intent(Register.this, Login.class);
+                        startActivity(intent4);
                     }else {
                         progressDialog.dismiss();
                         Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

@@ -88,6 +88,11 @@ public interface RetrofitEndPoint {
 
 
     //=================================================HOME=============================================
+    @GET("APIhome.php")
+    Call<DetailEventResponse> detailevent(
+            @Query("action") String action,
+            @Query("id_detail") String id_selected
+    );
     //API Ambil Detail Row Wisata:
     @GET("get_detail_wisata.php")
     Call<WisataResponse> wisata(
@@ -202,10 +207,7 @@ public interface RetrofitEndPoint {
             @Field("gambar") String gambar
     );
 
-    @GET("detailed_data_event.php")
-    Call<DetailEventResponse> detailevent(
-            @Query("id_selected") String idSelected
-    );
+
 
     //=================================================FAVORIT=============================================
     //API TAMPIL FAV WISATA

@@ -1,11 +1,14 @@
 package com.polije.sem3.model;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -57,23 +60,37 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
         holder.tiketJumlah.setText("Pengunjung : " + tiket.getJumlah());
         holder.tiketTanggal.setText("Tanggal : " + tiket.getTanggal());
         holder.tiketStatus.setText("Status : " + tiket.getStatus());
-        /*try {
-            JSONObject qrData = new JSONObject();
-            qrData.put("nama_wisata", tiketTitle);
-            qrData.put("nama_pemesan", tiketUser);
-            qrData.put("jumlah_pengunjung", tiketJumlah);
-            qrData.put("tanggal", tiketTanggal);
-            qrData.put("status", tiketStatus);
+        if (tiket.getQrCode() != null) {
+            holder.gambarQR.setImageBitmap(tiket.getQrCode());
+        }
+        holder.gambarQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Membuat dialog untuk menampilkan QR
+                Dialog dialog = new Dialog(context);
+                dialog.getWindow().setWindowAnimations(R.style.DialogAnimation);
 
-            // Generate QR code dari JSON data
-            String dataQR = qrData.toString(); // Mengubah JSON menjadi string
-            Bitmap bitmap = generateQRCode(dataQR);
-            holder.gambarQR.setImageBitmap(bitmap); // Tampilkan QR code di ImageView
-        } catch (JSONException | WriterException e) {
-            e.printStackTrace();
-        }*/
+                dialog.setContentView(R.layout.zoomqr); // Menggunakan layout zoom_qr_dialog
 
-        // Set any other views or actions (like button listeners) if necessary
+                // Menampilkan gambar QR di PhotoView
+                PhotoView photoView = dialog.findViewById(R.id.photoView);
+                photoView.setImageBitmap(tiket.getQrCode()); // Set gambar QR yang di klik
+
+                dialog.show(); // Menampilkan dialog
+            }});
+    }
+    private Bitmap generateQRCode(String data) throws WriterException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        int size = 120; // Ukuran QR code
+        BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, size, size);
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+            }
+        }
+        return bitmap;
     }
 
     @Override
@@ -100,21 +117,6 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
             tiketStatus = itemView.findViewById(R.id.tiketstatus);
             cardView = itemView.findViewById(R.id.cardview);
             gambarQR = itemView.findViewById(R.id.gambarQR);
-            try {
-                JSONObject qrData = new JSONObject();
-                qrData.put("nama_wisata", tiketTitle);
-                qrData.put("nama_pemesan", tiketUser);
-                qrData.put("jumlah_pengunjung", tiketJumlah);
-                qrData.put("tanggal", tiketTanggal);
-                qrData.put("status", tiketStatus);
-
-                // Generate QR code dari JSON data
-                String dataQR = qrData.toString(); // Mengubah JSON menjadi string
-                Bitmap bitmap = generateQRCode(dataQR);
-                gambarQR.setImageBitmap(bitmap); // Tampilkan QR code di ImageView
-            } catch (JSONException | WriterException e) {
-                e.printStackTrace();
-            }
         }
 
         public void bindData(TiketModel tiket) {
@@ -141,18 +143,5 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
             } catch (JSONException | WriterException e) {
                 e.printStackTrace();
             }
-        }
-        private Bitmap generateQRCode(String data) throws WriterException {
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            int size = 120; // Ukuran QR code
-            BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, size, size);
-            Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
-
-            for (int x = 0; x < size; x++) {
-                for (int y = 0; y < size; y++) {
-                    bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
-                }
-            }
-            return bitmap;
         }
 }}

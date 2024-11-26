@@ -86,14 +86,13 @@
             android:id="@+id/cardview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/lightgrey"
+            android:background="@color/white"
             app:cardCornerRadius="20dp">
 
             <ImageView
                 android:id="@+id/gambarQR"
                 android:layout_width="120dp"
                 android:layout_height="140dp"
-                android:background="@drawable/qrexample"
                 android:scaleType="centerCrop" />
 
         </androidx.cardview.widget.CardView>

@@ -395,7 +395,6 @@ public class Home extends Fragment {
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // Aktifkan kembali MenuItem
         Dashboard dbr = new Dashboard();
         dbr.btnView.setSelectedItemId(R.id.miNotify);
 

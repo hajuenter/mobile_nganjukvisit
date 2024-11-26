@@ -3,6 +3,7 @@ package com.polije.sem3.detail;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.location.GpsStatus;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -36,6 +38,8 @@ import com.polije.sem3.response.DetailWisataResponse;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.DepthPageTransformer;
+import com.polije.sem3.util.SliderAdapter;
 import com.polije.sem3.util.UsersUtil;
 
 import org.osmdroid.api.IMapController;
@@ -51,6 +55,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -79,7 +84,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     private ActivityDetailInformasiBinding binding;
 
     private MapView mapView;
-
+    private ViewPager2 viewPager;
     private ItemizedIconOverlay<OverlayItem> itemizedIconOverlay;
 
     private boolean availablelinkmaps;
@@ -103,6 +108,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                 getApplicationContext(),
                 getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE)
         );
+
 
         layoutComment = binding.CommentSection;
         layoutComment.setVisibility(View.VISIBLE);
@@ -182,11 +188,33 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     } else if (!linkmaps.isEmpty()) {
                         destination = linkmaps;
                     }
+                    String gambarString = dataListWisata.getGambar();
+                    List<String> imageUrls = new ArrayList<>();
+                    if (gambarString.contains(",")) {
+                        String[] images = gambarString.split(",");
+                        for (String image : images) {
+                            imageUrls.add(Client.IMG_DATA + image.trim()); // Tambahkan base URL + gambar
+                        }
+                    } else {
+                        // Jika hanya ada satu gambar
+                        imageUrls.add(Client.IMG_DATA + gambarString.trim());
+                    }
+                    ViewPager2 slider = findViewById(R.id.slider);
+                    SliderAdapter adapter = new SliderAdapter(DetailInformasi.this, imageUrls);
+                    slider.setAdapter(adapter);
 
+// (Opsional) Atur efek transisi jika diperlukan
+                    slider.setPageTransformer(new DepthPageTransformer());
+/*
                     Glide.with(DetailInformasi.this).load(Client.IMG_DATA + dataListWisata.getGambar()).into(binding.imageView);
+*/
                     binding.namaWisata.setText(dataListWisata.getNama());
                     binding.deskripsiWisata.setText(dataListWisata.getDeskripsi());
                     binding.jamOperasional.setText(dataListWisata.getJadwal());
+                    String text = dataListWisata.getJadwal();
+                    String formattedText = text.replace(",", "<br>");  // Mengganti koma dengan tag <br> untuk line break
+                    binding.jamOperasional.setText(Html.fromHtml(formattedText));
+
                     binding.hargaTiket.setText(dataListWisata.getHarga_tiket());
                     binding.alamatWisata.setText(dataListWisata.getAlamat());
                     binding.hargaTiketNavbar.setText(dataListWisata.getHarga_tiket()+"/orang");
@@ -259,7 +287,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             if (availablelinkmaps){
 
 //                destination = "Air+Terjun+Sedudo"; // Gantilah dengan nama atau alamat tujuan Anda
-                String mapUri = "geo:0,0?q=" + destination;
+                String mapUri = destination;
 //                String mapUri = "https://maps.app.goo.gl/" + destination;
 
                 Uri gmmIntentUri = Uri.parse(mapUri);

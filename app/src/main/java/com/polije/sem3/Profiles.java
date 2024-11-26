@@ -232,39 +232,63 @@ public class Profiles extends Fragment {
     }
 
     private void updateProfiles() {
+        // Ambil data dari input pengguna
         UsersUtil util = new UsersUtil(requireActivity());
         String idPengguna = util.getId();
-        String namaUser = editNamaText.getText().toString();
-        String alamatUser = alamatText.getText().toString();
-        String notelpUser = notelpText.getText().toString();
+        String namaUser = editNamaText.getText().toString().trim();  // Pastikan untuk trim() agar tidak ada spasi ekstra
+        String alamatUser = alamatText.getText().toString().trim();
+        String notelpUser = notelpText.getText().toString().trim();
         String gambar = util.getUserPhoto();
 
-        Client.getInstance().updateprofiles("edit_user_info",idPengguna, namaUser, alamatUser, notelpUser,gambar).enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                progressDialog.dismiss();
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
-                    Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    UserModel model = response.body().getData();
-                    util.setUsername(namaUser);
-                    util.setAlamat(alamatUser);
-                    util.setNoTelp(notelpUser);
-                    util.setUserPhoto(gambar);
-                    updateUserData();
-                    Log.d("Profiles", "Update success for user: " + "Sukses");
-                } else {
-                    Toast.makeText(requireActivity(), "Gagal mengupdate profil", Toast.LENGTH_SHORT).show();
-                }
-            }
+        // Validasi nomor telepon
+        if (notelpUser.length() < 10 || notelpUser.length() > 13) {
+            progressDialog.dismiss();
+            Toast.makeText(requireContext(), "Nomor telepon harus antara 10 hingga 13 digit.", Toast.LENGTH_SHORT).show();
+            return; // Menghentikan eksekusi lebih lanjut jika validasi gagal
+        }
 
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(requireActivity(), "GAGAL mengupdate profil", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
-        });
+        // Validasi jika nama atau alamat kosong
+        if (namaUser.isEmpty()) {
+            progressDialog.dismiss();
+            Toast.makeText(requireContext(), "Nama tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (alamatUser.isEmpty()) {
+            progressDialog.dismiss();
+            Toast.makeText(requireContext(), "Alamat tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Lakukan update data jika semua validasi berhasil
+        Client.getInstance().updateprofiles("edit_user_info", idPengguna, namaUser, alamatUser, notelpUser, gambar)
+                .enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        progressDialog.dismiss();
+                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
+                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            UserModel model = response.body().getData();
+                            util.setUsername(namaUser);
+                            util.setAlamat(alamatUser);
+                            util.setNoTelp(notelpUser);
+                            util.setUserPhoto(gambar);
+                            updateUserData();  // Menampilkan data yang baru
+                            Log.d("Profiles", "Update success for user: " + namaUser);
+                        } else {
+                            Toast.makeText(requireActivity(), "Gagal mengupdate profil", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(requireActivity(), "GAGAL mengupdate profil", Toast.LENGTH_SHORT).show();
+                        t.printStackTrace();
+                    }
+                });
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

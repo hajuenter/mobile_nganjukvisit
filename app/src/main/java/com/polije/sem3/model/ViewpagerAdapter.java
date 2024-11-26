@@ -37,9 +37,22 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
         holder.txtTitle.setText(datalist.get(position).getNama());
         holder.txtLokasi.setText(datalist.get(position).getLokasi());
         holder.txtJadwal.setText(datalist.get(position).getHari() + ", " + EventModelAdapter.convertToDate1(datalist.get(position).getTanggaldanwaktu()));
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + datalist.get(position).getGambar()).into(holder.imgView);
-    }
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(datalist.get(position).getGambar()))
+                .into(holder.imgView);
 
+    }
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
+    }
     @Override
     public int getItemCount() {
         return (datalist != null) ? datalist.size() : 0;

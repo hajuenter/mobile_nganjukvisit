@@ -36,7 +36,7 @@
                         android:id="@+id/userImg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/imageprofilesexample"
+                        android:background="@drawable/profilespicturetumb"
                         android:scaleType="centerCrop"/>
 
                 </androidx.cardview.widget.CardView>

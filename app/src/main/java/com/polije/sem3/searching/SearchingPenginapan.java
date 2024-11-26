@@ -75,7 +75,18 @@ public class SearchingPenginapan extends AppCompatActivity {
                         event.getRawX() >= (keySearch.getRight() - keySearch.getCompoundDrawables()[drawableEndIndex].getBounds().width())) {
                     valueKey = keySearch.getText().toString();
 
+                    // Kosongkan data dan beri tahu adapter
+                    if (PenginapanArrayList != null) {
+                        PenginapanArrayList.clear();
+                        if (adapter2 != null) adapter2.notifyDataSetChanged();
+                    }
+                    // Sembunyikan semua tampilan hasil sebelumnya
+                    recyclerView.setVisibility(View.GONE);
+                    judulPenginapan.setVisibility(View.GONE);
+
+
                     emptyTextView.setVisibility(View.VISIBLE);
+                    emptyTextView.setText("Tidak ada Hasil yang cocok");
 
                     Client.getInstance().caripenginapan("search_all","penginapan",valueKey).enqueue(new Callback<PenginapanResponse>() {
                         @Override

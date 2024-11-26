@@ -1,0 +1,54 @@
+<!-- res/layout/zoom_qr_dialog.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/white">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="350dp"
+    android:layout_height="400dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+
+    android:background="@drawable/rounded_background">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/photoView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="300dp"
+        android:text="Qr Code Tiket"
+        android:textSize="24dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/ralewaybold">
+
+    </TextView>
+    <com.github.chrisbanes.photoview.PhotoView
+    android:id="@+id/photoView"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:contentDescription="QR Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/photoView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="-400dp"
+        android:text="Untuk menggunakan Tiket,pindai kode QR di atas"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/ralewayreguler"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -49,7 +49,9 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getAlamat());
 
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
+                .into(holder.imgWisata);
 
         Client.getInstance().cekfavwisata("cek","wisata",idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
             @SuppressLint("SuspiciousIndentation")
@@ -67,28 +69,59 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
             }
         });
 
+
+        holder.imgFavs.setTag("not_favorite");
+
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavwisata("tambah","wisata",idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
-                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                String currentTag = (String) holder.imgFavs.getTag(); // Ambil status saat ini
 
-                    @Override
-                    public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
-                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (currentTag.equals("favorite")) {
+                    // Hapus favorit jika status saat ini 'favorite'
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgFavs.setTag("not_favorite"); // Update tag
+
+                    Client.getInstance().deletefavwisata("hapus", "wisata", idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Tambahkan ke favorit jika status saat ini 'not_favorite'
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorite"); // Update tag
+
+                    Client.getInstance().tambahfavwisata("tambah", "wisata", idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +131,17 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
                 }
             }
         });
+    }
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
     }
 
     @Override

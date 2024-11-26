@@ -32,6 +32,7 @@ public class NotificationManager {
     public NotificationManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        notificationManagerCompat = NotificationManagerCompat.from(context);  // Inisialisasi NotificationManagerCompat
     }
 
     // Menyimpan Notifikasi ke SharedPreferences
@@ -79,11 +80,12 @@ public class NotificationManager {
         Iterator<NotifyModelNew> iterator = notifications.iterator();
         while (iterator.hasNext()) {
             NotifyModelNew notify = iterator.next();
+            // Jika notifikasi lebih dari 24 jam, hapus dari daftar
             if (currentTime - Long.parseLong(notify.getTanggalnotif()) > 24 * 60 * 60 * 1000) { // 24 jam dalam milidetik
                 iterator.remove();
             }
         }
-        saveNotificationsToSharedPreferences(notifications);
+        saveNotificationsToSharedPreferences(notifications); // Simpan perubahan ke SharedPreferences
     }
 
     // Menyimpan ulang daftar notifikasi setelah diperbarui
@@ -127,7 +129,6 @@ public class NotificationManager {
                 .setAutoCancel(true);
 
         try {
-            notificationManagerCompat = NotificationManagerCompat.from(context);
             notificationManagerCompat.notify((int) System.currentTimeMillis(), builder.build());
         } catch (SecurityException e) {
             Log.e("NotificationError", "SecurityException: Izin ditolak atau masalah lain terjadi", e);

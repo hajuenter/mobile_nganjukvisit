@@ -3,20 +3,24 @@ package com.polije.sem3.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class EventModel {
     @Expose
     @SerializedName("id_event")
     private String idEvent;
-    @SerializedName("nama_event")
+    @SerializedName("nama")
     private String nama;
+    @SerializedName("alamat")
     private String lokasi;
     @SerializedName("tanggal_event")
     private String tanggaldanwaktu;
     private String hari;
     @SerializedName("deskripsi_event")
     private String deskripsi;
-    @SerializedName("contact_person")
-    private String contactPerson;
     private String gambar;
 
     public EventModel(String nama, String lokasi, String tanggaldanwaktu, String hari, String idEvent, String contactPerson, String gambar) {
@@ -25,7 +29,6 @@ public class EventModel {
         this.tanggaldanwaktu = tanggaldanwaktu;
         this.hari = hari;
         this.idEvent = idEvent;
-        this.contactPerson = contactPerson;
         this.gambar = gambar;
     }
     public void setNama(String nama) {
@@ -44,7 +47,7 @@ public class EventModel {
         return nama;
     }
     public String getHari() {
-        return hari;
+        return "";
     }
     public String getLokasi() {
         return lokasi;
@@ -69,14 +72,6 @@ public class EventModel {
         this.deskripsi = deskripsi;
     }
 
-    public String getContactPerson() {
-        return contactPerson;
-    }
-
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
-    }
-
     public String getGambar() {
         return gambar;
     }
@@ -84,4 +79,7 @@ public class EventModel {
     public void setGambar(String gambar) {
         this.gambar = gambar;
     }
+
+
 }
+

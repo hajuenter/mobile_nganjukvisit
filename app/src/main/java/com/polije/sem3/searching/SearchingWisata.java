@@ -75,7 +75,20 @@ public class SearchingWisata extends AppCompatActivity {
                         event.getRawX() >= (keySearch.getRight() - keySearch.getCompoundDrawables()[drawableEndIndex].getBounds().width())) {
 
                     valueKey = keySearch.getText().toString();
+
+                    // Kosongkan data dan beri tahu adapter
+                    if (WisataArrayList != null) {
+                        WisataArrayList.clear();
+                        if (adapter != null) adapter.notifyDataSetChanged();
+                    }
+
+                    // Sembunyikan semua tampilan hasil sebelumnya
+                    recyclerView.setVisibility(View.GONE);
+
+                    judulWisata.setVisibility(View.GONE);
+
                     emptyTextView.setVisibility(View.VISIBLE);
+                    emptyTextView.setText("Tidak ada Hasil yang cocok");
 
                     Client.getInstance().cariwisata("search_all","wisata",valueKey).enqueue(new Callback<WisataResponse>() {
                         @Override

@@ -48,7 +48,9 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
 
         holder.txtNama.setText(penginapan.getJudulPenginapan());
         holder.txtDesc.setText(penginapan.getDeskripsi());
-        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + penginapan.getGambar()).into(holder.imgView);
+        Glide.with(holder.itemView.getContext())
+                .load(Client.IMG_DATA + getFirstImage(penginapan.getGambar())).into(holder.imgView);
+
 
         holder.itemView.setOnClickListener(v -> tampil.onItemClick(position));
 
@@ -92,6 +94,17 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
                 Toast.makeText(imgFavs.getContext(), "timeout", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private String getFirstImage(String gambar) {
+        // Cek jika ada koma (berarti ada lebih dari satu gambar)
+        if (gambar.contains(",")) {
+            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
+            String[] images = gambar.split(",");
+            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+        } else {
+            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
+            return gambar.trim();
+        }
     }
 
     @Override

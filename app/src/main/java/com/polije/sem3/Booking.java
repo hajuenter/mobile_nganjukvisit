@@ -187,6 +187,7 @@ public class Booking extends AppCompatActivity {
         // Membuat DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
+                R.style.CustomDatePickerStyle,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {

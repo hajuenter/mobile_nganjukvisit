@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Mengubah warna teks pada DatePicker -->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:progressTint">@color/bluebutton</item>
+        <item name="colorAccent">@color/bluebutton</item>
+
+    </style>
+    <style name="DialogAnimation" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Menambahkan animasi masuk dan keluar dialog -->
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit</item>
+
+        <!-- Latar belakang dialog transparan -->
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <!-- Membuat dialog lebih transparan -->
+        <item name="android:windowIsTranslucent">true</item>
+
+        <!-- Bisa menambahkan ini jika ingin dialog berada di atas konten lainnya -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+</resources>
+

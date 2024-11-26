@@ -95,10 +95,34 @@ public class SearchingHomepage extends AppCompatActivity {
                         event.getRawX() >= (keySearch.getRight() - keySearch.getCompoundDrawables()[drawableEndIndex].getBounds().width())) {
                     valueKey = keySearch.getText().toString();
 
-                    emptyTextView.setVisibility(View.VISIBLE);
+                    // Kosongkan data dan beri tahu adapter
+                    if (WisataArrayList != null) {
+                        WisataArrayList.clear();
+                        if (adapter != null) adapter.notifyDataSetChanged();
+                    }
+                    if (PenginapanArrayList != null) {
+                        PenginapanArrayList.clear();
+                        if (adapter2 != null) adapter2.notifyDataSetChanged();
+                    }
+                    if (KulinerArrayList != null) {
+                        KulinerArrayList.clear();
+                        if (adapter3 != null) adapter3.notifyDataSetChanged();
+                    }
 
-                    Client.getInstance().cariwisata("search_all","wisata",valueKey).enqueue(new Callback<WisataResponse>() {
-                        @SuppressLint("ClickableViewAccessibility")
+                    // Sembunyikan semua tampilan hasil sebelumnya
+                    recyclerView.setVisibility(View.GONE);
+                    recyclerView2.setVisibility(View.GONE);
+                    recyclerView3.setVisibility(View.GONE);
+
+                    judulWisata.setVisibility(View.GONE);
+                    judulPenginapan.setVisibility(View.GONE);
+                    judulKuliner.setVisibility(View.GONE);
+
+                    emptyTextView.setVisibility(View.VISIBLE);
+                    emptyTextView.setText("Tidak ada Hasil yang cocok");
+
+                    // Pencarian Wisata
+                    Client.getInstance().cariwisata("search_all", "wisata", valueKey).enqueue(new Callback<WisataResponse>() {
                         @Override
                         public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -113,14 +137,10 @@ public class SearchingHomepage extends AppCompatActivity {
                                             );
                                         }
                                     });
-                                    emptyTextView.setVisibility(View.GONE);
-                                    judulWisata.setVisibility(View.VISIBLE);
-                                    recyclerView.setVisibility(View.VISIBLE);
                                     recyclerView.setAdapter(adapter);
-                                    isWisataAvailable = true;
-                                } else {
-                                    judulWisata.setVisibility(View.GONE);
-                                    recyclerView.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                    judulWisata.setVisibility(View.VISIBLE);
+                                    emptyTextView.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -131,7 +151,8 @@ public class SearchingHomepage extends AppCompatActivity {
                         }
                     });
 
-                    Client.getInstance().caripenginapan("search_all","penginapan",valueKey).enqueue(new Callback<PenginapanResponse>() {
+                    // Pencarian Penginapan
+                    Client.getInstance().caripenginapan("search_all", "penginapan", valueKey).enqueue(new Callback<PenginapanResponse>() {
                         @Override
                         public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -146,13 +167,10 @@ public class SearchingHomepage extends AppCompatActivity {
                                             );
                                         }
                                     });
-                                    emptyTextView.setVisibility(View.GONE);
-                                    judulPenginapan.setVisibility(View.VISIBLE);
-                                    recyclerView2.setVisibility(View.VISIBLE);
                                     recyclerView2.setAdapter(adapter2);
-                                } else {
-                                    judulPenginapan.setVisibility(View.GONE);
-                                    recyclerView2.setVisibility(View.GONE);
+                                    recyclerView2.setVisibility(View.VISIBLE);
+                                    judulPenginapan.setVisibility(View.VISIBLE);
+                                    emptyTextView.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -163,12 +181,13 @@ public class SearchingHomepage extends AppCompatActivity {
                         }
                     });
 
-                    Client.getInstance().carikuliner("search_all","kuliner",valueKey).enqueue(new Callback<KulinerResponse>() {
+                    // Pencarian Kuliner
+                    Client.getInstance().carikuliner("search_all", "kuliner", valueKey).enqueue(new Callback<KulinerResponse>() {
                         @Override
                         public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                                 KulinerArrayList = response.body().getData();
-                                if(!KulinerArrayList.isEmpty()) {
+                                if (!KulinerArrayList.isEmpty()) {
                                     adapter3 = new KulinerModelAdapter(KulinerArrayList, new KulinerModelAdapter.OnClickListener() {
                                         @Override
                                         public void onItemClick(int position) {
@@ -178,13 +197,10 @@ public class SearchingHomepage extends AppCompatActivity {
                                             );
                                         }
                                     });
-                                    emptyTextView.setVisibility(View.GONE);
-                                    judulKuliner.setVisibility(View.VISIBLE);
-                                    recyclerView3.setVisibility(View.VISIBLE);
                                     recyclerView3.setAdapter(adapter3);
-                                } else {
-                                    judulKuliner.setVisibility(View.GONE);
-                                    recyclerView3.setVisibility(View.GONE);
+                                    recyclerView3.setVisibility(View.VISIBLE);
+                                    judulKuliner.setVisibility(View.VISIBLE);
+                                    emptyTextView.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -201,6 +217,32 @@ public class SearchingHomepage extends AppCompatActivity {
                 return false;
             }
         });
+
     }
+    private void clearAllData() {
+        // Kosongkan semua ArrayList
+        if (WisataArrayList != null) WisataArrayList.clear();
+        if (PenginapanArrayList != null) PenginapanArrayList.clear();
+        if (KulinerArrayList != null) KulinerArrayList.clear();
+
+        // Perbarui tampilan RecyclerView agar kosong
+        if (adapter != null) adapter.notifyDataSetChanged();
+        if (adapter2 != null) adapter2.notifyDataSetChanged();
+        if (adapter3 != null) adapter3.notifyDataSetChanged();
+
+        // Sembunyikan RecyclerView dan judul
+        recyclerView.setVisibility(View.GONE);
+        recyclerView2.setVisibility(View.GONE);
+        recyclerView3.setVisibility(View.GONE);
+
+        judulWisata.setVisibility(View.GONE);
+        judulPenginapan.setVisibility(View.GONE);
+        judulKuliner.setVisibility(View.GONE);
+
+        // Tampilkan pesan kosong jika diperlukan
+        emptyTextView.setVisibility(View.VISIBLE);
+        emptyTextView.setText("Tidak ada data yang ditemukan.");
+    }
+
 
 }
