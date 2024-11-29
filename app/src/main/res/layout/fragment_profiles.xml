@@ -43,7 +43,7 @@
                 app:cardCornerRadius="75dp">
 
                 <ImageView
-                    android:id="@+id/img_thumb"
+                    android:id="@+id/img_thumb1"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"

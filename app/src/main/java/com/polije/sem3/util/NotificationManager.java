@@ -72,21 +72,6 @@ public class NotificationManager {
         return loadNotificationsJsonFromSharedPreferences();
     }
 
-    // Menghapus Notifikasi Expired (lebih dari 24 jam)
-    public void removeExpiredNotifications() {
-        List<NotifyModelNew> notifications = loadNotificationsFromSharedPreferences();
-        long currentTime = System.currentTimeMillis();
-
-        Iterator<NotifyModelNew> iterator = notifications.iterator();
-        while (iterator.hasNext()) {
-            NotifyModelNew notify = iterator.next();
-            // Jika notifikasi lebih dari 24 jam, hapus dari daftar
-            if (currentTime - Long.parseLong(notify.getTanggalnotif()) > 24 * 60 * 60 * 1000) { // 24 jam dalam milidetik
-                iterator.remove();
-            }
-        }
-        saveNotificationsToSharedPreferences(notifications); // Simpan perubahan ke SharedPreferences
-    }
 
     // Menyimpan ulang daftar notifikasi setelah diperbarui
     private void saveNotificationsToSharedPreferences(List<NotifyModelNew> notifications) {

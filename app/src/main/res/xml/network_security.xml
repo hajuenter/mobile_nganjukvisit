@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">192.168.1.7</domain>        <!-- Lab KSI -->
-        <domain includeSubdomains="true">172.16.108.160</domain>         <!-- Lab Mobile -->
+        <domain includeSubdomains="true">192.168.137.125</domain>        <!-- Lab KSI -->
+        <domain includeSubdomains="true">192.168.1.15</domain>         <!-- Lab Mobile -->
         <domain includeSubdomains="true">172.16.103.7</domain>       <!-- Local -->
         <domain includeSubdomains="true">172.16.108.67</domain>        <!-- Lab MMC -->
         <domain includeSubdomains="true">192.168.1.10</domain>        <!-- Classroom A -->

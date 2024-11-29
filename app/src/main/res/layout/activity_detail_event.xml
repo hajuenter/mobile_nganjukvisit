@@ -59,13 +59,13 @@
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="20dp">
 
-                <ImageView
-                    android:id="@+id/imageView"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/slider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutGambar"
-                    android:background="@drawable/sedudobg"
+                    android:background="@color/white"
                     android:scaleType="centerCrop" />
 
 
@@ -123,6 +123,12 @@
                 android:text="Ngliman, Sawahan"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="                &lt;ImageView" />
 
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.polije.sem3.detail;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,9 +17,13 @@ import com.polije.sem3.R;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.response.DetailEventResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.DepthPageTransformer;
+import com.polije.sem3.util.SliderAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -60,7 +65,24 @@ public class DetailEvent extends AppCompatActivity {
                     desc.setText(eventArrayList.getDeskripsi());
                     jadwal.setText(eventArrayList.getTanggaldanwaktu());
 
+/*
                     Glide.with(DetailEvent.this).load(Client.IMG_DATA + eventArrayList.getGambar()).into(imgViewEvent);
+*/
+                    String gambarString = eventArrayList.getGambar();
+                    List<String> imageUrls = new ArrayList<>();
+                    if (gambarString.contains(",")) {
+                        String[] images = gambarString.split(",");
+                        for (String image : images) {
+                            imageUrls.add(Client.IMG_DATA + image.trim()); // Tambahkan base URL + gambar
+                        }
+                    } else {
+                        // Jika hanya ada satu gambar
+                        imageUrls.add(Client.IMG_DATA + gambarString.trim());
+                    }
+                    ViewPager2 slider = findViewById(R.id.slider);
+                    SliderAdapter adapter = new SliderAdapter(DetailEvent.this, imageUrls);
+                    slider.setAdapter(adapter);
+                    slider.setPageTransformer(new DepthPageTransformer());
 
                     lokasi.setText(eventArrayList.getLokasi());
 

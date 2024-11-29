@@ -1,6 +1,7 @@
 package com.polije.sem3.detail;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +19,10 @@ import com.polije.sem3.R;
 import com.polije.sem3.model.KulinerModel;
 import com.polije.sem3.response.DetailKulinerResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.DepthPageTransformer;
+import com.polije.sem3.util.SliderAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,7 +45,7 @@ public class DetailKuliner extends AppCompatActivity {
 
         namaKuliner = findViewById(R.id.namaKuliner);
         deskripsiKuliner = findViewById(R.id.deskripsiKuliner);
-        ImageView gambarCover = findViewById(R.id.KulinerImage);
+        /*ImageView gambarCover = findViewById(R.id.KulinerImage);*/
         btnBack = findViewById(R.id.backButtonDetail);
 
 //        namaKuliner.setText(idSelected);
@@ -56,7 +60,24 @@ public class DetailKuliner extends AppCompatActivity {
 
                     namaKuliner.setText(getNamaKuliner);
                     deskripsiKuliner.setText(getDeskripsiKuliner);
+/*
                     Glide.with(DetailKuliner.this).load(Client.IMG_DATA + kulinerModel.getGambar()).into(gambarCover);
+*/
+                    String gambarString = kulinerModel.getGambar();
+                    List<String> imageUrls = new ArrayList<>();
+                    if (gambarString.contains(",")) {
+                        String[] images = gambarString.split(",");
+                        for (String image : images) {
+                            imageUrls.add(Client.IMG_DATA + image.trim()); // Tambahkan base URL + gambar
+                        }
+                    } else {
+                        // Jika hanya ada satu gambar
+                        imageUrls.add(Client.IMG_DATA + gambarString.trim());
+                    }
+                    ViewPager2 slider = findViewById(R.id.slider);
+                    SliderAdapter adapter = new SliderAdapter(DetailKuliner.this, imageUrls);
+                    slider.setAdapter(adapter);
+                    slider.setPageTransformer(new DepthPageTransformer());
 
                 }
             }

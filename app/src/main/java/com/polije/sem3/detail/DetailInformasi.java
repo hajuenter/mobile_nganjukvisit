@@ -54,9 +54,13 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -117,27 +121,9 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         layoutModifyButton = binding.layoutModifyButton;
         layoutModifyButton.setVisibility(View.GONE);
         binding.txtEditUlasan.setEnabled(false);
-
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            binding.deskripsiWisata.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
 //        }
-        binding.buttonbooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("Button", "kepencet");
-                // Membuat Intent untuk pindah ke BookingActivity
-                Intent intent = new Intent(DetailInformasi.this, Booking.class);
-
-                // Menambahkan data ke Intent
-                intent.putExtra("idWisata", idSelected); // Menambahkan ID Wisata
-                intent.putExtra("namaWisata", dataListWisata.getNama()); // Menambahkan Nama Wisata
-                intent.putExtra("hargaTiket", dataListWisata.getHarga_tiket());
-                intent.putExtra("nohp", dataListWisata.getNo_hp());// Menambahkan Harga Tiket
-
-                // Memulai BookingActivity dengan membawa data
-                startActivity(intent);
-            }
-        });
 
         // kodingan retrofit get data
         Client.getInstance().detailwisata("detail_wisata",idSelected).enqueue(new Callback<DetailWisataResponse>() {
@@ -159,8 +145,6 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         mMap.getMapCenter();
                         mMap.setMultiTouchControls(true);
                         mMap.getLocalVisibleRect(new Rect());
-
-
                         GeoPoint startPoint = new GeoPoint(firstCoordinates, secondCoordinates);
                         OverlayItem overlayItem = new OverlayItem("Marker Title", "Marker Description", startPoint);
                         Drawable marker = getResources().getDrawable(R.drawable.locationpin); // Ganti dengan gambar marker Anda
@@ -168,7 +152,6 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         overlayItem.setMarker(marker);
 
                         controller = mMap.getController();
-
                         controller.setCenter(startPoint);
                         controller.animateTo(startPoint);
                         controller.setZoom(16);
@@ -186,7 +169,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 //                        destination = "Air+Terjun+Sedudo";
                         availablelinkmaps = false;
                     } else if (!linkmaps.isEmpty()) {
-                        destination = linkmaps;
+                        destination = coordinates;
                     }
                     String gambarString = dataListWisata.getGambar();
                     List<String> imageUrls = new ArrayList<>();
@@ -202,24 +185,33 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     ViewPager2 slider = findViewById(R.id.slider);
                     SliderAdapter adapter = new SliderAdapter(DetailInformasi.this, imageUrls);
                     slider.setAdapter(adapter);
-
-// (Opsional) Atur efek transisi jika diperlukan
                     slider.setPageTransformer(new DepthPageTransformer());
-/*
-                    Glide.with(DetailInformasi.this).load(Client.IMG_DATA + dataListWisata.getGambar()).into(binding.imageView);
-*/
                     binding.namaWisata.setText(dataListWisata.getNama());
                     binding.deskripsiWisata.setText(dataListWisata.getDeskripsi());
                     binding.jamOperasional.setText(dataListWisata.getJadwal());
                     String text = dataListWisata.getJadwal();
                     String formattedText = text.replace(",", "<br>");  // Mengganti koma dengan tag <br> untuk line break
                     binding.jamOperasional.setText(Html.fromHtml(formattedText));
-
-                    binding.hargaTiket.setText(dataListWisata.getHarga_tiket());
+                    String hargaTiket =dataListWisata.getHarga_tiket();
+                    if (hargaTiket.equalsIgnoreCase("Gratis")) {
+                        binding.hargaTiket.setText("Gratis");
+                        binding.hargaTiketNavbar.setText("Gratis");
+                    } else {
+                        try {double ticketPrice = Double.parseDouble(hargaTiket);
+                            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+                            String formattedPrice = currencyFormat.format(ticketPrice);
+                            binding.hargaTiket.setText(formattedPrice);
+                            binding.hargaTiketNavbar.setText(formattedPrice+"/orang");
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (dataListWisata.getHarga_tiket().equalsIgnoreCase("Gratis")) {
+                        binding.buttonbooking.setVisibility(View.GONE);
+                    } else {
+                        binding.buttonbooking.setVisibility(View.VISIBLE);
+                    }
                     binding.alamatWisata.setText(dataListWisata.getAlamat());
-                    binding.hargaTiketNavbar.setText(dataListWisata.getHarga_tiket()+"/orang");
-
-//                    Toast.makeText(DetailInformasi.this, coordinates, Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -231,6 +223,23 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                 Log.d("DetailInformasi", "error " + t.getMessage());
             }
         });
+            binding.buttonbooking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e("Button", "kepencet");
+                    // Membuat Intent untuk pindah ke BookingActivity
+                    Intent intent = new Intent(DetailInformasi.this, Booking.class);
+
+                    // Menambahkan data ke Intent
+                    intent.putExtra("idWisata", idSelected); // Menambahkan ID Wisata
+                    intent.putExtra("namaWisata", dataListWisata.getNama()); // Menambahkan Nama Wisata
+                    intent.putExtra("hargaTiket", dataListWisata.getHarga_tiket());
+                    intent.putExtra("nohp", dataListWisata.getNo_hp());// Menambahkan Harga Tiket
+
+                    // Memulai BookingActivity dengan membawa data
+                    startActivity(intent);
+                }
+            });
 
 //        RecyclerView recyclerView = findViewById(R.id.recyclerviewUlasan);
 
@@ -284,19 +293,17 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
         btnLink.setOnClickListener(v -> {
 
-            if (availablelinkmaps){
+            if (availablelinkmaps) {
 
-//                destination = "Air+Terjun+Sedudo"; // Gantilah dengan nama atau alamat tujuan Anda
-                String mapUri = destination;
-//                String mapUri = "https://maps.app.goo.gl/" + destination;
+                // Membuat URL pencarian di Google Maps
+                String mapUri = "geo:0,0?q=" + destination;
 
                 Uri gmmIntentUri = Uri.parse(mapUri);
 
                 // Buat intent untuk membuka Google Maps
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps"); // Hanya buka dengan aplikasi Google Maps
 
-                // Periksa apakah aplikasi Google Maps terpasang
+                // Periksa apakah ada aplikasi yang bisa membuka link
                 PackageManager packageManager = getPackageManager();
                 List<ResolveInfo> activities = packageManager.queryIntentActivities(mapIntent, 0);
                 boolean isIntentSafe = activities.size() > 0;
@@ -305,13 +312,14 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     // Buka aplikasi Google Maps
                     startActivity(mapIntent);
                 } else {
-                    // Jika Google Maps tidak terpasang, Anda dapat menampilkan pesan kesalahan
                     Toast.makeText(getApplicationContext(), "Aplikasi Google Maps tidak tersedia.", Toast.LENGTH_SHORT).show();
                 }
-            }else {
+            } else {
                 Toast.makeText(DetailInformasi.this, "Lokasi maps tidak tersedia", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
         UsersUtil usersUtil = new UsersUtil(this);
         idpengguna = usersUtil.getId();

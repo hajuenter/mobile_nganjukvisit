@@ -1,14 +1,16 @@
 package com.polije.sem3.model;
 
-public class NotifyModelNew {
-    private String judul;
-    private String bodynotif;
-    private String tanggalnotif; // Asumsi ini adalah format tanggal String
+import com.google.gson.annotations.SerializedName;
 
-    public NotifyModelNew(String judul, String bodynotif, String tanggalnotif) {
+public class NotifyModelNew {
+    @SerializedName("judul")
+    private String judul;
+    @SerializedName("isi")
+    private String bodynotif; // Asumsi ini adalah format tanggal String
+
+    public NotifyModelNew(String judul, String bodynotif) {
         this.judul = judul;
         this.bodynotif = bodynotif;
-        this.tanggalnotif = tanggalnotif;
     }
 
     public String getJudul() {
@@ -19,7 +21,4 @@ public class NotifyModelNew {
         return bodynotif;
     }
 
-    public String getTanggalnotif() {
-        return tanggalnotif;
-    }
 }

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,7 +70,7 @@ public class Login extends AppCompatActivity {
 
         // Konfigurasi Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("1002502978577-q9trtjpv5c27cl3u8do9jel9sak7v7kp.apps.googleusercontent.com") // Ganti dengan Client ID dari Google Cloud Console
+                .requestIdToken("139403144427-id5vkrl8e0dihv2skdr2602v5h2lbqfu.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -169,10 +170,9 @@ public class Login extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 if (account != null) {
                     String email = account.getEmail();
-                    String token = UUID.randomUUID().toString(); // Generate a new token for Google login
 
                     // Kirim token ke server untuk login
-                    Client.getInstance().logingoogle(email, token).enqueue(new Callback<UserResponse>() {
+                    Client.getInstance().logingoogle("google",email).enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
@@ -180,22 +180,44 @@ public class Login extends AppCompatActivity {
 
                                 // Simpan detail pengguna di lokal
                                 usersUtil = new UsersUtil(Login.this, response.body().getData());
-
+                                mGoogleSignInClient.signOut();
                                 Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 startActivity(intent);
-                            } else {
+                            }if(response.body() != null && response.body().getStatus().equalsIgnoreCase("notfound")){
+                                // Tampilkan dialog konfirmasi
+                                new AlertDialog.Builder(Login.this)
+                                        .setTitle("Konfirmasi")
+                                        .setMessage("Akun belum terdaftar, mau daftar dulu?")
+                                        .setPositiveButton("Daftar", (dialog, which) -> {
+                                            mGoogleSignInClient.signOut();
+                                            // Aksi untuk tombol Daftar
+                                            Intent intent1 = new Intent(Login.this, Register.class);
+                                            intent1.putExtra("emailuser", email);
+                                            startActivity(intent1);
+                                        })
+                                        .setNegativeButton("Batal", (dialog, which) -> {
+                                            // Aksi untuk tombol Batal
+                                            dialog.dismiss();
+                                            mGoogleSignInClient.signOut();
+                                        })
+                                        .show();
+                            }
+                            else {
+                                mGoogleSignInClient.signOut();
                                 Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<UserResponse> call, Throwable t) {
+                            mGoogleSignInClient.signOut();
                             Toast.makeText(Login.this, "Timeout", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             } catch (ApiException e) {
                 e.printStackTrace();
+                mGoogleSignInClient.signOut();
                 Toast.makeText(Login.this, "Login dengan Google gagal", Toast.LENGTH_SHORT).show();
             }
         }

@@ -31,7 +31,9 @@ import com.polije.sem3.retrofit.RetrofitEndPoint;
 import com.polije.sem3.util.UsersUtil;
 import com.polije.sem3.util.WebSocketService;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,9 +75,19 @@ public class Booking extends AppCompatActivity {
         emailEditText.setText(usersUtil.getEmail());
         phoneEditText.setText(usersUtil.getNoTelp());
         memberSpinner.setText("1");
-        ticketPriceTextView.setText("Rp."+hargaTiket);
+        if (hargaTiket.equalsIgnoreCase("Gratis")) {
+            ticketPriceTextView.setText("Gratis");
+        } else {
+            try {double ticketPrice = Double.parseDouble(hargaTiket);
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+                String formattedPrice = currencyFormat.format(ticketPrice);
+                ticketPriceTextView.setText(formattedPrice);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Terjadi kesalahan dalam format harga tiket.", Toast.LENGTH_SHORT).show();
+            }
+        }
         String jumlah = memberSpinner.getText().toString();
-        // Menambahkan listener untuk klik pada EditText (tanggal)
         dateEditText.setOnClickListener(v -> showDatePicker());
         calculateTotalCost(hargaTiket,jumlah);
         memberSpinner.addTextChangedListener(new TextWatcher() {
@@ -204,6 +216,12 @@ public class Booking extends AppCompatActivity {
     }
     private void calculateTotalCost(String hargaTiket, String memberCount) {
         try {
+            // Mengecek apakah harga tiket adalah "Gratis"
+            if (hargaTiket.equalsIgnoreCase("Gratis")) {
+                totalCostTextView.setText("Gratis");
+                return;  // Tidak lanjutkan perhitungan jika harga tiket "Gratis"
+            }
+
             // Mengambil harga tiket
             double ticketPrice = Double.parseDouble(hargaTiket);
 
@@ -219,5 +237,6 @@ public class Booking extends AppCompatActivity {
             Toast.makeText(this, "Terjadi kesalahan saat menghitung total biaya.", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

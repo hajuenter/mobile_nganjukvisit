@@ -59,13 +59,14 @@
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="20dp">
 
-                <ImageView
-                    android:id="@+id/penginapanImage"
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/slider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutGambar"
-                    android:background="@drawable/sedudobg"
+                    android:background="@color/white"
                     android:scaleType="centerCrop" />
 
 
@@ -153,7 +154,7 @@
                 android:id="@+id/linearLayoutUlasan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/material_dynamic_neutral95"
+                android:background="@color/white"
                 android:layout_marginTop="10dp"
                 android:paddingVertical="5dp"
                 android:orientation="vertical">

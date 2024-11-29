@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "51850660532",
-    "project_id": "nganjukvisit",
-    "storage_bucket": "nganjukvisit.appspot.com"
+    "project_number": "139403144427",
+    "project_id": "nganjukvisit-47295",
+    "storage_bucket": "nganjukvisit-47295.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:51850660532:android:e6bdc0cbe90a2dbc24a5e1",
+        "mobilesdk_app_id": "1:139403144427:android:9eaf1c4ac18745ad6a62ae",
         "android_client_info": {
           "package_name": "com.polije.sem3"
         }
       },
       "oauth_client": [
         {
-          "client_id": "51850660532-r74apiav80k5jgh6qu6g6hhffic784rp.apps.googleusercontent.com",
+          "client_id": "139403144427-4rs5enqgj4ru26bo725dq0h4o0m7grql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polije.sem3",
+            "certificate_hash": "7a0613ac3b2ef072b8eae97c27e2abc8f8ff05b5"
+          }
+        },
+        {
+          "client_id": "139403144427-id5vkrl8e0dihv2skdr2602v5h2lbqfu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCIGPza3FQQR5tornDxDUdOuUHSHeCOm8k"
+          "current_key": "AIzaSyCZCS_XghMu2BHdh7WJ3Q0l73d7h3DJtdo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "51850660532-r74apiav80k5jgh6qu6g6hhffic784rp.apps.googleusercontent.com",
+              "client_id": "139403144427-id5vkrl8e0dihv2skdr2602v5h2lbqfu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -46,7 +46,7 @@ public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKuli
         String idPengguna = usersUtil.getId();
 
         holder.txtTitle.setText(dataList.get(position).getNamaKuliner());
-        holder.txtLokasi.setText(dataList.get(position).getLokasi());
+        /*holder.txtLokasi.setText(dataList.get(position).getLokasi());*/
         Glide.with(holder.itemView.getContext())
                 .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
                 .into(holder.imgView);

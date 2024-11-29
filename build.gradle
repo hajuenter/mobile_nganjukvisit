@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     dependencies {
-        classpath 'com.google.gms:google-services:4.4.2' // do not change to the latest version
+        classpath 'com.google.gms:google-services:4.3.15' // do not change to the latest version
         ext.kotlin_version = '1.6.10'
     }
 }

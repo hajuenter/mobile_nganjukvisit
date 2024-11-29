@@ -68,7 +68,7 @@ public class Book extends Fragment implements WebSocketMessageListener {
         loadTiketUser(idUser);
 /*
         setupWebSocket();*/ // Mengatur WebSocket
-        WebSocketService.setMessageListener((WebSocketMessageListener) this);
+        WebSocketService.setBookListener((WebSocketMessageListener) this);
         searchBox.setOnClickListener(v -> searchTiket(searchBox.getText().toString()));
 
         return view;
@@ -233,6 +233,6 @@ public class Book extends Fragment implements WebSocketMessageListener {
         if (webSocket != null) {
             webSocket.close(1000, null);// Menutup koneksi WebSocket
         }
-        WebSocketService.setMessageListener(null);
+        WebSocketService.setBookListener(null);
     }
 }

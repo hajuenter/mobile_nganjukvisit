@@ -31,7 +31,6 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
         NotifyModelNew notify = notifyList.get(position);
         holder.title.setText(notify.getJudul());
         holder.body.setText(notify.getBodynotif());
-        holder.time.setText(notify.getTanggalnotif());
     }
 
     @Override
@@ -52,7 +51,6 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
             super(itemView);
             title = itemView.findViewById(R.id.notifTitle);
             body = itemView.findViewById(R.id.bodyNotif);
-            time = itemView.findViewById(R.id.timedate);
         }
     }
 }

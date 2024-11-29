@@ -10,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.polije.sem3.R;
 import com.polije.sem3.response.UserResponse;
 
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,7 @@ public class Client {
 //        public static final String BASE_URL = "http://192.168.1.62/nganjukvisit/"; // local
 //    public static final String BASE_URL = "http://192.168.1.7/nganjukvisit/"; // wifi
 //public static final String BASE_URL = "http://192.168.43.115/nganjukvisit/"; // local
-    public static final String BASE_URL = "http://192.168.1.4/web_nganjukvisit-main/"; //ip karo folder web e
+    public static final String BASE_URL = "http://192.168.137.125/web_nganjukvisit-main/"; //ip karo folder web e
 //        public static final String BASE_URL = "https://nganjukvisit.tifnganjuk.com/"; // local
 /*
     C:\xampp\htdocs\web_nganjukvisit-main\api\loginApi.php

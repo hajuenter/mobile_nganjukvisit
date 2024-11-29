@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.polije.sem3.util.WebSocketService;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -47,7 +49,8 @@ public class Dashboard extends AppCompatActivity {
         Dashboard.this.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new Home())
                 .commit();
-
+        Intent serviceIntent = new Intent(Dashboard.this, WebSocketService.class);
+        startService(serviceIntent);
         FloatingActionButton fab;
         btnView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         btnView.setBackground(null);

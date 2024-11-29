@@ -22,17 +22,31 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.polije.sem3.model.NotifyAdapter;
+import com.polije.sem3.model.NotifyModel;
 import com.polije.sem3.model.NotifyModelNew;
 import com.polije.sem3.model.NotifyViewModel;
-import com.polije.sem3.util.NotificationManager; // Your custom NotificationManager
+import com.polije.sem3.model.TiketModel;
+import com.polije.sem3.model.TiketModelAdapter;
+import com.polije.sem3.response.NotifyResponse;
+import com.polije.sem3.response.TiketResponse;
+import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.NotificationManager; // Custom NotificationManager
+import com.polije.sem3.util.UsersUtil;
 import com.polije.sem3.util.WebSocketMessageListener;
 import com.polije.sem3.util.WebSocketService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Notify extends Fragment implements WebSocketMessageListener {
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -45,8 +59,8 @@ public class Notify extends Fragment implements WebSocketMessageListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(NotifyViewModel.class);
-        WebSocketService.setMessageListener(this); // Register WebSocket listener
-        notificationManager = new NotificationManager(getContext()); // Initialize your custom NotificationManager
+        WebSocketService.setNotifyListener(this); // Register WebSocket listener
+        notificationManager = new NotificationManager(getContext()); // Initialize custom NotificationManager
     }
 
     @SuppressLint("MissingInflatedId")
@@ -54,14 +68,12 @@ public class Notify extends Fragment implements WebSocketMessageListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notify, container, false);
         recyclerView = rootView.findViewById(R.id.recviewNotify);
-
+        UsersUtil util = new UsersUtil(requireContext());
+        String idUser = util.getId();
         // Mengatur adapter untuk RecyclerView
         adapter = new NotifyAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
-
-        // Memuat data notifikasi dari SharedPreferences
-        loadNotificationsFromSharedPreferences();
-
+        getNotifikasi("event", "tiket", idUser);
         // Mengamati LiveData untuk mendapatkan notifikasi terbaru
         viewModel.getNotifyList().observe(getViewLifecycleOwner(), notifyList -> {
             // Perbarui adapter dengan data baru
@@ -71,53 +83,132 @@ public class Notify extends Fragment implements WebSocketMessageListener {
         return rootView;
     }
 
-    // Metode untuk memuat notifikasi dari SharedPreferences
-    private void loadNotificationsFromSharedPreferences() {
-        // Memuat notifikasi dari SharedPreferences menggunakan custom NotificationManager
-        List<NotifyModelNew> notifications = notificationManager.loadNotificationsFromSharedPreferences();
+    public void getNotifikasi(String judulEvent, String judulTiket, String id_user) {
+        // Membuat instance Retrofit
+        // Memanggil API untuk mendapatkan "Event Baru"
+        Client.getInstance().notifevent("notif",judulEvent).enqueue(new Callback<NotifyResponse>() {
+            @Override
+            public void onResponse(Call<NotifyResponse> call, Response<NotifyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    NotifyResponse notifikasiResponse = response.body();
+                    if (notifikasiResponse.getStatus().equals("success")) {
+                        List<NotifyModelNew> notif = notifikasiResponse.getData(); // Ambil data list notifikasi
 
-        // Perbarui ViewModel dengan data yang dimuat
-        viewModel.setNotifyList(notifications);
+                        if (notif != null && !notif.isEmpty()) {
+                            // Update RecyclerView adapter dengan data baru
+                            adapter.updateData(notif);
+                            // Menampilkan notifikasi untuk setiap item
+                            for (NotifyModelNew notification : notif) {
+                                String judul = notification.getJudul(); // Ambil judul
+                                String isi = notification.getBodynotif(); // Ambil isi
 
-        // Perbarui RecyclerView Adapter dengan data baru
-        adapter.updateData(notifications);
+                                // Menampilkan notifikasi untuk setiap item
+                                RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
+                                notificationLayout.setTextViewText(R.id.notifTitle, judul);
+                                notificationLayout.setTextViewText(R.id.bodyNotif, isi);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotifyResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error Event: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Memanggil API untuk mendapatkan "Tiket Wisata"
+        Client.getInstance().notifuser("notif",judulTiket, id_user).enqueue(new Callback<NotifyResponse>() {
+            @Override
+            public void onResponse(Call<NotifyResponse> call, Response<NotifyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    NotifyResponse notifikasiResponse = response.body();
+                    if (notifikasiResponse.getStatus().equals("success")) {
+                        List<NotifyModelNew> notif = notifikasiResponse.getData(); // Ambil data list notifikasi
+
+                        if (notif != null && !notif.isEmpty()) {
+                            // Update RecyclerView adapter dengan data baru
+                            adapter.updateData(notif);
+                            // Menampilkan notifikasi untuk setiap item
+                            for (NotifyModelNew notification : notif) {
+                                String judul = notification.getJudul(); // Ambil judul
+                                String isi = notification.getBodynotif(); // Ambil isi
+
+                                // Menampilkan notifikasi untuk setiap item
+                                RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
+                                notificationLayout.setTextViewText(R.id.notifTitle, judul);
+                                notificationLayout.setTextViewText(R.id.bodyNotif, isi);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotifyResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error Tiket: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+
+
+    // WebSocket message listener untuk notifikasi
     @Override
     public void onMessageReceived(String message) {
         handler.post(() -> {
             Log.d("WebSocketMessage", message);
-            createNotificationFromWebSocket();
-            String pesan = "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.";
-            String currentTime = getCurrentTime();
 
-            NotifyModelNew newNotify = new NotifyModelNew("Notif Konfirmasi Pembayaran Tiket", pesan, currentTime);
-            viewModel.addNotify(newNotify);
+            try {
+                // Parsing pesan WebSocket sebagai JSON
+                JSONObject messageObject = new JSONObject(message);
+                String judul = messageObject.getString("judul");
+                String isi = messageObject.getString("isi");
+                String waktu = getCurrentTime(); // Menggunakan waktu saat ini
 
-            // Simpan notifikasi ke SharedPreferences
-            notificationManager.saveNotificationToSharedPreferences(newNotify);
+                // Menentukan apakah notifikasi untuk semua pengguna atau pengguna tertentu
+                if (judul.contains("Event Baru")) {
+                    // Kirim notifikasi untuk semua pengguna
+                    NotifyModelNew eventNotification = new NotifyModelNew(judul, isi);
+                    viewModel.addNotify(eventNotification);
+                    adapter.notifyDataSetChanged();
+                    showNotification(judul, isi);
+                } else if (judul.contains("Tiket Wisata")) {
+                    // Kirim notifikasi hanya untuk pengguna yang memesan tiket
+                    String userId = messageObject.getString("user_id"); // ID user yang memesan tiket
+                    String activeUserId = userId; // Ganti dengan ID pengguna yang aktif (misalnya dari session/login)
 
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), "Pesan WebSocket: " + message, Toast.LENGTH_SHORT).show();
+                    if (userId.equals(activeUserId)) {
+                        NotifyModelNew ticketNotification = new NotifyModelNew(judul, isi);
+                        viewModel.addNotify(ticketNotification);
+                        adapter.notifyDataSetChanged();
+                        showNotification(judul, isi);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Menampilkan Toast untuk menunjukkan pesan WebSocket
+            Toast.makeText(getContext(), "Pesan WebSocket diterima: " + message, Toast.LENGTH_SHORT).show();
         });
     }
 
+    // Fungsi untuk menampilkan notifikasi
+    private void showNotification(String title, String message) {
+        RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
+        notificationLayout.setTextViewText(R.id.notifTitle, title);
+        notificationLayout.setTextViewText(R.id.bodyNotif, message);
+    }
+
+    // Mengambil waktu saat ini dalam format yang diinginkan
     private String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         return sdf.format(new Date());
     }
 
-    private void createNotificationFromWebSocket() {
-        String currentTime = getCurrentTime();
-        RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
-        notificationLayout.setTextViewText(R.id.notifTitle, "Notif Konfirmasi Pembayaran Tiket");
-        notificationLayout.setTextViewText(R.id.timedate, currentTime);
-        notificationLayout.setTextViewText(R.id.bodyNotif, "Selamat Pembayaran Tiket Wisata Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata.");
-        notificationManager.createNotification("websocket_channel", "Notif Konfirmasi Pembayaran Tiket", notificationLayout);
-    }
-
-
-
+    // Mengecek izin untuk notifikasi pada Android 13 dan lebih tinggi
     private void checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS)

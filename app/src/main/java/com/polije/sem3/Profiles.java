@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.polije.sem3.model.UserModel;
 import com.polije.sem3.network.BaseResponse;
 import com.polije.sem3.network.Config;
@@ -51,7 +52,6 @@ public class Profiles extends Fragment {
     private ImageView imgThumb;
     private EditText editNamaText, emailText, alamatText, notelpText;
     private ProgressDialog progressDialog;
-
     public Profiles() {
         // Required empty public constructor
     }
@@ -71,7 +71,7 @@ public class Profiles extends Fragment {
         progressDialog.setMessage("Harap Tunggu");
         progressDialog.setCancelable(false);
 
-        imgThumb = view.findViewById(R.id.img_thumb);
+        imgThumb = view.findViewById(R.id.img_thumb1);
         Button btnLogout = view.findViewById(R.id.btn_logout);
         TextView btnChoose = view.findViewById(R.id.choosePictures);
         Button btnUpload2 = view.findViewById(R.id.btn_upload_2);
@@ -126,6 +126,7 @@ public class Profiles extends Fragment {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), uri);
                     String encoded = ImageUtils.bitmapToBase64String(bitmap, 100);
+                    Log.d("Profiles", "seng diupload: " + encoded);
                     uploadBase64(encoded);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -295,6 +296,7 @@ public class Profiles extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             uri = data.getData();
+            Log.d("Profiles", "Selected Image URI: " + uri);
             if (uri != null) {
                 try {
                     imgThumb.setImageURI(uri);
@@ -306,6 +308,7 @@ public class Profiles extends Fragment {
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -313,7 +316,7 @@ public class Profiles extends Fragment {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
             } else {
-                Toast.makeText(requireActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Permission denied:please activated Storage permissions", Toast.LENGTH_SHORT).show();
             }
         }
     }

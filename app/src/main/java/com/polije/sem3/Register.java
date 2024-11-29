@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polije.sem3.response.UserResponse;
@@ -36,7 +37,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        String emailuser = getIntent().getStringExtra("emailuser");
         // loading progress bar
         progressDialog = new ProgressDialog(Register.this);
         progressDialog.setTitle("proses register...");
@@ -49,6 +50,11 @@ public class Register extends AppCompatActivity {
         fullname = (EditText) findViewById(R.id.txtfullname);
         btnBack = findViewById(R.id.backButton);
         btnSubmit = findViewById(R.id.signupButton);
+        if(emailuser != null){
+            email.setText(emailuser);
+        }else{
+            email.setText("");
+        }
 
         btnSubmit.setOnClickListener(v -> {
             progressDialog.show();

@@ -1,8 +1,6 @@
 package com.polije.sem3.retrofit;
 
 import com.polije.sem3.model.BookingModel;
-import com.polije.sem3.model.NotifyModelNew;
-import com.polije.sem3.model.TiketModel;
 import com.polije.sem3.response.BookingResponse;
 import com.polije.sem3.response.DetailEventResponse;
 import com.polije.sem3.response.DetailKulinerResponse;
@@ -26,7 +24,6 @@ import com.polije.sem3.response.VerificationResponse;
 import com.polije.sem3.response.WisataResponse;
 
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -55,10 +52,10 @@ public interface RetrofitEndPoint {
 
     //API Login dengan Google:
     @FormUrlEncoded
-    @POST("login_google.php")
+    @POST("APIakun.php")
     Call<UserResponse> logingoogle(
-            @Field("email") String userEmail,
-            @Field("device_token") String deviceToken
+            @Field("action") String action,
+            @Field("email") String userEmail
     );
 
     //API Register:
@@ -389,8 +386,15 @@ public interface RetrofitEndPoint {
 
     // =========================================================================================
 
-    @GET("notif/mynotification.php")
-    Call<NotifyResponse> mynotif (
+    @GET("APIhome.php")
+    Call<NotifyResponse> notifevent(
+            @Query("action") String action,
+            @Query("tipe") String tipe
+    );
+    @GET("APIhome.php")
+    Call<NotifyResponse> notifuser (
+            @Query("action") String action,
+            @Query("tipe") String tipe,
             @Query("id_user") String idpengguna
     );
 
