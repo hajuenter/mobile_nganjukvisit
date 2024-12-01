@@ -9,18 +9,26 @@ public class KulinerModel {
     private String idKuliner;
     @SerializedName("nama_kuliner")
     private String nama;
+    @SerializedName("harga")
+    private String harga;
     private String deskripsi;
+    @SerializedName("alamat")
     private String lokasi;
     private String gambar;
+    @SerializedName("link_maps")
     private String linkmaps;
+    @SerializedName("koordinat")
+    private String coordinate;
 
-    public KulinerModel(String idKuliner, String nama, String deskripsi, String lokasi, String gambar, String linkmaps) {
+    public KulinerModel(String idKuliner, String nama, String harga, String deskripsi, String lokasi, String gambar, String linkmaps, String coordinate) {
         this.idKuliner = idKuliner;
         this.nama = nama;
+        this.harga = harga;
         this.deskripsi = deskripsi;
         this.lokasi = lokasi;
         this.gambar = gambar;
         this.linkmaps = linkmaps;
+        this.coordinate = coordinate;
     }
 
     public String getIdKuliner() {
@@ -37,6 +45,13 @@ public class KulinerModel {
 
     public void setNama(String nama) {
         this.nama = nama;
+    }
+    public String getHarga() {
+        return harga;
+    }
+
+    public void setHarga(String harga) {
+        this.harga = harga;
     }
 
     public String getDeskripsi() {
@@ -69,5 +84,10 @@ public class KulinerModel {
 
     public void setLinkmaps(String linkmaps) {
         this.linkmaps = linkmaps;
+    }
+    public void setCoordinate(String coordinate){this.coordinate = coordinate;
+    }
+    public String getCoordinate() {
+        return coordinate;
     }
 }

@@ -9,9 +9,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="13dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="70dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
         android:gravity="center_vertical">
@@ -21,12 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/rounded_button_white"
+            android:fontFamily="@font/ralewaybold"
+
             android:text="GET STARTED"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textAllCaps="false"
-           />
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

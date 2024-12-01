@@ -58,7 +58,9 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorited"); // Update tag
                 }else {
+                    holder.imgFavs.setTag("not_favorited"); // Update tag
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_white);}
             }
 
@@ -71,22 +73,49 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavwisata("tambah","wisata",idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
-                        if (response.body() != null && response.body().getMessage() == "success") {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                String currentTag = (String) holder.imgFavs.getTag(); // Ambil status saat ini
+
+                if (currentTag.equals("favorited")) {
+                    // Hapus favorit jika status saat ini 'favorite'
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgFavs.setTag("not_favorited"); // Update tag
+
+                    Client.getInstance().deletefavwisata("hapus", "wisata", idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        @Override
+                        public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
-                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+                } else {
+                    // Tambahkan ke favorit jika status saat ini 'not_favorite'
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorited"); // Update tag
+
+                    Client.getInstance().tambahfavwisata("tambah", "wisata", idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 

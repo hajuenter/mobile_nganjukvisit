@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -45,9 +47,75 @@ public class Register extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         alamat = (EditText) findViewById(R.id.txtalamat);
+        alamat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Regex untuk memfilter karakter yang tidak diperbolehkan
+                String filteredText = s.toString().replaceAll("[^a-zA-Z0-9 ,.\\-]", "");
+
+                // Jika teks berubah setelah difilter, perbarui EditText
+                if (!s.toString().equals(filteredText)) {
+                    alamat.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= alamat.getText().length()) {
+                        alamat.setSelection(cursorPosition); // Menjaga kursor tetap di akhir
+                    } // Menjaga kursor tetap di akhir
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         password = (EditText) findViewById(R.id.txtpassword);
         email = (EditText) findViewById(R.id.txtemails);
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                // Tidak ada perubahan yang perlu dilakukan di sini
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int after) {
+                String input = charSequence.toString();
+                String regex = "[a-zA-Z0-9._@+-]*";
+                if (!input.matches(regex)) {
+                    email.setText(input.replaceAll("[^a-zA-Z0-9._@+-]", ""));
+                    int cursorPosition = input.length();
+                    if (cursorPosition <= email.getText().length()) {
+                        email.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Tidak ada perubahan yang perlu dilakukan di sini
+            }
+        });
         fullname = (EditText) findViewById(R.id.txtfullname);
+        fullname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Hanya izinkan huruf dan spasi
+                String filteredText = s.toString().replaceAll("[^a-zA-Z ]", "");
+                if (!s.toString().equals(filteredText)) {
+                    fullname.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= fullname.getText().length()) {
+                        fullname.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
+                    } // Menjaga kursor di akhir
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         btnBack = findViewById(R.id.backButton);
         btnSubmit = findViewById(R.id.signupButton);
         if(emailuser != null){

@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -26,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.polije.sem3.model.UserModel;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
@@ -62,11 +65,47 @@ public class Login extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         username = findViewById(R.id.txtusername);
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                // Tidak ada perubahan yang perlu dilakukan di sini
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int after) {
+                String input = charSequence.toString();
+                String regex = "[a-zA-Z0-9._@+-]*";
+                if (!input.matches(regex)) {
+                    username.setText(input.replaceAll("[^a-zA-Z0-9._@+-]", ""));
+                    int cursorPosition = input.length();
+                    if (cursorPosition <= username.getText().length()) {
+                        username.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Tidak ada perubahan yang perlu dilakukan di sini
+            }
+        });
         password = findViewById(R.id.txtpassword);
         lupaPass = findViewById(R.id.forgotPass);
         btnLogin = findViewById(R.id.loginButton);
         btnSignup = findViewById(R.id.signupButton);
         btnGoogle = findViewById(R.id.loginButtonWithGoogle);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("Token", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Mendapatkan token untuk FCM
+                    String token = task.getResult();
+                    Log.d("Token", "FCM Token: " + token);
+                });
 
         // Konfigurasi Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

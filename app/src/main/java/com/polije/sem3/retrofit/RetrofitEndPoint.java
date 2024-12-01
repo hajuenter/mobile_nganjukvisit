@@ -200,8 +200,7 @@ public interface RetrofitEndPoint {
             @Field("id_user") String idUser,
             @Field("nama") String nama,
             @Field("alamat") String alamat,
-            @Field("no_hp") String no_hp,
-            @Field("gambar") String gambar
+            @Field("no_hp") String no_hp
     );
 
 

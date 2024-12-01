@@ -45,7 +45,7 @@ public class UploadService {
         return uploadInterface.uploadPhotoMultipart(action, photo);
     }
 
-    public Call<BaseResponse> uploadPhotoBase64(String action, String photo, String iduser) {
+    public Call<BaseResponse> uploadPhotoBase64(String action, String photo, Integer iduser) {
         return uploadInterface.uploadPhotoBase64(action, photo, iduser);
     }
 }

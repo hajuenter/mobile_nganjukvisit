@@ -72,8 +72,77 @@ public class Booking extends AppCompatActivity {
         backButton = findViewById(R.id.buttonBack);
         String userId = usersUtil.getId();
         nameEditText.setText(usersUtil.getUsername());
+        nameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Hanya izinkan huruf dan spasi
+                String filteredText = s.toString().replaceAll("[^a-zA-Z ]", "");
+                if (!s.toString().equals(filteredText)) {
+                    nameEditText.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= nameEditText.getText().length()) {
+                        nameEditText.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
+                    } // Menjaga kursor di akhir
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         emailEditText.setText(usersUtil.getEmail());
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                // Tidak ada perubahan yang perlu dilakukan di sini
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int after) {
+                String input = charSequence.toString();
+                String regex = "[a-zA-Z0-9._@+-]*";
+                if (!input.matches(regex)) {
+                    emailEditText.setText(input.replaceAll("[^a-zA-Z0-9._@+-]", ""));
+                    int cursorPosition = input.length();
+                    if (cursorPosition <= emailEditText.getText().length()) {
+                        emailEditText.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Tidak ada perubahan yang perlu dilakukan di sini
+            }
+        });
+
         phoneEditText.setText(usersUtil.getNoTelp());
+        phoneEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String currentText = charSequence.toString();
+                String filteredText = currentText.replaceAll("[^0-9]", ""); // Menghapus karakter selain angka
+
+                // Jika teks yang dimasukkan tidak sesuai, set ulang EditText dengan teks yang telah difilter
+                if (!currentText.equals(filteredText)) {
+                    phoneEditText.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= phoneEditText.getText().length()) {
+                        phoneEditText.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
+                    }// Menjaga kursor tetap di akhir
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         memberSpinner.setText("1");
         if (hargaTiket.equalsIgnoreCase("Gratis")) {
             ticketPriceTextView.setText("Gratis");
@@ -81,7 +150,8 @@ public class Booking extends AppCompatActivity {
             try {double ticketPrice = Double.parseDouble(hargaTiket);
                 NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
                 String formattedPrice = currencyFormat.format(ticketPrice);
-                ticketPriceTextView.setText(formattedPrice);
+                String Price = formattedPrice.replace("Rp","Rp.").replace(",00","").trim();
+                ticketPriceTextView.setText(Price);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Terjadi kesalahan dalam format harga tiket.", Toast.LENGTH_SHORT).show();
@@ -102,7 +172,10 @@ public class Booking extends AppCompatActivity {
                 // Saat teks diubah, perbarui total biaya
                 String jumlah = memberSpinner.getText().toString();
                 if (!jumlah.isEmpty()) {
-                    calculateTotalCost(hargaTiket, jumlah);
+                    if(hargaTiket == "Gratis"){
+                        totalCostTextView.setText("Gratis");
+                    }else{
+                    calculateTotalCost(hargaTiket, jumlah);}
                 }else{
                     totalCostTextView.setText("Rp.0");
                 }
@@ -119,65 +192,87 @@ public class Booking extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (consentCheckBox.isChecked()) {
-                    String name = nameEditText.getText().toString();
-                    String email = emailEditText.getText().toString();
-                    String phone = phoneEditText.getText().toString();
-                    String date = dateEditText.getText().toString();
-                    String memberType = memberSpinner.getText().toString();
+                    String name = nameEditText.getText().toString().trim();
+                    String email = emailEditText.getText().toString().trim();
+                    final String phone = phoneEditText.getText().toString().trim();  // Menambahkan final pada variabel phone
+                    String date = dateEditText.getText().toString().trim();
+                    String memberType = memberSpinner.getText().toString().trim();
 
-                    // Menghilangkan teks "Rp." dari harga tiket dan total biaya
-                    String ticketPrice = ticketPriceTextView.getText().toString().replace("Rp.", "").trim();
-                    String totalCost = totalCostTextView.getText().toString().replace("Rp.", "").trim();
+                    if (phone.length() < 10 || phone.length() > 13) {
+                        Toast.makeText(Booking.this, "Nomor telepon harus antara 10 hingga 13 digit.", Toast.LENGTH_SHORT).show();
+                        return; // Menghentikan eksekusi lebih lanjut jika validasi gagal
+                    } else {
+                        // Validasi jika nomor telepon dimulai dengan 0 atau 62
+                        if (!phone.startsWith("0") && !phone.startsWith("62")) {
+                            Toast.makeText(Booking.this, "Nomor telepon harus dimulai dengan 0 atau 62.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                    String wisataName = namaWisata;  // Ubah sesuai nama wisata
-                    String status = "diproses";  // Status default, bisa disesuaikan
+                        if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || date.isEmpty() || memberType.isEmpty()) {
+                            Toast.makeText(Booking.this, "Harap lengkapi data pesanan.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String ticketPrice = ticketPriceTextView.getText().toString().replace("Rp.", "").replace(".", "").trim();
+                            String totalCost = totalCostTextView.getText().toString().replace("Rp.", "").replace(".", "").trim();
 
-                    // Membuat objek BookingModel
-                    BookingModel bookingRequest = new BookingModel(idWisata, userId, date, memberType, ticketPrice, wisataName, status, totalCost);
+                            String wisataName = namaWisata;  // Ubah sesuai nama wisata
+                            String status = "diproses";  // Status default, bisa disesuaikan
+                            BookingModel bookingRequest = new BookingModel(idWisata, userId, date, memberType, ticketPrice, wisataName, status, totalCost);
 
-                    // Menentukan action yang ingin dipanggil (misalnya: 'pesan')
-                    String action = "pesan";
-                    Intent serviceIntent = new Intent(Booking.this, WebSocketService.class);
-                    startService(serviceIntent);  // Menjalankan Service untuk WebSocket
-                    // Mendapatkan instance RetrofitEndPoint
-                    RetrofitEndPoint api = Client.getInstance();
+                            // Menentukan action yang ingin dipanggil (misalnya: 'pesan')
+                            String action = "pesan";
+                            Intent serviceIntent = new Intent(Booking.this, WebSocketService.class);
+                            startService(serviceIntent);  // Menjalankan Service untuk WebSocket
+                            // Mendapatkan instance RetrofitEndPoint
+                            RetrofitEndPoint api = Client.getInstance();
 
-                    // Mengirim permintaan ke server
-                    Call<BookingResponse> call = api.createBooking(action, bookingRequest);
-                    call.enqueue(new Callback<BookingResponse>() {
-                        @Override
-                        public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
-                            if (response.isSuccessful()) {
-                                BookingResponse bookingResponse = response.body();
-                                if (bookingResponse != null && bookingResponse.isSuccess()) {
-                                    // Pemesanan berhasil
-                                    Toast.makeText(Booking.this, "Checkout sukses untuk: " + name, Toast.LENGTH_SHORT).show();
-                                    String url = "https://wa.me/+"+NoHp+"?text=Halo, saya telah berhasil memesan tiket untuk " + namaWisata + " dengan ID Tiket: " + bookingResponse.getData().getId_tiket()+" ,dan saya ingin melakukan pembayaran";
-                                    Intent whatsappIntent = new Intent(Intent.ACTION_VIEW);
-                                    whatsappIntent.setData(Uri.parse(url));
-                                    startActivity(whatsappIntent);
-                                } else {
-                                    // Gagal membuat pesanan
-                                    Toast.makeText(Booking.this, "Gagal membuat pesanan: " + bookingResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Mengirim permintaan ke server
+                            Call<BookingResponse> call = api.createBooking(action, bookingRequest);
+                            call.enqueue(new Callback<BookingResponse>() {
+                                @Override
+                                public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        BookingResponse bookingResponse = response.body();
+                                        if (bookingResponse != null && bookingResponse.isSuccess()) {
+                                            // Pemesanan berhasil
+                                            Toast.makeText(Booking.this, "Checkout sukses untuk: " + name, Toast.LENGTH_SHORT).show();
+                                            // Memastikan nomor telepon diawali dengan + dan negara yang benar (mengganti 0 dengan +62)
+                                            String phoneToUse = phone;
+                                            if (phoneToUse.startsWith("0")) {
+                                                phoneToUse = "+62" + phoneToUse.substring(1); // Ganti 0 dengan +62
+                                            }
+
+                                            String url = "https://wa.me/" + phoneToUse + "?text=Halo, saya telah berhasil memesan tiket untuk " + wisataName + " dengan ID Tiket: " + bookingResponse.getData().getId_tiket() + " ,dan saya ingin melakukan pembayaran";
+                                            Intent whatsappIntent = new Intent(Intent.ACTION_VIEW);
+                                            whatsappIntent.setData(Uri.parse(url));
+                                            startActivity(whatsappIntent);
+                                        } else {
+                                            // Gagal membuat pesanan
+                                            Toast.makeText(Booking.this, "Gagal membuat pesanan: " + bookingResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        // Kesalahan saat menghubungi server
+                                        Toast.makeText(Booking.this, "Terjadi kesalahan saat menghubungi server.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            } else {
-                                // Kesalahan saat menghubungi server
-                                Toast.makeText(Booking.this, "Terjadi kesalahan saat menghubungi server.", Toast.LENGTH_SHORT).show();
-                            }
+
+                                @Override
+                                public void onFailure(Call<BookingResponse> call, Throwable t) {
+                                    // Kesalahan jaringan
+                                    Toast.makeText(Booking.this, "Kesalahan jaringan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            Intent intent = new Intent(Booking.this, Dashboard.class);
+                            startActivity(intent);
                         }
-                        @Override
-                        public void onFailure(Call<BookingResponse> call, Throwable t) {
-                            // Kesalahan jaringan
-                            Toast.makeText(Booking.this, "Kesalahan jaringan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    Intent intent = new Intent(Booking.this, Dashboard.class);
-                    startActivity(intent);
+                    }
                 } else {
                     Toast.makeText(Booking.this, "Harap setujui persyaratan.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
 
 
         // Event listener untuk tombol kembali
@@ -219,7 +314,7 @@ public class Booking extends AppCompatActivity {
             // Mengecek apakah harga tiket adalah "Gratis"
             if (hargaTiket.equalsIgnoreCase("Gratis")) {
                 totalCostTextView.setText("Gratis");
-                return;  // Tidak lanjutkan perhitungan jika harga tiket "Gratis"
+                return; // Tidak lanjutkan perhitungan jika harga tiket "Gratis"
             }
 
             // Mengambil harga tiket
@@ -230,13 +325,20 @@ public class Booking extends AppCompatActivity {
 
             // Menghitung total biaya
             double totalCost = ticketPrice * memberCountValue;
-            totalCostTextView.setText(String.format("Rp.%d", (long) totalCost));
+
+            // Format hasil ke Rupiah
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+            String formattedTotalCost = currencyFormat.format(totalCost);
+            String Price = formattedTotalCost.replace("Rp","Rp.").replace(",00","").trim();
+            // Menampilkan hasil ke TextView
+            totalCostTextView.setText(Price);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
             Toast.makeText(this, "Terjadi kesalahan saat menghitung total biaya.", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 }

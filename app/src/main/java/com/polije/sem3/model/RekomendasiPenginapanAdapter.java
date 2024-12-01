@@ -67,8 +67,10 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                 if (response.body() != null && "alreadyex".equalsIgnoreCase(response.body().getStatus())) {
                     imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    imgFavs.setTag("favorited");
                 }else{
                     imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    imgFavs.setTag("not_favorited");
                 }
             }
 
@@ -80,21 +82,48 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
     }
 
     private void toggleFavorite(String idPengguna, String idPenginapan, ImageView imgFavs) {
-        imgFavs.setImageResource(R.drawable.favorite_button_danger);
-        Client.getInstance().tambahfavpenginapan("tambah","penginapan",idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
-            @Override
-            public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
-                if (response.body() != null) {
-                    Toast.makeText(imgFavs.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
+        // Periksa status favorit melalui tag
+        if ("favorited".equals(imgFavs.getTag())) {
+            // Jika sudah difavoritkan, ubah ke non-favorit
+            imgFavs.setImageResource(R.drawable.favorite_button_white);
+            imgFavs.setTag("not_favorited");
 
-            @Override
-            public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
-                Toast.makeText(imgFavs.getContext(), "timeout", Toast.LENGTH_SHORT).show();
-            }
-        });
+            // Panggil API untuk menghapus favorit
+            Client.getInstance().deletefavpenginapan("hapus", "penginapan", idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
+                @Override
+                public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                    if (response.body() != null) {
+                        Toast.makeText(imgFavs.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                    Toast.makeText(imgFavs.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Jika belum difavoritkan, ubah ke favorit
+            imgFavs.setImageResource(R.drawable.favorite_button_danger);
+            imgFavs.setTag("favorited");
+
+            // Panggil API untuk menambah favorit
+            Client.getInstance().tambahfavpenginapan("tambah", "penginapan", idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
+                @Override
+                public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                    if (response.body() != null) {
+                        Toast.makeText(imgFavs.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                    Toast.makeText(imgFavs.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
+
     private String getFirstImage(String gambar) {
         // Cek jika ada koma (berarti ada lebih dari satu gambar)
         if (gambar.contains(",")) {

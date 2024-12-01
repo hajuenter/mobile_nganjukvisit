@@ -28,14 +28,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NganjukVisit"
         tools:targetApi="31">
-        <service
-            android:name=".apigoogle.MyFirebaseMessagingService"
-            android:exported="true"
-            >
-            <intent-filter>
+<!--        <service-->
+<!--            android:name=".apigoogle.MyFirebaseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+           <!-- <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
+            </intent-filter>-->
         <activity
             android:name=".searching.SearchingPenginapan"
             android:exported="false">
@@ -260,5 +262,6 @@
             android:exported="true" /> <!-- Set exported sesuai kebutuhan -->
 
     </application>
+
 
 </manifest>

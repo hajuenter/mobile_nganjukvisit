@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
 import com.polije.sem3.response.FavoritPenginapanResponse;
+import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 
@@ -62,7 +63,10 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                }else {holder.imgFavs.setImageResource(R.drawable.favorite_button_white);}
+                    holder.imgFavs.setTag("favorited");
+                }else {
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgFavs.setTag("not_favorited");}
             }
             @Override
             public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
@@ -73,23 +77,49 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavpenginapan("tambah","penginapan",idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
-                        if (response.body() != null && response.body().getMessage() == "success") {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                String currentTag = (String) holder.imgFavs.getTag(); // Ambil status saat ini
 
-                    @Override
-                    public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
-                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (currentTag.equals("favorited")) {
+                    // Hapus favorit jika status saat ini 'favorite'
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgFavs.setTag("not_favorited"); // Update tag
+
+                    Client.getInstance().deletefavwisata("hapus", "penginapan", idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritWisataResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Tambahkan ke favorit jika status saat ini 'not_favorite'
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorited"); // Update tag
+
+                    Client.getInstance().tambahfavwisata("tambah", "penginapan", idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritWisataResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

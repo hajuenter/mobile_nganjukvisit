@@ -59,8 +59,10 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorited");
                 } else {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgFavs.setTag("not_favorited");
                 }
             }
             @Override
@@ -70,17 +72,16 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
         });
 
 
-        holder.imgFavs.setTag("not_favorite");
 
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String currentTag = (String) holder.imgFavs.getTag(); // Ambil status saat ini
 
-                if (currentTag.equals("favorite")) {
+                if (currentTag.equals("favorited")) {
                     // Hapus favorit jika status saat ini 'favorite'
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
-                    holder.imgFavs.setTag("not_favorite"); // Update tag
+                    holder.imgFavs.setTag("not_favorited"); // Update tag
 
                     Client.getInstance().deletefavwisata("hapus", "wisata", idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
                         @Override
@@ -100,7 +101,7 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
                 } else {
                     // Tambahkan ke favorit jika status saat ini 'not_favorite'
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                    holder.imgFavs.setTag("favorite"); // Update tag
+                    holder.imgFavs.setTag("favorited"); // Update tag
 
                     Client.getInstance().tambahfavwisata("tambah", "wisata", idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
                         @Override

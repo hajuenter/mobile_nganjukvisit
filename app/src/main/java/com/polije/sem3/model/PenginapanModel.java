@@ -15,7 +15,7 @@ public class PenginapanModel {
     private String deskripsi;
     @SerializedName("lokasi")
     private String lokasi;
-    @SerializedName("koordinat")
+    @SerializedName("link_maps")
     private String linkmaps;
     @SerializedName("gambar")
     private String gambar;

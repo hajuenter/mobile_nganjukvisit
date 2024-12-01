@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
+import com.polije.sem3.response.FavoritKulinerResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
@@ -58,25 +59,54 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.imgButton.setImageResource(R.drawable.favorite_button_white);
-                Client.getInstance().deletefavwisata("hapus","wisata",idPengguna, dataList.get(position).getIdWisata()).enqueue(new Callback<FavoritWisataResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
-                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                // Periksa tag untuk menentukan drawable yang sedang ditampilkan
+                if ("favorited".equals(holder.imgButton.getTag())) {
+                    // Jika sudah favorit, ubah ke non-favorit
+                    holder.imgButton.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgButton.setTag("not_favorited");
 
-                    @Override
-                    public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
-                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    // Tambahkan logika untuk menghapus dari favorit
+                    Client.getInstance().deletefavkuliner("hapus", "wisata", idPengguna, dataList.get(position).getIdWisata()).enqueue(new Callback<FavoritKulinerResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Jika belum favorit, ubah ke favorit
+                    holder.imgButton.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgButton.setTag("favorited");
+
+                    // Tambahkan logika untuk menambahkan ke favorit
+                    Client.getInstance().tambahfavkuliner("tambah", "wisata", idPengguna, dataList.get(position).getIdWisata()).enqueue(new Callback<FavoritKulinerResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,14 +135,13 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
 
     private String fitmeTxt (String textDescOrigin) {
 
-        int maxLength = 100; // Panjang maksimal yang diinginkan
+        int maxLength = 100;
 
         if (textDescOrigin.length() > maxLength) {
             String limitedText = textDescOrigin.substring(0, maxLength);
             String finalText = limitedText + " ...";
             return finalText;
         } else {
-            // Teks tidak perlu dibatasi
             String finalText = textDescOrigin;
             return finalText;
         }

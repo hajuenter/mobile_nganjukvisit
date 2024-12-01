@@ -169,7 +169,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 //                        destination = "Air+Terjun+Sedudo";
                         availablelinkmaps = false;
                     } else if (!linkmaps.isEmpty()) {
-                        destination = coordinates;
+                        destination = linkmaps;
                     }
                     String gambarString = dataListWisata.getGambar();
                     List<String> imageUrls = new ArrayList<>();
@@ -296,7 +296,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             if (availablelinkmaps) {
 
                 // Membuat URL pencarian di Google Maps
-                String mapUri = "geo:0,0?q=" + destination;
+                String mapUri =  destination;
 
                 Uri gmmIntentUri = Uri.parse(mapUri);
 

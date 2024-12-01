@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.polije.sem3.Home;
 import com.polije.sem3.R;
 import com.polije.sem3.response.FavoritKulinerResponse;
+import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 
@@ -45,12 +46,13 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
     public void onBindViewHolder(RekomendasiKulinerAdapter.RekomendasiKulinerViewHolder holder, @SuppressLint("RecyclerView") int position) {
         UsersUtil usersUtil = new UsersUtil(holder.itemView.getContext());
         String idPengguna = usersUtil.getId();
+        KulinerModel kuliner = dataList.get(position);
 
         holder.titleTxt.setText(dataList.get(position).getNama());
         Glide.with(holder.itemView.getContext())
                 .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
                 .into(holder.imgKuliner);
-
+        checkFavoriteStatus(idPengguna, kuliner.getIdKuliner(), holder.imgFavs);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,11 +67,15 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
             public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorited");
+                }else {
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
                 }
             }
 
             @Override
             public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
+                holder.imgFavs.setTag("not_favorited");
                 Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
             }
         });
@@ -77,22 +83,68 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
-                Client.getInstance().tambahfavkuliner("tambah","kuliner",idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
-                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                // Periksa tag untuk menentukan drawable yang sedang ditampilkan
+                if ("favorited".equals(holder.imgFavs.getTag())) {
+                    // Jika sudah favorit, ubah ke non-favorit
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
+                    holder.imgFavs.setTag("not_favorited");
 
-                    @Override
-                    public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
-                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    // Tambahkan logika untuk menghapus dari favorit
+                    Client.getInstance().deletefavkuliner("hapus", "kuliner", idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Jika belum favorit, ubah ke favorit
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                    holder.imgFavs.setTag("favorited");
+
+                    // Tambahkan logika untuk menambahkan ke favorit
+                    Client.getInstance().tambahfavkuliner("tambah", "kuliner", idPengguna, dataList.get(position).getIdKuliner()).enqueue(new Callback<FavoritKulinerResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
+                            Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+    private void checkFavoriteStatus(String idPengguna, String idPenginapan, ImageView imgFavs) {
+        Client.getInstance().cekfavpenginapan("cek","kuliner",idPengguna, idPenginapan).enqueue(new Callback<FavoritPenginapanResponse>() {
+            @Override
+            public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                if (response.body() != null && "alreadyex".equalsIgnoreCase(response.body().getStatus())) {
+                    imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                }else{
+                    imgFavs.setImageResource(R.drawable.favorite_button_white);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                Toast.makeText(imgFavs.getContext(), "timeout", Toast.LENGTH_SHORT).show();
             }
         });
     }

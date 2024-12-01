@@ -35,25 +35,6 @@ public class NotificationManager {
         notificationManagerCompat = NotificationManagerCompat.from(context);  // Inisialisasi NotificationManagerCompat
     }
 
-    // Menyimpan Notifikasi ke SharedPreferences
-    public void saveNotificationToSharedPreferences(NotifyModelNew notifyModelNew) {
-        if (notifyModelNew == null) {
-            Log.e("NotificationManager", "Notifikasi tidak valid, tidak bisa disimpan.");
-            return;
-        }
-
-        Gson gson = new Gson();
-        String json = gson.toJson(notifyModelNew);
-
-        // Memuat notifikasi yang sudah ada
-        List<NotifyModelNew> notifications = loadNotificationsFromSharedPreferences();
-        notifications.add(notifyModelNew);
-
-        // Menyimpan ulang daftar notifikasi ke SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_NOTIFICATIONS, gson.toJson(notifications));
-        editor.apply();
-    }
 
     // Membaca JSON Notifikasi dari SharedPreferences
     private List<NotifyModelNew> loadNotificationsJsonFromSharedPreferences() {

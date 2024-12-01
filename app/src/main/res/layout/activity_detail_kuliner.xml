@@ -89,12 +89,27 @@
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp"
                 android:text="@string/loremipsumgenerator"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="lokasi :"
+                android:text="Harga :"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/hargaKuliner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Rp.10.000/porsi"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Lokasi :"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -106,6 +121,37 @@
                 android:textSize="16sp"
                 android:text="Nganjuk"
                 android:textColor="@color/black"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                app:cardCornerRadius="20dp">
+
+                <org.osmdroid.views.MapView
+                    android:id="@+id/osmmap"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/directToMaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:layout_marginTop="10dp"
+                android:text="Lihat di Maps"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:enabled="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*Untuk Jam buka dan Ulasan,silahkan lihat di Google Maps"/>
 
            <!-- <TextView
                 android:layout_width="match_parent"

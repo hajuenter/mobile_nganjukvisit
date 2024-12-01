@@ -25,8 +25,8 @@ import okhttp3.WebSocketListener;
 
 public class WebSocketService extends Service {
 
-    private WebSocket webSocket1; // WebSocket untuk port 8080
-    private WebSocket webSocket2; // WebSocket untuk port 8081
+    private WebSocket webSocket1;
+    private WebSocket webSocket2;
     private Handler uiHandler;
     private static WebSocketMessageListener bookListener;  // Listener untuk Book.java
     private static WebSocketMessageListener notifyListener;  // Listener untuk Notify.java
@@ -47,7 +47,7 @@ public class WebSocketService extends Service {
 
     private void setupWebSocket1() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://192.168.137.125:8080").build();
+        Request request = new Request.Builder().url("wss://steadfast-candy-tarantula.glitch.me").build();
         webSocket1 = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {
@@ -70,7 +70,7 @@ public class WebSocketService extends Service {
 
     private void setupWebSocket2() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://192.168.137.125:8081").build();
+        Request request = new Request.Builder().url("wss://pastoral-chief-border.glitch.me").build();
         webSocket2 = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {

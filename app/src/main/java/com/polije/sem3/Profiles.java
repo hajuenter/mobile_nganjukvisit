@@ -13,8 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +41,7 @@ import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 import com.polije.sem3.utility.ImageUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -47,7 +53,7 @@ public class Profiles extends Fragment {
 
     private static final int PICK_IMAGE = 1;
     private static final int PERMISSION_REQUEST_STORAGE = 2;
-
+    private String fotobaru;
     private Uri uri;
     private ImageView imgThumb;
     private EditText editNamaText, emailText, alamatText, notelpText;
@@ -77,9 +83,76 @@ public class Profiles extends Fragment {
         Button btnUpload2 = view.findViewById(R.id.btn_upload_2);
         ScrollView scrollView = view.findViewById(R.id.scrollView);
         editNamaText = view.findViewById(R.id.textnama);
+        editNamaText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Hanya izinkan huruf dan spasi
+                String filteredText = s.toString().replaceAll("[^a-zA-Z ]", "");
+                if (!s.toString().equals(filteredText)) {
+                    editNamaText.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= editNamaText.getText().length()) {
+                        editNamaText.setSelection(cursorPosition); // Menjaga kursor tetap di akhir
+                    } // Menjaga kursor di akhir
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         emailText = view.findViewById(R.id.edt_emailaddr);
         alamatText = view.findViewById(R.id.edt_alamat);
+        alamatText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Regex untuk memfilter karakter yang tidak diperbolehkan
+                String filteredText = s.toString().replaceAll("[^a-zA-Z0-9 ,.\\-]", "");
+
+                // Jika teks berubah setelah difilter, perbarui EditText
+                if (!s.toString().equals(filteredText)) {
+                    alamatText.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= alamatText.getText().length()) {
+                        alamatText.setSelection(cursorPosition); // Menjaga kursor tetap di akhir
+                    } // Menjaga kursor tetap di akhir
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         notelpText = view.findViewById(R.id.edt_notelp);
+        notelpText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String currentText = charSequence.toString();
+                String filteredText = currentText.replaceAll("[^0-9]", ""); // Menghapus karakter selain angka
+
+                // Jika teks yang dimasukkan tidak sesuai, set ulang EditText dengan teks yang telah difilter
+                if (!currentText.equals(filteredText)) {
+                    notelpText.setText(filteredText);
+                    int cursorPosition = filteredText.length();
+                    if (cursorPosition <= notelpText.getText().length()) {
+                        notelpText.setSelection(cursorPosition); // Menjaga kursor tetap di akhir
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         // Disable email edit
         emailText.setEnabled(false);
@@ -134,7 +207,7 @@ public class Profiles extends Fragment {
                     Toast.makeText(requireActivity(), "Error loading image", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                updateProfiles();
+                updateProfiles(util.getUserPhoto());
                 Log.d("Profiles", "Just Update String Information");
             }
         });
@@ -143,9 +216,21 @@ public class Profiles extends Fragment {
             util.signOut();
             if (!util.isSignIn()) {
                 Toast.makeText(requireActivity(), "Logout Sukses", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(requireActivity(), WelcomeScreen.class));
+
+                // Menghapus semua fragment di FragmentManager
+                requireActivity().getSupportFragmentManager()
+                        .popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                // Membuat intent untuk aktivitas baru dan menghapus semua aktivitas sebelumnya
+                Intent intent = new Intent(requireActivity(), Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                // Mengakhiri aktivitas saat ini
+                requireActivity().finish();
             }
         });
+
     }
 
     private void setupScrollListener(ScrollView scrollView) {
@@ -209,15 +294,17 @@ public class Profiles extends Fragment {
     private void uploadBase64(String imgBase64) {
         UploadService uploadService = new UploadService();
         UsersUtil util = new UsersUtil(requireActivity());
-        String idPengguna = util.getId();
+        String idPenggunaS = util.getId();
+        Integer idPengguna = Integer.parseInt(idPenggunaS);
 
         uploadService.uploadPhotoBase64("base64", imgBase64, idPengguna).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 progressDialog.dismiss();
                 if (response.body() != null) {
+                    fotobaru =response.body().getMessage();
                     Toast.makeText(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    updateProfiles();
+                    updateProfiles(fotobaru);
                 } else {
                     Toast.makeText(requireActivity(), "Upload GAGAL", Toast.LENGTH_SHORT).show();
                 }
@@ -232,14 +319,13 @@ public class Profiles extends Fragment {
         });
     }
 
-    private void updateProfiles() {
+    private void updateProfiles(String fotobaru1) {
         // Ambil data dari input pengguna
         UsersUtil util = new UsersUtil(requireActivity());
         String idPengguna = util.getId();
         String namaUser = editNamaText.getText().toString().trim();  // Pastikan untuk trim() agar tidak ada spasi ekstra
         String alamatUser = alamatText.getText().toString().trim();
         String notelpUser = notelpText.getText().toString().trim();
-        String gambar = util.getUserPhoto();
 
         // Validasi nomor telepon
         if (notelpUser.length() < 10 || notelpUser.length() > 13) {
@@ -262,7 +348,7 @@ public class Profiles extends Fragment {
         }
 
         // Lakukan update data jika semua validasi berhasil
-        Client.getInstance().updateprofiles("edit_user_info", idPengguna, namaUser, alamatUser, notelpUser, gambar)
+        Client.getInstance().updateprofiles("edit_user_info", idPengguna, namaUser, alamatUser, notelpUser)
                 .enqueue(new Callback<UserResponse>() {
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -273,8 +359,8 @@ public class Profiles extends Fragment {
                             util.setUsername(namaUser);
                             util.setAlamat(alamatUser);
                             util.setNoTelp(notelpUser);
-                            util.setUserPhoto(gambar);
-                            updateUserData();  // Menampilkan data yang baru
+                            util.setUserPhoto(fotobaru1);
+                            updateUserData();
                             Log.d("Profiles", "Update success for user: " + namaUser);
                         } else {
                             Toast.makeText(requireActivity(), "Gagal mengupdate profil", Toast.LENGTH_SHORT).show();
@@ -297,9 +383,14 @@ public class Profiles extends Fragment {
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             uri = data.getData();
             Log.d("Profiles", "Selected Image URI: " + uri);
+
             if (uri != null) {
                 try {
-                    imgThumb.setImageURI(uri);
+                    Picasso.get()
+                            .load(uri)
+                            .into(imgThumb);
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(requireActivity(), "Error loading image", Toast.LENGTH_SHORT).show();
@@ -307,6 +398,7 @@ public class Profiles extends Fragment {
             }
         }
     }
+
 
 
     @Override
