@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.polije.sem3.detail.DetailKuliner;
 import com.polije.sem3.R;
 import com.polije.sem3.model.KulinerModel;
-import com.polije.sem3.model.KulinerModelAdapter;
+import com.polije.sem3.adapter.KulinerModelAdapter;
 import com.polije.sem3.response.KulinerResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 
 import java.util.ArrayList;
 

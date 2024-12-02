@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@drawable/dialog_background">
+
+    <ImageView
+        android:id="@+id/icon_success"
+        android:layout_width="134dp"
+        android:layout_height="134dp"
+        android:src="@drawable/succesimg"
+        android:contentDescription="gambaricon" />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/ralewaybold"
+        android:textAlignment="center"
+        android:text="Pesanan kamu berhasil dibuat"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/btn_back_home"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/ralewaysemibold"
+        android:text="Back To Home"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white" />
+</LinearLayout>

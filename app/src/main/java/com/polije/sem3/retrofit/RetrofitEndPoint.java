@@ -19,6 +19,7 @@ import com.polije.sem3.response.SendNotifResponse;
 import com.polije.sem3.response.TiketResponse;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
+import com.polije.sem3.response.UlasanResponse1;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.response.VerificationResponse;
 import com.polije.sem3.response.WisataResponse;
@@ -161,6 +162,7 @@ public interface RetrofitEndPoint {
             @Query("id_user") String idpengguna
     );
 
+
     @FormUrlEncoded
     @POST("APIhome.php")
     Call<UlasanKirimResponse> kirimulasan(
@@ -175,12 +177,12 @@ public interface RetrofitEndPoint {
 
     @FormUrlEncoded
     @POST("APIhome.php")
-    Call<UlasanResponse> editulasan(
+    Call<UlasanResponse1> editulasan(
             @Query("action") String action,
             @Field("table") String table,
             @Field("komentar") String comment,
             @Field("id_foreign") String idwisata,
-            @Field("rating") String rating,
+            @Field("rating") Float rating,
             @Field("nama") String nama,
             @Field("id_user") String idpengguna
     );
@@ -355,6 +357,7 @@ public interface RetrofitEndPoint {
     @GET("APItiket.php")
     Call<TiketResponse> searchTiket(
             @Query("action") String action,
+            @Query("id_user") String id_user,
             @Query("search") String searchTerm
     );
 

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Register"
+    tools:context=".main_menu.Register"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -168,6 +168,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:layout_marginTop="40dp"
+            android:fontFamily="@font/ralewaybold"
             android:layout_marginHorizontal="30dp"
             android:text="Daftar"
             android:textColor="@color/white"

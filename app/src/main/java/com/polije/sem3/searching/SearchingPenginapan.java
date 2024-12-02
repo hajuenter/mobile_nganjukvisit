@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.polije.sem3.detail.DetailPenginapan;
 import com.polije.sem3.R;
 import com.polije.sem3.model.PenginapanModel;
-import com.polije.sem3.model.PenginapanModelAdapter;
+import com.polije.sem3.adapter.PenginapanModelAdapter;
 import com.polije.sem3.response.PenginapanResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 
 import java.util.ArrayList;
 

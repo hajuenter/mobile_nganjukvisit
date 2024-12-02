@@ -1,18 +1,15 @@
 package com.polije.sem3.network;
 
-import android.widget.Toast;
-
 import com.polije.sem3.BuildConfig;
+import com.polije.sem3.retrofit.UploadInterface;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Callback;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

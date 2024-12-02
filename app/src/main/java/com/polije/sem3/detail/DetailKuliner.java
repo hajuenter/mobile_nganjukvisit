@@ -15,17 +15,15 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
 import com.polije.sem3.model.KulinerModel;
 import com.polije.sem3.response.DetailKulinerResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.DepthPageTransformer;
-import com.polije.sem3.util.SliderAdapter;
+import com.polije.sem3.adapter.SliderAdapter;
 
 
 import org.osmdroid.api.IMapController;
@@ -38,7 +36,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -66,7 +63,9 @@ public class DetailKuliner extends AppCompatActivity implements MapListener, Gps
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_kuliner);
-
+        Configuration.getInstance().load(
+                getApplicationContext(),
+                getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE));
         idSelected = getIntent().getStringExtra(ID_KULINER);
         availablelinkmaps = true;
         itemizedIconOverlay = new ItemizedIconOverlay<>(this, new ArrayList<>(), null);

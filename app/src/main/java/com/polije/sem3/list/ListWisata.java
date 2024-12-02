@@ -8,22 +8,21 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;  // Import log untuk pencatatan
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.polije.sem3.Dashboard;
+import com.polije.sem3.main_menu.Dashboard;
 import com.polije.sem3.detail.DetailInformasi;
 import com.polije.sem3.R;
 import com.polije.sem3.searching.SearchingWisata;
-import com.polije.sem3.model.RekomendasiWisataAdapter;
+import com.polije.sem3.adapter.RekomendasiWisataAdapter;
 import com.polije.sem3.model.WisataModel;
-import com.polije.sem3.model.WisataModelAdapter;
+import com.polije.sem3.adapter.WisataModelAdapter;
 import com.polije.sem3.network.Config;
 import com.polije.sem3.response.WisataResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.UsersUtil;
 
 import java.io.IOException;

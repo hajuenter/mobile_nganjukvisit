@@ -15,6 +15,8 @@ public class PenginapanModel {
     private String deskripsi;
     @SerializedName("lokasi")
     private String lokasi;
+    @SerializedName("koordinat")
+    private String coordinate;
     @SerializedName("link_maps")
     private String linkmaps;
     @SerializedName("gambar")
@@ -23,12 +25,13 @@ public class PenginapanModel {
     private String telepon;
 
     public PenginapanModel(String idPenginapan, String idWisata, String judulPenginapan,
-                           String deskripsi, String lokasi, String linkmaps, String gambar, String telepon) {
+                           String deskripsi, String lokasi, String coordinat, String linkmaps, String gambar, String telepon) {
         this.idPenginapan = idPenginapan;
         this.idWisata = idWisata;
         this.judulPenginapan = judulPenginapan;
         this.deskripsi = deskripsi;
         this.lokasi = lokasi;
+        this.coordinate = coordinate;
         this.linkmaps = linkmaps;
         this.gambar = gambar;
         this.telepon = telepon;
@@ -76,6 +79,14 @@ public class PenginapanModel {
 
     public String getLinkmaps() {
         return linkmaps;
+    }
+
+    public String getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
     }
 
     public void setLinkmaps(String linkmaps) {

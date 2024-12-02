@@ -12,14 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.polije.sem3.Dashboard;
+import com.polije.sem3.main_menu.Dashboard;
 import com.polije.sem3.detail.DetailEvent;
 import com.polije.sem3.R;
 import com.polije.sem3.model.EventModel;
-import com.polije.sem3.model.EventModelAdapter;
+import com.polije.sem3.adapter.EventModelAdapter;
 import com.polije.sem3.network.Config;
 import com.polije.sem3.response.EventResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;

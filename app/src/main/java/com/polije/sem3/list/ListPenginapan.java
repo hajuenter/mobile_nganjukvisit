@@ -13,15 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.polije.sem3.Dashboard;
+import com.polije.sem3.main_menu.Dashboard;
 import com.polije.sem3.detail.DetailPenginapan;
 import com.polije.sem3.R;
 import com.polije.sem3.searching.SearchingPenginapan;
 import com.polije.sem3.model.PenginapanModel;
-import com.polije.sem3.model.PenginapanModelAdapter;
+import com.polije.sem3.adapter.PenginapanModelAdapter;
 import com.polije.sem3.network.Config;
 import com.polije.sem3.response.PenginapanResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;

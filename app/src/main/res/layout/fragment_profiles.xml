@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Profiles">
+    tools:context=".main_menu.Profiles">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -179,6 +179,7 @@
                 android:background="@drawable/rounded_button"
                 android:text="Simpan"
                 android:textColor="@color/white"
+                android:fontFamily="@font/ralewaybold"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:layout_below="@+id/btn_upload_1"
@@ -197,6 +198,7 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textAllCaps="false"
+            android:fontFamily="@font/ralewaybold"
             android:layout_below="@+id/btn_upload_1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

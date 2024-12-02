@@ -8,6 +8,9 @@ import android.os.IBinder;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -57,8 +60,7 @@ public class WebSocketService extends Service {
             @Override
             public void onMessage(WebSocket webSocket, String text) {
                 Log.d("WebSocket1", "Pesan diterima dari port 8080: " + text);
-                sendMessageToListener(text, bookListener);  // Kirim ke Book.java
-                showNotification(text);  // Tampilkan notifikasi
+                sendMessageToListener(text, bookListener);// Kirim ke Book.java// Tampilkan notifikasi
             }
 
             @Override
@@ -81,7 +83,17 @@ public class WebSocketService extends Service {
             public void onMessage(WebSocket webSocket, String text) {
                 Log.d("WebSocket2", "Pesan diterima dari port 8081: " + text);
                 sendMessageToListener(text, notifyListener);  // Kirim ke Notify.java
-                showNotification(text);  // Tampilkan notifikasi
+                JSONObject jsonObject = null;
+                String isi;
+                String judul;
+                try {
+                    jsonObject = new JSONObject(text);
+                    judul = jsonObject.getString("judul");
+                    isi = jsonObject.getString("isi");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                showNotification(judul, isi);  // Tampilkan notifikasi
             }
 
             @Override
@@ -121,11 +133,11 @@ public class WebSocketService extends Service {
         return null;
     }
 
-    private void showNotification(String message) {
+    private void showNotification(String judul,String message) {
         // Menampilkan notifikasi setiap kali pesan diterima
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "websocket_channel")
                 .setSmallIcon(R.drawable.newlogo_nganjukvisit)
-                .setContentTitle("Pesan Baru")
+                .setContentTitle("Nganjuk Visit")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);

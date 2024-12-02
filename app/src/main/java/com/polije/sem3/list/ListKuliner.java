@@ -12,15 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.polije.sem3.Dashboard;
+import com.polije.sem3.main_menu.Dashboard;
 import com.polije.sem3.detail.DetailKuliner;
 import com.polije.sem3.R;
 import com.polije.sem3.searching.SearchingKuliner;
 import com.polije.sem3.model.KulinerModel;
-import com.polije.sem3.model.KulinerModelAdapter;
+import com.polije.sem3.adapter.KulinerModelAdapter;
 import com.polije.sem3.network.Config;
 import com.polije.sem3.response.KulinerResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;

@@ -79,7 +79,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/backgroundrounded_cardview"
-            android:layout_marginStart="8dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
             <TextView
@@ -92,8 +91,8 @@
 
             <ImageView
                 android:id="@+id/gambarQR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="fitCenter" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>

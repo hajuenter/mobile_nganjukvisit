@@ -3,24 +3,42 @@ package com.polije.sem3.model;
 import android.graphics.Bitmap;
 
 public class TiketModel {
-    private int id_tiket;
+    private String id_detail_tiket; // Diubah ke String untuk menyesuaikan ID unik
+    private int id_user;
+    private String nama_pemesan; // Nama user
     private int id_wisata;
-    private String nama_wisata;
-    private int harga_tiket;
+    private String nama_wisata; // Nama wisata dari detail_wisata
     private int jumlah;
     private String tanggal;
-    private String status;
-    private String nama_pemesan;
-    private Bitmap qrCode;
-    private String id_detail_tiket;
+    private int harga;
+    private int total;
+    private int kembalian;
+    private String status; // Status tiket ('gagal', 'diproses', 'berhasil')
+    private Bitmap qrCode; // QR code jika diperlukan (optional)
 
     // Getter dan Setter
-    public int getId_tiket() {
-        return id_tiket;
+    public String getId_detail_tiket() {
+        return id_detail_tiket;
     }
 
-    public void setId_tiket(int id_tiket) {
-        this.id_tiket = id_tiket;
+    public void setId_detail_tiket(String id_detail_tiket) {
+        this.id_detail_tiket = id_detail_tiket;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    public String getNama_pemesan() {
+        return nama_pemesan;
+    }
+
+    public void setNama_pemesan(String nama_pemesan) {
+        this.nama_pemesan = nama_pemesan;
     }
 
     public int getId_wisata() {
@@ -39,14 +57,6 @@ public class TiketModel {
         this.nama_wisata = nama_wisata;
     }
 
-    public int getHarga_tiket() {
-        return harga_tiket;
-    }
-
-    public void setHarga_tiket(int harga_tiket) {
-        this.harga_tiket = harga_tiket;
-    }
-
     public int getJumlah() {
         return jumlah;
     }
@@ -63,6 +73,30 @@ public class TiketModel {
         this.tanggal = tanggal;
     }
 
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getKembalian() {
+        return kembalian;
+    }
+
+    public void setKembalian(int kembalian) {
+        this.kembalian = kembalian;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -71,26 +105,11 @@ public class TiketModel {
         this.status = status;
     }
 
-    public String getNama_pemesan() {
-        return nama_pemesan;
-    }
-
-    public void setNama_pemesan(String nama_pemesan) {
-        this.nama_pemesan = nama_pemesan;
-    }
     public Bitmap getQrCode() {
         return qrCode;
     }
 
     public void setQrCode(Bitmap qrCode) {
         this.qrCode = qrCode;
-    }
-
-    public String get_id_detail_tiket() {
-        return id_detail_tiket;
-    }
-
-    public void setId_detail_tiket(String id_detail_tiket) {
-        this.id_detail_tiket = id_detail_tiket;
     }
 }

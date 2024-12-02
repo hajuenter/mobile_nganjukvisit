@@ -2,7 +2,6 @@ package com.polije.sem3.detail;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
@@ -27,19 +26,19 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.polije.sem3.Booking;
+import com.polije.sem3.main_menu.Booking;
 import com.polije.sem3.R;
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.model.UlasanModel;
-import com.polije.sem3.model.UlasanModelAdapter;
+import com.polije.sem3.adapter.UlasanModelAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.response.DetailWisataResponse;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.response.UlasanResponse1;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.DepthPageTransformer;
-import com.polije.sem3.util.SliderAdapter;
+import com.polije.sem3.adapter.SliderAdapter;
 import com.polije.sem3.util.UsersUtil;
 
 import org.osmdroid.api.IMapController;
@@ -54,11 +53,8 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -77,7 +73,8 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     private UlasanModel ulasansayaList;
 
     public static String ID_WISATA = "id";
-
+    private String ulasanbaru;
+    private Float ratingbaru;
     private String idSelected;
     private String idpengguna;
     private TextView emptyTextView;
@@ -169,7 +166,8 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 //                        destination = "Air+Terjun+Sedudo";
                         availablelinkmaps = false;
                     } else if (!linkmaps.isEmpty()) {
-                        destination = linkmaps;
+                        String destination1 = linkmaps.replace("\\","");
+                        destination = destination1;
                     }
                     String gambarString = dataListWisata.getGambar();
                     List<String> imageUrls = new ArrayList<>();
@@ -257,7 +255,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         binding.linearLayoutUlasan.addView(emptyTextView);
                     }
                 } else {
-                    Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailInformasi.this, "Tidak ada ulasan", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -331,6 +329,8 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                 RatingBar ratingBar = findViewById(R.id.ratingBarUlasan);
                 getComment = String.valueOf(binding.txtAddComment.getText());
                 float ratingValue = ratingBar.getRating();
+                binding.txtEditUlasan.setText(getComment);
+                binding.ratingBareditUlasan.setRating(ratingValue);
                 if(!getComment.isEmpty()) {
                     Client.getInstance().kirimulasan("add_ulasan","ulasan_wisata",idpengguna, fullnama, getComment, String.valueOf(ratingValue),idSelected).enqueue(new Callback<UlasanKirimResponse>() {
                         @Override
@@ -342,6 +342,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                                             if (response.body().getData() != null && !response.body().getData().isEmpty()) {
                                                 adapterUlasan = new UlasanModelAdapter(response.body().getData());
+                                                binding.ratingBarUlasan.setRating(0.0f);
                                                 emptyTextView.setVisibility(View.GONE);
                                                 binding.linearLayoutUlasan.setPadding(0,0,0,0);
                                                 binding.recyclerviewUlasan.setAdapter(adapterUlasan);
@@ -358,7 +359,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                                                             if (ulasansayaList != null && ulasansayaList.getUlasan() != null) {
                                                                 layoutEditComment.setVisibility(View.VISIBLE);
                                                                 binding.tanggalKomen.setText(ulasansayaList.getDateTime());
-                                                                binding.txtEditUlasan.setText(ulasansayaList.getUlasan());
+                                                                Log.d("Tanggaledit", "onResponse:"+ulasansayaList.getDateTime());
                                                             }
                                                         }
                                                     }
@@ -383,7 +384,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                                     }
                                 });
 
-                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailInformasi.this,"Berhasil memberi ulasan.", Toast.LENGTH_SHORT).show();
                                 binding.txtAddComment.setText(null);
                             } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("fail")) {
                                 Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -445,7 +446,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             @Override
             public void onClick(View v) {
                 String commentValue = binding.txtEditUlasan.getText().toString();
-                String ratingedit = String.valueOf(binding.ratingBareditUlasan.getRating());
+                Float ratingedit = binding.ratingBareditUlasan.getRating();
                 if (commentValue != null && commentValue.isEmpty()) {
                     Toast.makeText(DetailInformasi.this, "Komentar Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
                 } else {
@@ -453,9 +454,9 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     binding.btnModify.setVisibility(View.VISIBLE);
                     binding.txtEditUlasan.setEnabled(true);
 
-                    Client.getInstance().editulasan("edit_ulasan","ulasan_wisata",commentValue, idSelected,ratingedit,usersUtil.getUsername(), idpengguna).enqueue(new Callback<UlasanResponse>() {
+                    Client.getInstance().editulasan("edit_ulasan","ulasan_wisata",commentValue, idSelected,ratingedit,usersUtil.getUsername(), idpengguna).enqueue(new Callback<UlasanResponse1>() {
                         @Override
-                        public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                        public void onResponse(Call<UlasanResponse1> call, Response<UlasanResponse1> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                                 layoutComment.setVisibility(View.VISIBLE);
                                 layoutEditComment.setVisibility(View.GONE);
@@ -467,9 +468,11 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         }
 
                         @Override
-                        public void onFailure(Call<UlasanResponse> call, Throwable t) {
-                            Toast.makeText(DetailInformasi.this, "Timeout", Toast.LENGTH_SHORT).show();
+                        public void onFailure(Call<UlasanResponse1> call, Throwable t) {
+                            Log.e("RetrofitError", "onFailure: " + t.getMessage(), t);
+                            Toast.makeText(DetailInformasi.this, "Timeout: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                     });
                 }
             }

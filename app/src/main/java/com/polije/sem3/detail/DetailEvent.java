@@ -12,13 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.response.DetailEventResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 import com.polije.sem3.util.DepthPageTransformer;
-import com.polije.sem3.util.SliderAdapter;
+import com.polije.sem3.adapter.SliderAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

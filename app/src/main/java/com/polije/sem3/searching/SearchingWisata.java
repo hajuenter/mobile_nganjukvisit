@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.polije.sem3.detail.DetailInformasi;
 import com.polije.sem3.R;
 import com.polije.sem3.model.WisataModel;
-import com.polije.sem3.model.WisataModelAdapter;
+import com.polije.sem3.adapter.WisataModelAdapter;
 import com.polije.sem3.response.WisataResponse;
-import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.network.Client;
 
 import java.util.ArrayList;
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bgwelcomescreen"
-    tools:context=".WelcomeScreen">
+    tools:context=".main_menu.WelcomeScreen">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,6 @@
             android:layout_height="50dp"
             android:background="@drawable/rounded_button_white"
             android:fontFamily="@font/ralewaybold"
-
             android:text="GET STARTED"
             android:textAllCaps="false"
             android:textColor="@color/black"

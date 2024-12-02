@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".Notify">
+    tools:context=".main_menu.Notify">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -109,7 +109,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".TestRecycler"
+            android:name=".main_menu.TestRecycler"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -150,7 +150,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PasswordBaru"
+            android:name=".main_menu.PasswordBaru"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -164,7 +164,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".OtpVerification"
+            android:name=".main_menu.OtpVerification"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -178,7 +178,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SplashScreen"
+            android:name=".main_menu.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -191,14 +191,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ForgotPassword"
+            android:name=".main_menu.ForgotPassword"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Dashboard"
+            android:name=".main_menu.Dashboard"
             android:exported="true"
             android:theme="@style/Theme.MaterialComponents.NoActionBar"
             android:windowSoftInputMode="adjustNothing">
@@ -215,21 +215,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Register"
+            android:name=".main_menu.Register"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".main_menu.Login"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".WelcomeScreen"
+            android:name=".main_menu.WelcomeScreen"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -243,14 +243,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Booking"
+            android:name=".main_menu.Booking"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MapJava"
+            android:name=".main_menu.MapJava"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

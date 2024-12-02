@@ -19,9 +19,9 @@ public class UlasanModel {
     @SerializedName("id_user")
     private String idUser;
     @SerializedName("rating")
-    private String rating;
+    private Float rating;
 
-    public UlasanModel(String idUlasan, String namaPengguna, String ulasan, String dateTime, String idWisata, String idUser,String rating) {
+    public UlasanModel(String idUlasan, String namaPengguna, String ulasan, String dateTime, String idWisata, String idUser,Float rating) {
         this.idUlasan = idUlasan;
         this.namaPengguna = namaPengguna;
         this.ulasan = ulasan;
@@ -79,7 +79,7 @@ public class UlasanModel {
         this.idUser = idUser;
     }
 
-    public String getrating() {
+    public Float getrating() {
         return rating;
     }
 

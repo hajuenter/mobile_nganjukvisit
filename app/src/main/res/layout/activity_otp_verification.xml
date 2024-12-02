@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OtpVerification"
+    tools:context=".main_menu.OtpVerification"
     android:background="@drawable/bgauth">
 
     <LinearLayout
@@ -99,6 +99,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginHorizontal="30dp"
             android:text="Verifikasi"
+            android:fontFamily="@font/ralewaybold"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textAllCaps="false"

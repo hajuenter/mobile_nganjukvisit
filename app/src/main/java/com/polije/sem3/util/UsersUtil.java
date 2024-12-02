@@ -8,10 +8,10 @@ import com.polije.sem3.model.UserModel;
 public class UsersUtil {
     private final DataShared dataShared;
 
-    public UsersUtil(Context context, UserModel model){
+    public UsersUtil(Context context, UserModel model) {
         dataShared = new DataShared(context);
 
-        if (model != null){
+        if (model != null) {
             setId(String.valueOf(model.getIdUser()));
             setEmail(model.getEmailUser());
             setUsername(model.getUsername());
@@ -22,20 +22,20 @@ public class UsersUtil {
         }
     }
 
-    public UsersUtil(Context context){
+    public UsersUtil(Context context) {
         this(context, null);
     }
 
-    public boolean isSignIn(){
-        return  dataShared.contains(DataShared.KEY.ACC_USERNAME) &&
+    public boolean isSignIn() {
+        return dataShared.contains(DataShared.KEY.ACC_USERNAME) &&
                 !dataShared.getData(DataShared.KEY.ACC_USERNAME).isEmpty();
     }
 
-    public String getId(){
+    public String getId() {
         return dataShared.getData(DataShared.KEY.ACC_ID_USER);
     }
 
-    public void setId(String id){
+    public void setId(String id) {
         dataShared.setData(DataShared.KEY.ACC_ID_USER, id);
     }
 
@@ -56,63 +56,63 @@ public class UsersUtil {
     }
 
 
-    public String getUsername(){
+    public String getUsername() {
         return dataShared.getData(DataShared.KEY.ACC_USERNAME);
     }
 
-    public void setUsername(String username){
+    public void setUsername(String username) {
         dataShared.setData(DataShared.KEY.ACC_USERNAME, username);
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return dataShared.getData(DataShared.KEY.ACC_EMAIL);
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         dataShared.setData(DataShared.KEY.ACC_EMAIL, email);
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return dataShared.getData(DataShared.KEY.ACC_FULL_NAME);
     }
 
-    public void setFullName(String name){
+    public void setFullName(String name) {
         dataShared.setData(DataShared.KEY.ACC_FULL_NAME, name);
     }
 
-    public String getLevel(){
+    public String getLevel() {
         return dataShared.getData(DataShared.KEY.ACC_LEVEL);
     }
 
-    public void setLevel(String level){
+    public void setLevel(String level) {
         dataShared.setData(DataShared.KEY.ACC_LEVEL, level);
     }
 
-    public String getVerified(){
+    public String getVerified() {
         return dataShared.getData(DataShared.KEY.ACC_EMAIL_VERIFY);
     }
 
-    public void setVerified(String verified){
+    public void setVerified(String verified) {
         dataShared.setData(DataShared.KEY.ACC_EMAIL_VERIFY, verified);
     }
 
-    public void setUserPhoto(String newUserPhoto){
+    public void setUserPhoto(String newUserPhoto) {
         dataShared.setData(DataShared.KEY.ACC_PHOTO, newUserPhoto);
     }
 
-    public String getUserPhoto(){
+    public String getUserPhoto() {
         return dataShared.getData(DataShared.KEY.ACC_PHOTO);
     }
 
-    public String getCreated(){
+    public String getCreated() {
         return dataShared.getData(DataShared.KEY.ACC_CREATED);
     }
 
-    public void setCreated(String created){
+    public void setCreated(String created) {
         dataShared.setData(DataShared.KEY.ACC_CREATED, created);
     }
 
-    public void signOut(){
+    public void signOut() {
         dataShared.setNullData(DataShared.KEY.ACC_ID_USER);
         dataShared.setNullData(DataShared.KEY.ACC_USERNAME);
         dataShared.setNullData(DataShared.KEY.ACC_EMAIL);
