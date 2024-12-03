@@ -192,7 +192,7 @@ public class Booking extends AppCompatActivity {
                 if (consentCheckBox.isChecked()) {
                     String name = nameEditText.getText().toString().trim();
                     String email = emailEditText.getText().toString().trim();
-                    final String phone = phoneEditText.getText().toString().trim();  // Menambahkan final pada variabel phone
+                    final String phone = phoneEditText.getText().toString().trim();
                     String date = dateEditText.getText().toString().trim();
                     String memberType = memberSpinner.getText().toString().trim();
 
@@ -233,10 +233,12 @@ public class Booking extends AppCompatActivity {
                                         if (bookingResponse != null && bookingResponse.isSuccess()) {
                                             // Pemesanan berhasil
                                             Toast.makeText(Booking.this, "Checkout sukses untuk: " + name, Toast.LENGTH_SHORT).show();
-                                            // Memastikan nomor telepon diawali dengan + dan negara yang benar (mengganti 0 dengan +62)
-                                            String phoneToUse = phone;
+                                            String phoneToUse = NoHp;
                                             if (phoneToUse.startsWith("0")) {
                                                 phoneToUse = "+62" + phoneToUse.substring(1); // Ganti 0 dengan +62
+                                            }
+                                            if (phoneToUse.startsWith("6")){
+                                                phoneToUse = "+6"+phoneToUse.substring(1);
                                             }
 
                                             String url = "https://wa.me/" + phoneToUse + "?text=Halo, saya telah berhasil memesan tiket untuk " + wisataName + " dengan ID Tiket: " + bookingResponse.getData().getId_tiket() + " ,dan saya ingin melakukan pembayaran";

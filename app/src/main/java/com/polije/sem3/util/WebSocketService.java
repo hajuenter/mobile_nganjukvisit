@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Html;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -33,13 +34,20 @@ public class WebSocketService extends Service {
     private Handler uiHandler;
     private static WebSocketMessageListener bookListener;  // Listener untuk Book.java
     private static WebSocketMessageListener notifyListener;  // Listener untuk Notify.java
-
+    private static final long PING_INTERVAL = 2 * 60 * 1000; // Kirim ping setiap 2 menit
+    private Handler pingHandler;
+    private Runnable pingRunnable;
     private NotificationManager notificationManager;
-
+    private JSONObject jsonObject;
+    private String isi;
+    private String judul;
+    private String text1;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         uiHandler = new Handler(Looper.getMainLooper());
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        pingHandler = new Handler(Looper.getMainLooper());
+        setupPingTask();
 
         createNotificationChannel();  // Membuat channel notifikasi untuk Android 8.0+
 
@@ -50,7 +58,7 @@ public class WebSocketService extends Service {
 
     private void setupWebSocket1() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("wss://steadfast-candy-tarantula.glitch.me").build();
+        Request request = new Request.Builder().url("wss://frosted-misty-flamingo.glitch.me").header("User-Agent", "Nganjuk Visit Ticket").build();
         webSocket1 = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {
@@ -72,7 +80,7 @@ public class WebSocketService extends Service {
 
     private void setupWebSocket2() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("wss://pastoral-chief-border.glitch.me").build();
+        Request request = new Request.Builder().url("wss://pastoral-chief-border.glitch.me").header("User-Agent", "Nganjuk Visit Notif").build();
         webSocket2 = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, okhttp3.Response response) {
@@ -83,17 +91,16 @@ public class WebSocketService extends Service {
             public void onMessage(WebSocket webSocket, String text) {
                 Log.d("WebSocket2", "Pesan diterima dari port 8081: " + text);
                 sendMessageToListener(text, notifyListener);  // Kirim ke Notify.java
-                JSONObject jsonObject = null;
-                String isi;
-                String judul;
                 try {
                     jsonObject = new JSONObject(text);
                     judul = jsonObject.getString("judul");
                     isi = jsonObject.getString("isi");
+                    text1 = String.valueOf(Html.fromHtml(judul+"<br>"+isi));
                 } catch (JSONException e) {
+                    Log.e("WebSocketService", "JSON Parsing Error: " + e.getMessage()+judul+",isi:"+isi+" ,isi text:"+text);
                     throw new RuntimeException(e);
                 }
-                showNotification(judul, isi);  // Tampilkan notifikasi
+                showNotification(text1);  // Tampilkan notifikasi
             }
 
             @Override
@@ -117,6 +124,26 @@ public class WebSocketService extends Service {
         notifyListener = listener;  // Set listener untuk Notify.java
     }
 
+
+    private void setupPingTask() {
+        pingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (webSocket2 != null) {
+                    Log.d("WebSocket2", "Mengirim ping ke server");
+                    webSocket2.send("ping"); // Kirim pesan 'ping'
+                }
+                if (webSocket1 != null) {
+                    Log.d("WebSocket1", "Mengirim ping ke server");
+                    webSocket1.send("ping"); // Kirim pesan 'ping'
+                }
+                pingHandler.postDelayed(this, PING_INTERVAL); // Kirim ulang setelah interval
+            }
+        };
+        pingHandler.postDelayed(pingRunnable, PING_INTERVAL);
+    }
+
+
     @Override
     public void onDestroy() {
         if (webSocket1 != null) {
@@ -133,7 +160,7 @@ public class WebSocketService extends Service {
         return null;
     }
 
-    private void showNotification(String judul,String message) {
+    private void showNotification(String message) {
         // Menampilkan notifikasi setiap kali pesan diterima
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "websocket_channel")
                 .setSmallIcon(R.drawable.newlogo_nganjukvisit)
