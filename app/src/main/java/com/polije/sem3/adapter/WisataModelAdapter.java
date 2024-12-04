@@ -34,9 +34,9 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
         return new WisataModelViewHolder(view);
     }
 
-    private ArrayList<WisataModel> dataList;
+    private final ArrayList<WisataModel> dataList;
 
-    private OnClickListener tampil;
+    private final OnClickListener tampil;
 
     public WisataModelAdapter(ArrayList<WisataModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
@@ -162,16 +162,18 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
 
     public class WisataModelViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtNama, txtDesc;
-        private ImageView imgWisata, imgFavs;
+        private final TextView txtNama;
+        private final TextView txtDesc;
+        private final ImageView imgWisata;
+        private final ImageView imgFavs;
 
         public WisataModelViewHolder(View itemView) {
 
             super(itemView);
-            txtNama = (TextView) itemView.findViewById(R.id.wisataTitle);
-            txtDesc = (TextView) itemView.findViewById(R.id.textvwDescw);
-            imgWisata = (ImageView) itemView.findViewById(R.id.imageWisata);
-            imgFavs = (ImageView) itemView.findViewById(R.id.favsbutton);
+            txtNama = itemView.findViewById(R.id.wisataTitle);
+            txtDesc = itemView.findViewById(R.id.textvwDescw);
+            imgWisata = itemView.findViewById(R.id.imageWisata);
+            imgFavs = itemView.findViewById(R.id.favsbutton);
         }
     }
 

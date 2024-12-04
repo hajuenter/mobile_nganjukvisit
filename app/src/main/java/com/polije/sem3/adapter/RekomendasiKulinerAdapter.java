@@ -26,8 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiKulinerAdapter.RekomendasiKulinerViewHolder> {
-    private ArrayList<KulinerModel> dataList;
-    private OnClickListener tampil;
+    private final ArrayList<KulinerModel> dataList;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -165,14 +165,15 @@ public class RekomendasiKulinerAdapter extends RecyclerView.Adapter<RekomendasiK
     }
 
     public class RekomendasiKulinerViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleTxt;
-        private ImageView imgKuliner, imgFavs;
+        private final TextView titleTxt;
+        private final ImageView imgKuliner;
+        private final ImageView imgFavs;
 
         public RekomendasiKulinerViewHolder(View itemView) {
             super(itemView);
-            titleTxt = (TextView) itemView.findViewById(R.id.namaKuliner);
-            imgKuliner = (ImageView) itemView.findViewById(R.id.imageViewKuliner);
-            imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
+            titleTxt = itemView.findViewById(R.id.namaKuliner);
+            imgKuliner = itemView.findViewById(R.id.imageViewKuliner);
+            imgFavs = itemView.findViewById(R.id.buttonFavs);
         }
     }
 

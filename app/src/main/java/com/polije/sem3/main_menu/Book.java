@@ -45,7 +45,7 @@ public class Book extends Fragment implements WebSocketMessageListener {
     private TiketModelAdapter tiketAdapter;
     private LinearLayout layoutSearch;
     private EditText searchBox;
-    private Handler handler= new Handler(Looper.getMainLooper());
+    private final Handler handler= new Handler(Looper.getMainLooper());
     private WebSocket webSocket;
     private static final String SERVER_URL = "ws://172.16.103.107:8080"; // Ganti dengan IP yang benar untuk WebSocket server Anda
     @Override
@@ -62,7 +62,7 @@ public class Book extends Fragment implements WebSocketMessageListener {
         loadTiketUser(idUser);
 /*
         setupWebSocket();*/ // Mengatur WebSocket
-        WebSocketService.setBookListener((WebSocketMessageListener) this);
+        WebSocketService.setBookListener(this);
         searchBox.setOnClickListener(v -> searchTiket(searchBox.getText().toString()));
 
         return view;
@@ -74,7 +74,6 @@ public class Book extends Fragment implements WebSocketMessageListener {
         handler.post(() -> {
             UsersUtil util = new UsersUtil(requireContext());
             loadTiketUser(util.getId());
-            Toast.makeText(getContext(), "Pesan WebSocket: " + message, Toast.LENGTH_SHORT).show();
         });
     }
 

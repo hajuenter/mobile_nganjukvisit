@@ -159,9 +159,9 @@ public class Home extends Fragment {
         });
 
 //        getnamapengguna
-        namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
+        namaPengguna = rootView.findViewById(R.id.namaLengkapPengguna);
         namaPengguna.setText("Halo," + userUtil.getUsername() + "!");
-        imgUser = (ImageView) rootView.findViewById(R.id.userImg);
+        imgUser = rootView.findViewById(R.id.userImg);
         String profilePhoto = userUtil.getUserPhoto();
 
         Glide.with(requireContext()).load(Config.API_IMAGE + profilePhoto).into(imgUser);
@@ -171,7 +171,7 @@ public class Home extends Fragment {
         String idPengguna = userUtil.getId();
 
         // button notifikasi
-        btnNotification = (ImageView) rootView.findViewById(R.id.btnNotif);
+        btnNotification = rootView.findViewById(R.id.btnNotif);
 
         btnNotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,7 +383,7 @@ public class Home extends Fragment {
 
         // Aktifkan kembali MenuItem
         Dashboard dbr = new Dashboard();
-        dbr.btnView.setSelectedItemId(R.id.miProfiles);
+        Dashboard.btnView.setSelectedItemId(R.id.miProfiles);
 
         Profiles profileFragment = new Profiles();
         fragmentTransaction.replace(R.id.frame, profileFragment);
@@ -397,7 +397,7 @@ public class Home extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Dashboard dbr = new Dashboard();
-        dbr.btnView.setSelectedItemId(R.id.miNotify);
+        Dashboard.btnView.setSelectedItemId(R.id.miNotify);
 
         Notify notifyFragment = new Notify();
         fragmentTransaction.replace(R.id.frame, notifyFragment);

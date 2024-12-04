@@ -21,8 +21,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.EventModelViewHolder>{
-    private ArrayList<EventModel> dataList;
-    private OnClickListener tampil;
+    private final ArrayList<EventModel> dataList;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -104,15 +104,17 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
 
     public class EventModelViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtTitle, txtLokasi, txtJadwal;
-        private ImageView imgView;
+        private final TextView txtTitle;
+        private final TextView txtLokasi;
+        private final TextView txtJadwal;
+        private final ImageView imgView;
 
         public EventModelViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.judulEvent);
-            txtLokasi = (TextView) itemView.findViewById(R.id.lokasiEvent);
-            txtJadwal = (TextView) itemView.findViewById(R.id.jadwalEvent);
-            imgView = (ImageView) itemView.findViewById(R.id.imageViewevent);
+            txtTitle = itemView.findViewById(R.id.judulEvent);
+            txtLokasi = itemView.findViewById(R.id.lokasiEvent);
+            txtJadwal = itemView.findViewById(R.id.jadwalEvent);
+            imgView = itemView.findViewById(R.id.imageViewevent);
         }
     }
 

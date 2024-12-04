@@ -95,12 +95,11 @@ public class WebSocketService extends Service {
                     jsonObject = new JSONObject(text);
                     judul = jsonObject.getString("judul");
                     isi = jsonObject.getString("isi");
-                    text1 = String.valueOf(Html.fromHtml(judul+"<br>"+isi));
                 } catch (JSONException e) {
                     Log.e("WebSocketService", "JSON Parsing Error: " + e.getMessage()+judul+",isi:"+isi+" ,isi text:"+text);
                     throw new RuntimeException(e);
                 }
-                showNotification(text1);  // Tampilkan notifikasi
+                showNotification(judul,isi);  // Tampilkan notifikasi
             }
 
             @Override
@@ -160,11 +159,11 @@ public class WebSocketService extends Service {
         return null;
     }
 
-    private void showNotification(String message) {
+    private void showNotification(String judul,String message) {
         // Menampilkan notifikasi setiap kali pesan diterima
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "websocket_channel")
                 .setSmallIcon(R.drawable.newlogo_nganjukvisit)
-                .setContentTitle("Nganjuk Visit")
+                .setContentTitle(judul)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);

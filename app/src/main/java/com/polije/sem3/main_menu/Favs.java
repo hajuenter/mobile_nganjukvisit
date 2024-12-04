@@ -144,9 +144,9 @@ public class Favs extends Fragment {
                             }
                         });
                         recyclerView.setAdapter(adapter);
-                        emptyTextView.setVisibility(rootView.GONE);
+                        emptyTextView.setVisibility(View.GONE);
                     } else {
-                        favsWisataJudul.setVisibility(rootView.GONE);
+                        favsWisataJudul.setVisibility(View.GONE);
                     }
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
@@ -162,7 +162,7 @@ public class Favs extends Fragment {
 
 
         // menampilkan recview penginapan favorit
-        recyclerView2 = (RecyclerView) rootView.findViewById(R.id.recyclerviewListPenginapanFavorit);
+        recyclerView2 = rootView.findViewById(R.id.recyclerviewListPenginapanFavorit);
 
         Client.getInstance().favpenginapan("tampilkan","penginapan",idUser).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
@@ -180,9 +180,9 @@ public class Favs extends Fragment {
                             }
                         });
                         recyclerView2.setAdapter(adapter2);
-                        emptyTextView.setVisibility(rootView.GONE);
+                        emptyTextView.setVisibility(View.GONE);
                     } else {
-                        favsPenginapanJudul.setVisibility(rootView.GONE);
+                        favsPenginapanJudul.setVisibility(View.GONE);
                     }
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
@@ -217,9 +217,9 @@ public class Favs extends Fragment {
                             }
                         });
                         recyclerView3.setAdapter(adapter3);
-                        emptyTextView.setVisibility(rootView.GONE);
+                        emptyTextView.setVisibility(View.GONE);
                     } else {
-                        favsKulinerJudul.setVisibility(rootView.GONE);
+                        favsKulinerJudul.setVisibility(View.GONE);
                     }
 
 //                    updateUI();

@@ -15,7 +15,7 @@ import com.polije.sem3.model.UlasanModel;
 import java.util.ArrayList;
 
 public class UlasanModelAdapter extends RecyclerView.Adapter<UlasanModelAdapter.UlasanModelViewHolder> {
-    private ArrayList<UlasanModel> dataList;
+    private final ArrayList<UlasanModel> dataList;
 
 
     @NonNull
@@ -45,15 +45,18 @@ public class UlasanModelAdapter extends RecyclerView.Adapter<UlasanModelAdapter.
     }
 
     public class UlasanModelViewHolder extends RecyclerView.ViewHolder {
-        private TextView namaPengguna, tanggal, pesan, rating;
-        private RatingBar ratingBar;
+        private final TextView namaPengguna;
+        private final TextView tanggal;
+        private final TextView pesan;
+        private final TextView rating;
+        private final RatingBar ratingBar;
         public UlasanModelViewHolder(View itemView) {
             super(itemView);
-            namaPengguna = (TextView) itemView.findViewById(R.id.namaPengguna);
-            tanggal = (TextView) itemView.findViewById(R.id.tanggalKomen);
-            pesan = (TextView) itemView.findViewById(R.id.contentUlasan);
-            rating = (TextView) itemView.findViewById(R.id.rating);
-            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            namaPengguna = itemView.findViewById(R.id.namaPengguna);
+            tanggal = itemView.findViewById(R.id.tanggalKomen);
+            pesan = itemView.findViewById(R.id.contentUlasan);
+            rating = itemView.findViewById(R.id.rating);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
         }
     }
 }

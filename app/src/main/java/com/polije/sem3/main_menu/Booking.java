@@ -198,7 +198,7 @@ public class Booking extends AppCompatActivity {
 
                     if (phone.length() < 10 || phone.length() > 13) {
                         Toast.makeText(Booking.this, "Nomor telepon harus antara 10 hingga 13 digit.", Toast.LENGTH_SHORT).show();
-                        return; // Menghentikan eksekusi lebih lanjut jika validasi gagal
+                        // Menghentikan eksekusi lebih lanjut jika validasi gagal
                     } else {
                         // Validasi jika nomor telepon dimulai dengan 0 atau 62
                         if (!phone.startsWith("0") && !phone.startsWith("62")) {

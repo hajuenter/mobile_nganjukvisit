@@ -24,8 +24,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<RekomendasiPenginapanAdapter.RekomendasiPenginapanViewHolder> {
-    private ArrayList<PenginapanModel> dataList;
-    private OnClickListener tampil;
+    private final ArrayList<PenginapanModel> dataList;
+    private final OnClickListener tampil;
 
     public RekomendasiPenginapanAdapter(ArrayList<PenginapanModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
@@ -142,8 +142,10 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
     }
 
     public class RekomendasiPenginapanViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtNama, txtDesc;
-        private ImageView imgFavs, imgView;
+        private final TextView txtNama;
+        private final TextView txtDesc;
+        private final ImageView imgFavs;
+        private final ImageView imgView;
 
         public RekomendasiPenginapanViewHolder(View itemView) {
             super(itemView);

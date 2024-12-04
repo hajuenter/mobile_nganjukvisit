@@ -25,9 +25,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisataModelAdapter.FavoritWisataViewHolder> {
-    private ArrayList<FavoritWisataModel> dataList;
+    private final ArrayList<FavoritWisataModel> dataList;
 
-    private OnClickListener tampil;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -146,15 +146,17 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
     }
 
     public class FavoritWisataViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtNama, txtDesc;
-        private ImageView imgButton, imgView;
+        private final TextView txtNama;
+        private final TextView txtDesc;
+        private final ImageView imgButton;
+        private final ImageView imgView;
 
         public FavoritWisataViewHolder(View itemView) {
             super(itemView);
-            txtNama = (TextView) itemView.findViewById(R.id.wisataTitle);
-            txtDesc = (TextView) itemView.findViewById(R.id.textvwDescw);
+            txtNama = itemView.findViewById(R.id.wisataTitle);
+            txtDesc = itemView.findViewById(R.id.textvwDescw);
             imgButton = itemView.findViewById(R.id.favsbutton);
-            imgView = (ImageView) itemView.findViewById(R.id.imageWisata);
+            imgView = itemView.findViewById(R.id.imageWisata);
         }
     }
 

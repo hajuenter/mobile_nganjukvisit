@@ -216,6 +216,15 @@ public class Login extends AppCompatActivity {
 
                                 // Simpan detail pengguna di lokal
                                 usersUtil = new UsersUtil(Login.this, response.body().getData());
+                                String noTelp = usersUtil.getNoTelp();
+                                if (noTelp == null || noTelp.isEmpty()) {
+                                    // Jika nomor telepon kosong, arahkan ke dashboard dan tampilkan fragmen profil
+                                    Toast.makeText(Login.this, "Harap lengkapi informasi profil Anda", Toast.LENGTH_SHORT).show();
+                                    intent.putExtra("fragmentToLoad", "Profiles");  // Menambahkan flag untuk menampilkan fragmen profil
+                                } else {
+                                    // Jika nomor telepon sudah ada, lanjutkan ke dashboard biasa
+                                    Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                                 mGoogleSignInClient.signOut();
                                 Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 startActivity(intent);

@@ -48,8 +48,8 @@ public class PasswordBaru extends AppCompatActivity {
         newpasswordvalue = "newpassword";
         passwordvalueconfirm = "passwordconfirm";
 
-        password = (EditText) findViewById(R.id.txtpassword);
-        password2 = (EditText) findViewById(R.id.txtpasswordconfirm);
+        password = findViewById(R.id.txtpassword);
+        password2 = findViewById(R.id.txtpasswordconfirm);
         btnSubmit = findViewById(R.id.btnSubmitNewpass);
 
 //        Toast.makeText(this, "email -> " + getEmailUser, Toast.LENGTH_SHORT).show();

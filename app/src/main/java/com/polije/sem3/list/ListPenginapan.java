@@ -48,7 +48,7 @@ public class ListPenginapan extends AppCompatActivity {
         String profilePhoto = usersUtil.getUserPhoto();
         String namaPengguna = usersUtil.getUsername();
 
-        txtNama = (TextView) findViewById(R.id.userfullname);
+        txtNama = findViewById(R.id.userfullname);
         imgUser = findViewById(R.id.userImg);
 
         Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
@@ -58,7 +58,7 @@ public class ListPenginapan extends AppCompatActivity {
         txtSearch = findViewById(R.id.searchbox);
 
         // link to notify
-        btnNotify = (ImageView) findViewById(R.id.btnNotif);
+        btnNotify = findViewById(R.id.btnNotif);
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +88,7 @@ public class ListPenginapan extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListPenginapan);
+        recyclerView = findViewById(R.id.recyclerviewListPenginapan);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 

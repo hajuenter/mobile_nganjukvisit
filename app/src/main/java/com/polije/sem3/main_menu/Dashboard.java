@@ -48,7 +48,7 @@ public class Dashboard extends AppCompatActivity {
         Intent serviceIntent = new Intent(Dashboard.this, WebSocketService.class);
         startService(serviceIntent);
         FloatingActionButton fab;
-        btnView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        btnView = findViewById(R.id.bottomNavigationView);
         btnView.setBackground(null);
         btnView.setItemIconTintList(
                 getResources().getColorStateList(R.color.bottom_nav_item_color)

@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UploadService {
-    private UploadInterface uploadInterface;
+    private final UploadInterface uploadInterface;
 
     public UploadService() {
         OkHttpClient.Builder okhttpBuilder = new OkHttpClient().newBuilder();

@@ -15,9 +15,9 @@ import java.net.URL;
 public class SSEClient {
 
     private static final String TAG = "SSEClient";
-    private Context context;
+    private final Context context;
     private boolean listening;
-    private Thread listenerThread;
+    private final Thread listenerThread;
 
     public SSEClient(String serverUrl, Context context) {
         this.context = context;

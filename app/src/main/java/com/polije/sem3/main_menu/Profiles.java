@@ -390,9 +390,7 @@ public class Profiles extends Fragment {
 
             if (uri != null) {
                 try {
-                    Picasso.get()
-                            .load(uri)
-                            .into(imgThumb);
+                    Glide.with(requireContext()).load(uri).into(imgThumb);
 
 
                 } catch (Exception e) {

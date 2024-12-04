@@ -61,14 +61,16 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtTitle, txtLokasi, txtJadwal;
-        private ImageView imgView;
+        private final TextView txtTitle;
+        private final TextView txtLokasi;
+        private final TextView txtJadwal;
+        private final ImageView imgView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.judulEvent);
-            txtLokasi = (TextView) itemView.findViewById(R.id.lokasiEvent);
-            txtJadwal = (TextView) itemView.findViewById(R.id.jadwalEvent);
-            imgView = (ImageView) itemView.findViewById(R.id.imageViewevent);
+            txtTitle = itemView.findViewById(R.id.judulEvent);
+            txtLokasi = itemView.findViewById(R.id.lokasiEvent);
+            txtJadwal = itemView.findViewById(R.id.jadwalEvent);
+            imgView = itemView.findViewById(R.id.imageViewevent);
         }
     }
 }

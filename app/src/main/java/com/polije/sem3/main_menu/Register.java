@@ -46,7 +46,7 @@ public class Register extends AppCompatActivity {
         progressDialog.setMessage("Harap Tunggu");
         progressDialog.setCancelable(false);
 
-        alamat = (EditText) findViewById(R.id.txtalamat);
+        alamat = findViewById(R.id.txtalamat);
         alamat.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -71,8 +71,8 @@ public class Register extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-        password = (EditText) findViewById(R.id.txtpassword);
-        email = (EditText) findViewById(R.id.txtemails);
+        password = findViewById(R.id.txtpassword);
+        email = findViewById(R.id.txtemails);
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -97,7 +97,7 @@ public class Register extends AppCompatActivity {
                 // Tidak ada perubahan yang perlu dilakukan di sini
             }
         });
-        fullname = (EditText) findViewById(R.id.txtfullname);
+        fullname = findViewById(R.id.txtfullname);
         fullname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

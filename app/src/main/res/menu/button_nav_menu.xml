@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/miBook"
-        android:title="Book"
+        android:title="Booking"
         android:icon="@drawable/ic_shop"/>
 
     <item android:id="@+id/miFavs"

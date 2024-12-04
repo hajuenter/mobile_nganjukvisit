@@ -46,14 +46,14 @@ public class ListKuliner extends AppCompatActivity {
         String profilePhoto = usersUtil.getUserPhoto();
         String namaPengguna = usersUtil.getUsername();
 
-        txtNama = (TextView) findViewById(R.id.userfullname);
+        txtNama = findViewById(R.id.userfullname);
         imgUser = findViewById(R.id.userImg);
 
         Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
         txtNama.setText("Halo! " + namaPengguna);
 
         // link to notify
-        btnNotify = (ImageView) findViewById(R.id.btnNotif);
+        btnNotify = findViewById(R.id.btnNotif);
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +86,7 @@ public class ListKuliner extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListKuliner);
+        recyclerView = findViewById(R.id.recyclerviewListKuliner);
 
         Client.getInstance().kuliner().enqueue(new Callback<KulinerResponse>() {
             @Override

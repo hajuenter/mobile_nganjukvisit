@@ -25,8 +25,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FavoritPenginapanModelAdapter extends RecyclerView.Adapter<FavoritPenginapanModelAdapter.FavoritPenginapanViewHolder> {
-    private ArrayList<FavoritPenginapanModel> dataList;
-    private OnClickListener tampil;
+    private final ArrayList<FavoritPenginapanModel> dataList;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -99,14 +99,16 @@ public class FavoritPenginapanModelAdapter extends RecyclerView.Adapter<FavoritP
     }
 
     public class FavoritPenginapanViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtNama, txtDesc;
-        private ImageView imgButton, imgView;
+        private final TextView txtNama;
+        private final TextView txtDesc;
+        private final ImageView imgButton;
+        private final ImageView imgView;
         public FavoritPenginapanViewHolder(View itemView) {
             super(itemView);
-            txtNama = (TextView) itemView.findViewById(R.id.penginapanTitle);
-            txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
-            imgButton = (ImageView) itemView.findViewById(R.id.buttonFavs);
-            imgView = (ImageView) itemView.findViewById(R.id.gambarPenginapanList);
+            txtNama = itemView.findViewById(R.id.penginapanTitle);
+            txtDesc = itemView.findViewById(R.id.textvwDesc);
+            imgButton = itemView.findViewById(R.id.buttonFavs);
+            imgView = itemView.findViewById(R.id.gambarPenginapanList);
         }
     }
 

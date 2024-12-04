@@ -23,9 +23,9 @@ import java.util.List;
 
 public class NotificationManager {
 
-    private Context context;
-    private NotificationManagerCompat notificationManagerCompat;
-    private SharedPreferences sharedPreferences;
+    private final Context context;
+    private final NotificationManagerCompat notificationManagerCompat;
+    private final SharedPreferences sharedPreferences;
     private static final String PREF_NAME = "notification_prefs";
     private static final String KEY_NOTIFICATIONS = "notifications";
 

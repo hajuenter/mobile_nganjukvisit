@@ -44,7 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Notify extends Fragment implements WebSocketMessageListener {
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private NotifyAdapter adapter;
     private RecyclerView recyclerView;
     private NotifyViewModel viewModel;

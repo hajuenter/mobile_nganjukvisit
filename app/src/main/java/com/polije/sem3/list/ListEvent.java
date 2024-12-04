@@ -47,12 +47,12 @@ public class ListEvent extends AppCompatActivity {
         UsersUtil util = new UsersUtil(this);
         String namaUser = util.getUsername();
         String profilePhoto = util.getUserPhoto();
-        imgUser = (ImageView) findViewById(R.id.userImg);
-        txtNama = (TextView) findViewById(R.id.userfullname);
+        imgUser = findViewById(R.id.userImg);
+        txtNama = findViewById(R.id.userfullname);
         txtNama.setText("Halo! " + namaUser);
         Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
 
-        btnNotify = (ImageView) findViewById(R.id.btnNotif);
+        btnNotify = findViewById(R.id.btnNotif);
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +68,7 @@ public class ListEvent extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListEvent);
+        recyclerView = findViewById(R.id.recyclerviewListEvent);
 
         Client.getInstance().event().enqueue(new Callback<EventResponse>() {
             @Override

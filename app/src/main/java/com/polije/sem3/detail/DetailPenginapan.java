@@ -216,7 +216,7 @@ public class DetailPenginapan extends AppCompatActivity implements MapListener, 
             }
         });
         mapView = binding.osmmap;
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollviewLayout);
+        ScrollView scrollView = findViewById(R.id.scrollviewLayout);
 
         // smooth scroll map
         mapView.setOnTouchListener(new View.OnTouchListener() {

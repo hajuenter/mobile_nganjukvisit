@@ -25,9 +25,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWisataAdapter.RekomendasiWisataViewHolder> {
-    private ArrayList<WisataModel> dataList;
+    private final ArrayList<WisataModel> dataList;
 
-    private OnClickListener tampil;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -152,14 +152,16 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
     }
 
     public class RekomendasiWisataViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtTitle, txtLokasi;
-        private ImageView imgWisata, imgFavs;
+        private final TextView txtTitle;
+        private final TextView txtLokasi;
+        private final ImageView imgWisata;
+        private final ImageView imgFavs;
         public RekomendasiWisataViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.titleWisata);
-            txtLokasi = (TextView) itemView.findViewById(R.id.alamatWisata);
-            imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
-            imgWisata = (ImageView) itemView.findViewById(R.id.imageView);
+            txtTitle = itemView.findViewById(R.id.titleWisata);
+            txtLokasi = itemView.findViewById(R.id.alamatWisata);
+            imgFavs = itemView.findViewById(R.id.buttonFavs);
+            imgWisata = itemView.findViewById(R.id.imageView);
         }
     }
 

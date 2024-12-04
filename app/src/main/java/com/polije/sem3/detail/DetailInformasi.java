@@ -266,7 +266,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         });
 
         mapView = findViewById(R.id.osmmap);
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollviewLayout);
+        ScrollView scrollView = findViewById(R.id.scrollviewLayout);
 
         // smooth scroll map
         mapView.setOnTouchListener(new View.OnTouchListener() {

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
 
-    private Context context;
-    private List<String> imageUrls;
+    private final Context context;
+    private final List<String> imageUrls;
 
     public SliderAdapter(Context context, List<String> imageUrls) {
         this.context = context;

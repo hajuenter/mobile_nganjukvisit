@@ -26,8 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModelAdapter.PenginapanModelViewHolder>{
-    private ArrayList<PenginapanModel> dataList;
-    private OnClickListener tampil;
+    private final ArrayList<PenginapanModel> dataList;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -141,14 +141,16 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
     }
 
     public class PenginapanModelViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtTitle, txtDesc;
-        private ImageView imgView, imgFavs;
+        private final TextView txtTitle;
+        private final TextView txtDesc;
+        private final ImageView imgView;
+        private final ImageView imgFavs;
         public PenginapanModelViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.penginapanTitle);
-            txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
-            imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
-            imgView = (ImageView) itemView.findViewById(R.id.gambarPenginapanList);
+            txtTitle = itemView.findViewById(R.id.penginapanTitle);
+            txtDesc = itemView.findViewById(R.id.textvwDesc);
+            imgFavs = itemView.findViewById(R.id.buttonFavs);
+            imgView = itemView.findViewById(R.id.gambarPenginapanList);
         }
     }
 

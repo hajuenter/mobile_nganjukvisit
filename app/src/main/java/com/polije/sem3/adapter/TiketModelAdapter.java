@@ -25,7 +25,7 @@ import com.polije.sem3.model.TiketModel;
 import java.util.List;
 
 public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.TiketViewHolder> {
-    private Context context;
+    private final Context context;
     private List<TiketModel> tiketList;
 
     public TiketModelAdapter(Context context, List<TiketModel> tiketList) {

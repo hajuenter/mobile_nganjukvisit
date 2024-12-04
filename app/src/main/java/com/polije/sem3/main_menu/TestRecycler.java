@@ -25,7 +25,7 @@ public class TestRecycler extends AppCompatActivity {
 
 //        addData();
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView = findViewById(R.id.my_recycler_view);
 
         adapter = new WisataModelAdapter(WisataArrayList, new WisataModelAdapter.OnClickListener() {
             @Override

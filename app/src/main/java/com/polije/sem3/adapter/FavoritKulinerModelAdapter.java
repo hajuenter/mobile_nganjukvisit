@@ -25,8 +25,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKulinerModelAdapter.FavoritKulinerViewHolder> {
-    private ArrayList<FavoritKulinerModel> dataList;
-    private OnClickListener tampil;
+    private final ArrayList<FavoritKulinerModel> dataList;
+    private final OnClickListener tampil;
 
     @NonNull
     @Override
@@ -104,10 +104,10 @@ public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKuli
         ImageView imgFavs, imgView;
         public FavoritKulinerViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.nameKuliner);
-            txtLokasi = (TextView) itemView.findViewById(R.id.alamatKuliner);
-            imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
-            imgView = (ImageView) itemView.findViewById(R.id.imageViewKuliner);
+            txtTitle = itemView.findViewById(R.id.nameKuliner);
+            txtLokasi = itemView.findViewById(R.id.alamatKuliner);
+            imgFavs = itemView.findViewById(R.id.buttonFavs);
+            imgView = itemView.findViewById(R.id.imageViewKuliner);
         }
     }
 
