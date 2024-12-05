@@ -195,14 +195,17 @@ public class Booking extends AppCompatActivity {
                     final String phone = phoneEditText.getText().toString().trim();
                     String date = dateEditText.getText().toString().trim();
                     String memberType = memberSpinner.getText().toString().trim();
-
-                    if (phone.length() < 10 || phone.length() > 13) {
-                        Toast.makeText(Booking.this, "Nomor telepon harus antara 10 hingga 13 digit.", Toast.LENGTH_SHORT).show();
-                        // Menghentikan eksekusi lebih lanjut jika validasi gagal
-                    } else {
-                        // Validasi jika nomor telepon dimulai dengan 0 atau 62
+                    if (!memberType.isEmpty()) {
+                        try {
+                    int memberTypeValue = Integer.parseInt(memberType);
+                    if(memberTypeValue < 1) {
+                        memberSpinner.setError("Jumlah Pengunjung tidak boleh 0 atau kosong.");
+                    }else{
+                        if (phone.length() < 10 || phone.length() > 13) {
+                            phoneEditText.setError("Nomor telepon harus antara 10 hingga 13 digit.");
+                        } else {
                         if (!phone.startsWith("0") && !phone.startsWith("62")) {
-                            Toast.makeText(Booking.this, "Nomor telepon harus dimulai dengan 0 atau 62.", Toast.LENGTH_SHORT).show();
+                            phoneEditText.setError("Nomor telepon harus dimulai dengan 0 atau 62.");
                             return;
                         }
 
@@ -264,6 +267,13 @@ public class Booking extends AppCompatActivity {
                             showPaymentSuccessDialog();
 
                         }
+                    }} } catch (NumberFormatException e) {
+                            // MemberType bukan angka valid
+                            memberSpinner.setError("Input tidak valid");
+                        }
+                    } else {
+                        // MemberType kosong
+                        memberSpinner.setError("Input tidak boleh kosong");
                     }
                 } else {
                     Toast.makeText(Booking.this, "Harap setujui persyaratan.", Toast.LENGTH_SHORT).show();

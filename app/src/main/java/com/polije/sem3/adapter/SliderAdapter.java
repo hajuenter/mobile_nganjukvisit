@@ -36,7 +36,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         String imageUrl = imageUrls.get(position);
         Glide.with(context)
                 .load(imageUrl)
-                .placeholder(R.drawable.newlogo_nganjukvisit) // Placeholder image
+                .placeholder(R.drawable.backgroundrounded_cardview) // Placeholder image
                 .error(R.drawable.newlogo_nganjukvisit)       // Error image
                 .into(holder.imageView);
     }

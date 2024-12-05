@@ -156,6 +156,8 @@ dependencies {
 
     // Image Slider
     implementation 'com.github.dangiashish:Auto-Image-Slider:1.0.6'
+    implementation 'com.tbuonomo:dotsindicator:4.3'
+
 
     // Rounded image
     implementation 'de.hdodenhof:circleimageview:3.1.0'

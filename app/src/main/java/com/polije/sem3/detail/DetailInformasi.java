@@ -40,6 +40,7 @@ import com.polije.sem3.network.Client;
 import com.polije.sem3.util.DepthPageTransformer;
 import com.polije.sem3.adapter.SliderAdapter;
 import com.polije.sem3.util.UsersUtil;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -181,9 +182,11 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         imageUrls.add(Client.IMG_DATA + gambarString.trim());
                     }
                     ViewPager2 slider = findViewById(R.id.slider);
+                    WormDotsIndicator dotsIndicator = findViewById(R.id.sliderIndicator);
                     SliderAdapter adapter = new SliderAdapter(DetailInformasi.this, imageUrls);
                     slider.setAdapter(adapter);
                     slider.setPageTransformer(new DepthPageTransformer());
+                    dotsIndicator.setViewPager2(slider);
                     binding.namaWisata.setText(dataListWisata.getNama());
                     binding.deskripsiWisata.setText(dataListWisata.getDeskripsi());
                     binding.jamOperasional.setText(dataListWisata.getJadwal());
@@ -424,7 +427,6 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
             @Override
             public void onFailure(Call<UlasanKirimResponse> call, Throwable t) {
-                Toast.makeText(DetailInformasi.this, "Timeout", Toast.LENGTH_SHORT).show();
             }
         });
 

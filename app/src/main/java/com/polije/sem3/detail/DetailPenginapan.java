@@ -44,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import com.polije.sem3.databinding.ActivityDetailPenginapanBinding;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -140,6 +141,8 @@ public class DetailPenginapan extends AppCompatActivity implements MapListener, 
                     SliderAdapter adapter = new SliderAdapter(DetailPenginapan.this, imageUrls);
                     slider.setAdapter(adapter);
                     slider.setPageTransformer(new DepthPageTransformer());
+                    WormDotsIndicator dotsIndicator = findViewById(R.id.sliderIndicator);
+                    dotsIndicator.setViewPager2(slider);
                     String coordinates = penginapanData.getCoordinate();
                     if (!coordinates.isEmpty()){
                         String[] words = coordinates.split(",");

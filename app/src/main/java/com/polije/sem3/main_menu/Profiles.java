@@ -140,6 +140,12 @@ public class Profiles extends Fragment {
             }
         });
         notelpText = view.findViewById(R.id.edt_notelp);
+        if (notelpText.getText().equals("(Kosong)")){
+            notelpText.setError("Harap isi Nomor Telepon");
+        }else{
+            notelpText.setError(null);
+        }
+
         notelpText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -177,7 +183,6 @@ public class Profiles extends Fragment {
         String notelpPengguna = util.getNoTelp();
         String alamatPengguna = util.getAlamat();
         String gambarPengguna = util.getUserPhoto();
-
         // Display data in EditText and ImageView
         editNamaText.setText(namaPengguna);
         emailText.setText(emailPengguna);
@@ -339,6 +344,8 @@ public class Profiles extends Fragment {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 if (response.isSuccessful()) {
+                    String gambar = String.valueOf(response.body().getMessage());
+                    util.setUserPhoto(gambar);
                     Toast.makeText(requireContext(), "Gambar berhasil diunggah!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 } else {
@@ -364,20 +371,20 @@ public class Profiles extends Fragment {
         // Validasi nomor telepon
         if (notelpUser.length() < 10 || notelpUser.length() > 13) {
             progressDialog.dismiss();
-            Toast.makeText(requireContext(), "Nomor telepon harus antara 10 hingga 13 digit.", Toast.LENGTH_SHORT).show();
+            notelpText.setError("Nomor telepon harus antara 10 hingga 13 digit.");
             return; // Menghentikan eksekusi lebih lanjut jika validasi gagal
         }
 
         // Validasi jika nama atau alamat kosong
         if (namaUser.isEmpty()) {
             progressDialog.dismiss();
-            Toast.makeText(requireContext(), "Nama tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            editNamaText.setError("Nama tidak boleh kosong");
             return;
         }
 
         if (alamatUser.isEmpty()) {
             progressDialog.dismiss();
-            Toast.makeText(requireContext(), "Alamat tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            alamatText.setError("Alamat tidak boleh kosong");
             return;
         }
 

@@ -24,6 +24,7 @@ import com.polije.sem3.response.DetailKulinerResponse;
 import com.polije.sem3.network.Client;
 import com.polije.sem3.util.DepthPageTransformer;
 import com.polije.sem3.adapter.SliderAdapter;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 
 import org.osmdroid.api.IMapController;
@@ -156,6 +157,8 @@ public class DetailKuliner extends AppCompatActivity implements MapListener, Gps
                     SliderAdapter adapter = new SliderAdapter(DetailKuliner.this, imageUrls);
                     slider.setAdapter(adapter);
                     slider.setPageTransformer(new DepthPageTransformer());
+                    WormDotsIndicator dotsIndicator = findViewById(R.id.sliderIndicator);
+                    dotsIndicator.setViewPager2(slider);
 
                 }
             }

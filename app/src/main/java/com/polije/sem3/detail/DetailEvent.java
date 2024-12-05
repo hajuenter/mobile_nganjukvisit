@@ -18,6 +18,7 @@ import com.polije.sem3.response.DetailEventResponse;
 import com.polije.sem3.network.Client;
 import com.polije.sem3.util.DepthPageTransformer;
 import com.polije.sem3.adapter.SliderAdapter;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,7 +84,8 @@ public class DetailEvent extends AppCompatActivity {
                     SliderAdapter adapter = new SliderAdapter(DetailEvent.this, imageUrls);
                     slider.setAdapter(adapter);
                     slider.setPageTransformer(new DepthPageTransformer());
-
+                    WormDotsIndicator dotsIndicator = findViewById(R.id.sliderIndicator);
+                    dotsIndicator.setViewPager2(slider);
                     lokasi.setText(eventArrayList.getLokasi());
 
                 } else {
