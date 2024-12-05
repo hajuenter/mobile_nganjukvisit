@@ -42,7 +42,7 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
     public void onBindViewHolder(EventModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
-        holder.txtJadwal.setText(dataList.get(position).getTanggaldanwaktu());
+        holder.txtJadwal.setText(convertToDate1(dataList.get(position).getTanggaldanwaktu()));
         Glide.with(holder.itemView.getContext())
                 .load(Client.IMG_DATA + getFirstImage(dataList.get(position).getGambar()))
                 .into(holder.imgView);

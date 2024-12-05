@@ -89,7 +89,7 @@ public class DetailKuliner extends AppCompatActivity implements MapListener, Gps
 
                     double kulinerprice = Double.parseDouble(harga);
                     namaKuliner.setText(getNamaKuliner);
-                    String formattedText = kulinerModel.getLokasi().replace(",", "<br>").replace("'",",").replace(":",": ").replace("Alamat","<b>Alamat</b>");  // Mengganti koma dengan tag <br> untuk line break
+                    String formattedText = kulinerModel.getLokasi().replaceFirst(",", "<br>").replace(":",": ").replace("Alamat","<b>Alamat</b>");
                     alamatkuliner.setText(Html.fromHtml(formattedText));
                     deskripsiKuliner.setText(getDeskripsiKuliner);
                     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));

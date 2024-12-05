@@ -1,5 +1,7 @@
 package com.polije.sem3.main_menu;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +44,11 @@ import com.polije.sem3.util.UsersUtil;
 import com.polije.sem3.utility.ImageUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,6 +56,8 @@ import retrofit2.Response;
 public class Profiles extends Fragment {
 
     private static final int PICK_IMAGE = 1;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Bitmap selectedBitmap;
     private static final int PERMISSION_REQUEST_STORAGE = 2;
     private String fotobaru;
     private Uri uri;
@@ -194,7 +201,7 @@ public class Profiles extends Fragment {
         // Scroll up for more visibility edit text
         setupScrollListener(scrollView);
 
-        btnChoose.setOnClickListener(v -> choosePhoto());
+        btnChoose.setOnClickListener(v -> openGallery());
 
         btnUpload2.setOnClickListener(v -> {
             // Run loading bar
@@ -205,7 +212,7 @@ public class Profiles extends Fragment {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), uri);
                     String encoded = ImageUtils.bitmapToBase64String(bitmap, 100);
                     Log.d("Profiles", "seng diupload: " + encoded);
-                    uploadBase64(encoded);
+                    uploadImage();
                 } catch (IOException e) {
                     e.printStackTrace();
                     progressDialog.dismiss();
@@ -290,37 +297,58 @@ public class Profiles extends Fragment {
     }
 
     private void openGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private void uploadBase64(String imgBase64) {
+//    private void uploadBase64(String imgBase64) {
+//        UploadService uploadService = new UploadService();
+//        UsersUtil util = new UsersUtil(requireActivity());
+//        String idPenggunaS = util.getId();
+//        Integer idPengguna = Integer.parseInt(idPenggunaS);
+//
+//        uploadService.uploadPhotoBase64("base64", imgBase64, idPengguna).enqueue(new Callback<BaseResponse>() {
+//            @Override
+//            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+//                progressDialog.dismiss();
+//                if (response.body() != null) {
+//                    fotobaru = response.body().getMessage();
+//                    if (!Objects.equals(fotobaru, "Duplikat foto terdeteksi. Upload ditolak.")){
+//                    Toast.makeText(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                    updateProfiles(fotobaru);}
+//                } else {
+//                    Toast.makeText(requireActivity(), "Upload GAGAL", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BaseResponse> call, Throwable t) {
+//                progressDialog.dismiss();
+//                Toast.makeText(requireActivity(), "GAGAL 2", Toast.LENGTH_SHORT).show();
+//                t.printStackTrace();
+//            }
+//        });
+//    }
+    private void uploadBase64(String base64Image) {
         UploadService uploadService = new UploadService();
         UsersUtil util = new UsersUtil(requireActivity());
         String idPenggunaS = util.getId();
         Integer idPengguna = Integer.parseInt(idPenggunaS);
-
-        uploadService.uploadPhotoBase64("base64", imgBase64, idPengguna).enqueue(new Callback<BaseResponse>() {
+        Log.e("ERRPRRRRRRRR", "uploadBase64: "+base64Image);
+        uploadService.uploadPhotoBase64("base64", base64Image, idPengguna).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                progressDialog.dismiss();
-                if (response.body() != null) {
-                    fotobaru = response.body().getMessage();
-                    if (!Objects.equals(fotobaru, "Duplikat foto terdeteksi. Upload ditolak.")){
-                    Toast.makeText(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    updateProfiles(fotobaru);}
+                if (response.isSuccessful()) {
+                    Toast.makeText(requireContext(), "Gambar berhasil diunggah!", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                 } else {
-                    Toast.makeText(requireActivity(), "Upload GAGAL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Gagal mengunggah gambar.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(requireActivity(), "GAGAL 2", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
+                Toast.makeText(requireContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -386,20 +414,35 @@ public class Profiles extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             uri = data.getData();
-            Log.d("Profiles", "Selected Image URI: " + uri);
-
-            if (uri != null) {
-                try {
-                    Picasso.get().load(uri).into(imgThumb);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(requireActivity(), "Error loading image", Toast.LENGTH_SHORT).show();
-                }
+            Log.e("imageUriiiiiiiiiiiiiiiiii", "onActivityResult: "+uri );
+            try {
+                selectedBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
+                Log.e("selectedBitmap", "onActivityResult: "+selectedBitmap );
+                imgThumb.setImageBitmap(selectedBitmap); // Set image to ImageView
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
+    private String convertToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+    private void uploadImage() {
+        if (selectedBitmap != null) {
+            String base64Image = convertToBase64(selectedBitmap);
+            Log.e("base64Image", "uploadImage: "+base64Image );
+            uploadBase64(base64Image);
+        } else {
+            Toast.makeText(requireContext(), "Pilih gambar terlebih dahulu!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 
     @Override

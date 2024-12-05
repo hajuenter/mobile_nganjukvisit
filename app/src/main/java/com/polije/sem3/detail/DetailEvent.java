@@ -62,7 +62,8 @@ public class DetailEvent extends AppCompatActivity {
 
                     namaEvent.setText(eventArrayList.getNama());
                     desc.setText(eventArrayList.getDeskripsi());
-                    jadwal.setText(eventArrayList.getTanggaldanwaktu());
+                    jadwal.setText(convertToDate1(eventArrayList.getTanggaldanwaktu()));
+
 
 /*
                     Glide.with(DetailEvent.this).load(Client.IMG_DATA + eventArrayList.getGambar()).into(imgViewEvent);
@@ -105,11 +106,15 @@ public class DetailEvent extends AppCompatActivity {
 
     }
 
-    public static String convertToDate(@NonNull String date){
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+    public static String convertToDate1(String date) {
+        if (date == null || date.isEmpty()) {
+            // Kembalikan null atau tanggal default jika dateString kosong atau null
+            return null; // atau Date default
+        }
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date inputDate = inputDateFormat.parse(date);
-            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm", new Locale("id"));
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMM yyyy", new Locale("id"));
             assert inputDate != null;
             return outputDateFormat.format(inputDate);
         } catch (java.text.ParseException e) {
