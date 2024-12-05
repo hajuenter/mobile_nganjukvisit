@@ -38,11 +38,12 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
         return notifyList.size();
     }
 
-    // Method to update data in the adapter
-    public void updateData(List<NotifyModelNew> newNotifyList) {
-        this.notifyList = newNotifyList; // Update data
-        notifyDataSetChanged(); // Notify the adapter that the data has changed
+    public void updateData(List<NotifyModelNew> newData) {
+        this.notifyList.clear(); // Hapus data lama
+        this.notifyList.addAll(newData); // Tambahkan data baru
+        notifyDataSetChanged(); // Beri tahu RecyclerView untuk memperbarui tampilan
     }
+
 
     public static class NotifyViewHolder extends RecyclerView.ViewHolder {
         TextView title, body, time;

@@ -77,10 +77,9 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String currentTag = (String) holder.imgFavs.getTag(); // Ambil status saat ini
+                String currentTag = (String) holder.imgFavs.getTag();
 
                 if (currentTag.equals("favorited")) {
-                    // Hapus favorit jika status saat ini 'favorite'
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_white);
                     holder.imgFavs.setTag("not_favorited"); // Update tag
 
@@ -100,7 +99,6 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
                         }
                     });
                 } else {
-                    // Tambahkan ke favorit jika status saat ini 'not_favorite'
                     holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
                     holder.imgFavs.setTag("favorited"); // Update tag
 
@@ -135,13 +133,10 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
         });
     }
     private String getFirstImage(String gambar) {
-        // Cek jika ada koma (berarti ada lebih dari satu gambar)
         if (gambar.contains(",")) {
-            // Pisahkan string gambar berdasarkan koma dan ambil gambar pertama
             String[] images = gambar.split(",");
-            return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
+            return images[0].trim();
         } else {
-            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
             return gambar.trim();
         }
     }

@@ -6,6 +6,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +28,7 @@ public class OtpVerification extends AppCompatActivity {
     public static String END_MILLIS = "1";
     private String endmillisget;
     private long currentmillis;
-
+    private String statusotp = "berlaku";
     // button
     private Button btnsubmitOTP;
 
@@ -49,8 +51,7 @@ public class OtpVerification extends AppCompatActivity {
         otpinterface = findViewById(R.id.votp_inp_otp);
         emailGet = getIntent().getStringExtra(EMAIL_USER);
         otpGet = getIntent().getStringExtra(OTP_USER);
-        // Mengambil nilai endMillis sebagai Long
-        long endMillis = getIntent().getLongExtra(OtpVerification.END_MILLIS, 0L); // Default 0L jika tidak ditemukan
+        long endMillis = getIntent().getLongExtra(OtpVerification.END_MILLIS, 0L);
 
 
         // Validasi data
@@ -74,12 +75,12 @@ public class OtpVerification extends AppCompatActivity {
                     currentmillis = 60000;
 
                     if (stringOTP.equalsIgnoreCase(otpGet)) {
-                        if (endMillis > currentmillis) {
+                        if (statusotp.equalsIgnoreCase("berlaku")) {
                             Intent intent = new Intent(OtpVerification.this, PasswordBaru.class);
                             intent.putExtra(PasswordBaru.OTP_USER, stringOTP);
                             intent.putExtra(PasswordBaru.EMAIL_USER, emailGet);
                             startActivity(intent);
-                            finish(); // Tutup aktivitas saat ini
+                            finish();
                         } else {
                             Toast.makeText(OtpVerification.this, "Sesi OTP berakhir.", Toast.LENGTH_SHORT).show();
                         }
@@ -106,8 +107,7 @@ public class OtpVerification extends AppCompatActivity {
             @Override
             public void onFinish() {
                 countdownText.setText("OTP expired");
-                btnsubmitOTP.setEnabled(false);
-                // Handle what should happen when the countdown finishes
+                statusotp = "expired";
             }
         }.start();
 

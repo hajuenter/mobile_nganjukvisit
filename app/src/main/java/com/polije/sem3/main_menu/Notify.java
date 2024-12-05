@@ -48,7 +48,8 @@ public class Notify extends Fragment implements WebSocketMessageListener {
     private NotifyAdapter adapter;
     private RecyclerView recyclerView;
     private NotifyViewModel viewModel;
-    private NotificationManager notificationManager; // Custom NotificationManager instance
+    private NotificationManager notificationManager;
+    private String idUser;// Custom NotificationManager instance
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,9 @@ public class Notify extends Fragment implements WebSocketMessageListener {
         return rootView;
     }
 
+    private List<NotifyModelNew> allNotifications = new ArrayList<>(); // Global list untuk semua notifikasi
+
     public void getNotifikasi(String judulEvent, String judulTiket, String id_user) {
-        // Membuat instance Retrofit
         // Memanggil API untuk mendapatkan "Event Baru"
         Client.getInstance().notifevent("notif", judulEvent).enqueue(new Callback<NotifyResponse>() {
             @Override
@@ -90,18 +92,8 @@ public class Notify extends Fragment implements WebSocketMessageListener {
                         List<NotifyModelNew> notif = notifikasiResponse.getData(); // Ambil data list notifikasi
 
                         if (notif != null && !notif.isEmpty()) {
-                            // Update RecyclerView adapter dengan data baru
-                            adapter.updateData(notif);
-                            // Menampilkan notifikasi untuk setiap item
-                            for (NotifyModelNew notification : notif) {
-                                String judul = notification.getJudul(); // Ambil judul
-                                String isi = notification.getBodynotif(); // Ambil isi
-
-                                // Menampilkan notifikasi untuk setiap item
-                                RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
-                                notificationLayout.setTextViewText(R.id.notifTitle, judul);
-                                notificationLayout.setTextViewText(R.id.bodyNotif, isi);
-                            }
+                            allNotifications.addAll(notif); // Tambahkan ke global list
+                            adapter.updateData(new ArrayList<>(allNotifications)); // Perbarui adapter
                         }
                     }
                 }
@@ -123,18 +115,8 @@ public class Notify extends Fragment implements WebSocketMessageListener {
                         List<NotifyModelNew> notif = notifikasiResponse.getData(); // Ambil data list notifikasi
 
                         if (notif != null && !notif.isEmpty()) {
-                            // Update RecyclerView adapter dengan data baru
-                            adapter.updateData(notif);
-                            // Menampilkan notifikasi untuk setiap item
-                            for (NotifyModelNew notification : notif) {
-                                String judul = notification.getJudul(); // Ambil judul
-                                String isi = notification.getBodynotif(); // Ambil isi
-
-                                // Menampilkan notifikasi untuk setiap item
-                                RemoteViews notificationLayout = new RemoteViews(getContext().getPackageName(), R.layout.activity_row_notif);
-                                notificationLayout.setTextViewText(R.id.notifTitle, judul);
-                                notificationLayout.setTextViewText(R.id.bodyNotif, isi);
-                            }
+                            allNotifications.addAll(notif); // Tambahkan ke global list
+                            adapter.updateData(new ArrayList<>(allNotifications)); // Perbarui adapter
                         }
                     }
                 }
@@ -146,6 +128,7 @@ public class Notify extends Fragment implements WebSocketMessageListener {
             }
         });
     }
+
 
 
     // WebSocket message listener untuk notifikasi
@@ -180,12 +163,12 @@ public class Notify extends Fragment implements WebSocketMessageListener {
                         showNotification(judul, isi);
                     }
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            // Menampilkan Toast untuk menunjukkan pesan WebSocket
-            Toast.makeText(getContext(), "Pesan WebSocket diterima: " + message, Toast.LENGTH_SHORT).show();
+            getNotifikasi("event", "tiket", idUser);
         });
     }
 

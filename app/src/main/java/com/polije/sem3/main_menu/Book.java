@@ -60,8 +60,6 @@ public class Book extends Fragment implements WebSocketMessageListener {
         UsersUtil userUtil = new UsersUtil(requireContext());
         String idUser = userUtil.getId();
         loadTiketUser(idUser);
-/*
-        setupWebSocket();*/ // Mengatur WebSocket
         WebSocketService.setBookListener(this);
         searchBox.setOnClickListener(v -> searchTiket(searchBox.getText().toString()));
 
@@ -70,7 +68,6 @@ public class Book extends Fragment implements WebSocketMessageListener {
 
     @Override
     public void onMessageReceived(String message) {
-        // Tangani pesan yang diterima
         handler.post(() -> {
             UsersUtil util = new UsersUtil(requireContext());
             loadTiketUser(util.getId());

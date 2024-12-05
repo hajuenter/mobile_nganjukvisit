@@ -94,7 +94,6 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // Tidak ada perubahan yang perlu dilakukan di sini
             }
         });
         fullname = findViewById(R.id.txtfullname);
@@ -105,14 +104,13 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Hanya izinkan huruf dan spasi
                 String filteredText = s.toString().replaceAll("[^a-zA-Z ]", "");
                 if (!s.toString().equals(filteredText)) {
                     fullname.setText(filteredText);
                     int cursorPosition = filteredText.length();
                     if (cursorPosition <= fullname.getText().length()) {
-                        fullname.setSelection(cursorPosition); // Mengatur seleksi pada posisi yang valid
-                    } // Menjaga kursor di akhir
+                        fullname.setSelection(cursorPosition);
+                    }
                 }
             }
 

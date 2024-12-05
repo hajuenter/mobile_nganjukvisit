@@ -62,6 +62,7 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
         holder.tiketStatus.setText("Status : " + tiket.getStatus());
         if (tiket.getQrCode() != null) {
             holder.gambarQR.setImageBitmap(tiket.getQrCode());
+            holder.gambarQR.setBackgroundColor(Color.WHITE); // Mengubah background ke putih
         holder.gambarQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +79,13 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
                 dialog.show(); // Menampilkan dialog
             }});
         }else{
-            if (tiket.getStatus() == "digagal"){
-                holder.gambarQR.setImageResource(R.drawable.border_linear_layout);}
-            if (tiket.getStatus() == "diproses"){
-            holder.gambarQR.setImageResource(R.drawable.border_linear_layout);}
+            if (tiket.getStatus().equals("digagal")) {
+                holder.gambarQR.setBackgroundColor(Color.TRANSPARENT); // Mengubah background ke putih
+            }
+            if (tiket.getStatus().equals("diproses")) {
+                holder.gambarQR.setBackgroundColor(Color.TRANSPARENT); // Mengubah background ke putih
+            }
+
         }
     }
     private Bitmap generateQRCode(String data) throws WriterException {

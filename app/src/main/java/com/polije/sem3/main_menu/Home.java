@@ -233,12 +233,10 @@ public class Home extends Fragment {
             }
         });
 
-        // Atur OnClickListener pada tombol
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Ketika tombol diklik, buat intent untuk menuju aktivitas baru
-                Intent intent = new Intent(getActivity(), ListWisata.class); // Gantilah 'AktivitasTujuan' dengan aktivitas yang ingin Anda tuju
+                Intent intent = new Intent(getActivity(), ListWisata.class);
                 startActivity(intent);
             }
         });

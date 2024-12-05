@@ -84,31 +84,21 @@ public class ForgotPassword extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("true")) {
                             String otp = response.body().getData().getOtp();
-                            // Misalnya, Anda memiliki startMillis dalam bentuk long
-                            long startMillis = 1677000000000L;  // contoh nilai startMillis dalam milidetik
-
-// Tambahkan 60000 milidetik (1 menit)
+                            long startMillis = 1677000000000L;
                             long endMillis = startMillis + 600000;
-
-// Konversi endMillis menjadi String jika diperlukan
                             String endMillisString = String.valueOf(endMillis);
-
-                            // Pastikan Toast ditampilkan di thread utama
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
-
-                            // Pastikan navigasi ke halaman selanjutnya dilakukan dengan benar
                             Intent intent = new Intent(ForgotPassword.this, OtpVerification.class);
                             intent.putExtra(OtpVerification.EMAIL_USER, emailUser);
                             intent.putExtra(OtpVerification.OTP_USER, otp);
                             intent.putExtra(OtpVerification.END_MILLIS, endMillis);
                             startActivity(intent);
                         } else {
-                            // Tampilkan pesan error jika status bukan "true"
                             Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

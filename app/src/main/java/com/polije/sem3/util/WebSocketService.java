@@ -32,9 +32,9 @@ public class WebSocketService extends Service {
     private WebSocket webSocket1;
     private WebSocket webSocket2;
     private Handler uiHandler;
-    private static WebSocketMessageListener bookListener;  // Listener untuk Book.java
-    private static WebSocketMessageListener notifyListener;  // Listener untuk Notify.java
-    private static final long PING_INTERVAL = 2 * 60 * 1000; // Kirim ping setiap 2 menit
+    private static WebSocketMessageListener bookListener;
+    private static WebSocketMessageListener notifyListener;
+    private static final long PING_INTERVAL = 2 * 60 * 1000;
     private Handler pingHandler;
     private Runnable pingRunnable;
     private NotificationManager notificationManager;
@@ -49,7 +49,7 @@ public class WebSocketService extends Service {
         pingHandler = new Handler(Looper.getMainLooper());
         setupPingTask();
 
-        createNotificationChannel();  // Membuat channel notifikasi untuk Android 8.0+
+        createNotificationChannel();
 
         setupWebSocket1();  // WebSocket pertama (8080)
         setupWebSocket2();  // WebSocket kedua (8081)
@@ -68,7 +68,7 @@ public class WebSocketService extends Service {
             @Override
             public void onMessage(WebSocket webSocket, String text) {
                 Log.d("WebSocket1", "Pesan diterima dari port 8080: " + text);
-                sendMessageToListener(text, bookListener);// Kirim ke Book.java// Tampilkan notifikasi
+                sendMessageToListener(text, bookListener);
             }
 
             @Override
@@ -90,7 +90,7 @@ public class WebSocketService extends Service {
             @Override
             public void onMessage(WebSocket webSocket, String text) {
                 Log.d("WebSocket2", "Pesan diterima dari port 8081: " + text);
-                sendMessageToListener(text, notifyListener);  // Kirim ke Notify.java
+                sendMessageToListener(text, notifyListener);
                 try {
                     jsonObject = new JSONObject(text);
                     judul = jsonObject.getString("judul");
@@ -99,7 +99,7 @@ public class WebSocketService extends Service {
                     Log.e("WebSocketService", "JSON Parsing Error: " + e.getMessage()+judul+",isi:"+isi+" ,isi text:"+text);
                     throw new RuntimeException(e);
                 }
-                showNotification(judul,isi);  // Tampilkan notifikasi
+                showNotification(judul,isi);
             }
 
             @Override
@@ -116,11 +116,11 @@ public class WebSocketService extends Service {
     }
 
     public static void setBookListener(WebSocketMessageListener listener) {
-        bookListener = listener;  // Set listener untuk Book.java
+        bookListener = listener;
     }
 
     public static void setNotifyListener(WebSocketMessageListener listener) {
-        notifyListener = listener;  // Set listener untuk Notify.java
+        notifyListener = listener;
     }
 
 
@@ -130,13 +130,13 @@ public class WebSocketService extends Service {
             public void run() {
                 if (webSocket2 != null) {
                     Log.d("WebSocket2", "Mengirim ping ke server");
-                    webSocket2.send("ping"); // Kirim pesan 'ping'
+                    webSocket2.send("ping");
                 }
                 if (webSocket1 != null) {
                     Log.d("WebSocket1", "Mengirim ping ke server");
-                    webSocket1.send("ping"); // Kirim pesan 'ping'
+                    webSocket1.send("ping");
                 }
-                pingHandler.postDelayed(this, PING_INTERVAL); // Kirim ulang setelah interval
+                pingHandler.postDelayed(this, PING_INTERVAL);
             }
         };
         pingHandler.postDelayed(pingRunnable, PING_INTERVAL);
@@ -160,7 +160,6 @@ public class WebSocketService extends Service {
     }
 
     private void showNotification(String judul,String message) {
-        // Menampilkan notifikasi setiap kali pesan diterima
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "websocket_channel")
                 .setSmallIcon(R.drawable.newlogo_nganjukvisit)
                 .setContentTitle(judul)

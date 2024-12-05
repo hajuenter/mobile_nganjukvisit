@@ -42,6 +42,7 @@ import com.polije.sem3.utility.ImageUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -307,8 +308,9 @@ public class Profiles extends Fragment {
                 progressDialog.dismiss();
                 if (response.body() != null) {
                     fotobaru = response.body().getMessage();
+                    if (!Objects.equals(fotobaru, "Duplikat foto terdeteksi. Upload ditolak.")){
                     Toast.makeText(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    updateProfiles(fotobaru);
+                    updateProfiles(fotobaru);}
                 } else {
                     Toast.makeText(requireActivity(), "Upload GAGAL", Toast.LENGTH_SHORT).show();
                 }
@@ -390,9 +392,7 @@ public class Profiles extends Fragment {
 
             if (uri != null) {
                 try {
-                    Glide.with(requireContext()).load(uri).into(imgThumb);
-
-
+                    Picasso.get().load(uri).into(imgThumb);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(requireActivity(), "Error loading image", Toast.LENGTH_SHORT).show();

@@ -37,7 +37,7 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
     public void onBindViewHolder(@NonNull ViewpagerAdapter.ViewHolder holder, int position) {
         holder.txtTitle.setText(datalist.get(position).getNama());
         holder.txtLokasi.setText(datalist.get(position).getLokasi());
-        holder.txtJadwal.setText(datalist.get(position).getHari() + ", " + EventModelAdapter.convertToDate1(datalist.get(position).getTanggaldanwaktu()));
+        holder.txtJadwal.setText(EventModelAdapter.convertToDate1(datalist.get(position).getTanggaldanwaktu()));
         Glide.with(holder.itemView.getContext())
                 .load(Client.IMG_DATA + getFirstImage(datalist.get(position).getGambar()))
                 .into(holder.imgView);
@@ -50,7 +50,6 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
             String[] images = gambar.split(",");
             return images[0].trim(); // Mengembalikan gambar pertama setelah dipangkas spasi
         } else {
-            // Jika hanya ada satu gambar, kembalikan nama gambar tersebut
             return gambar.trim();
         }
     }
