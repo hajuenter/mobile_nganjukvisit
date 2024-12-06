@@ -38,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/urbanistbold"
                     android:text="Pawai Budaya"
                     android:textStyle="bold"
                     android:textSize="26sp"
@@ -51,12 +52,14 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginRight="3dp"
                         android:background="@drawable/locationnew"/>
                     <TextView
                         android:id="@+id/lokasiEvent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/urbanistregular"
                         android:layout_alignParentLeft="true"
                         android:text="Sawahan, Nganjuk"
                         android:textSize="16sp"
@@ -79,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:fontFamily="@font/urbanistregular"
                         android:text="29-10-2023, Minggu 13:00pm"
                         android:textSize="16sp"
                         android:textColor="@android:color/white" />

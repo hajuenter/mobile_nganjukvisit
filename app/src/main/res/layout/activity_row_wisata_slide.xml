@@ -61,6 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/urbanistbold"
                     android:text="Sedudo"
                     android:textStyle="bold"
                     android:textSize="26sp"
@@ -81,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:fontFamily="@font/urbanistregular"
                         android:text="Sawahan, Nganjuk"
                         android:textSize="16sp"
                         android:textColor="@android:color/white" />

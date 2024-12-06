@@ -21,7 +21,7 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif"/> <!-- Menggunakan font bawaan Android -->
+            android:fontFamily="@font/urbanistbold"/> <!-- Menggunakan font bawaan Android -->
 
     </LinearLayout>
 
@@ -32,7 +32,7 @@
         android:layout_marginTop="2dp"
         android:text="Selamat Pembayaran Tiket Wisata: Berhasil terkonfirmasi!!! Anda sekarang dapat melihat informasi tiketnya di menu Booking, tunjukkan pada petugas penjaga loket saat ingin memasuki wisata."
         android:textColor="@android:color/darker_gray"
-        android:fontFamily="sans-serif"/> <!-- Menggunakan font bawaan Android -->
+        android:fontFamily="@font/poppins"/> <!-- Menggunakan font bawaan Android -->
 
     <TextView
         android:layout_width="match_parent"

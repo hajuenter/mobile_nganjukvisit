@@ -1,7 +1,12 @@
 package com.polije.sem3.adapter;
 
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+import static android.graphics.Color.YELLOW;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +64,11 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
         holder.tiketUser.setText("Nama : " + tiket.getNama_pemesan());
         holder.tiketJumlah.setText("Pengunjung : " + tiket.getJumlah());
         holder.tiketTanggal.setText("Tanggal : " + tiket.getTanggal());
-        holder.tiketStatus.setText("Status : " + tiket.getStatus());
-        if (tiket.getQrCode() != null) {
-            holder.gambarQR.setImageBitmap(tiket.getQrCode());
+        if (tiket.getQrCode() != null && tiket.getStatus().equals("berhasil")) {
+            String text = "<b>Status: <font color='#009900'>"+tiket.getStatus()+"</font></b>";
+            holder.tiketStatus.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);            holder.gambarQR.setImageBitmap(tiket.getQrCode());
             holder.gambarQR.setBackgroundColor(Color.WHITE); // Mengubah background ke putih
-        holder.gambarQR.setOnClickListener(new View.OnClickListener() {
+            holder.gambarQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Membuat dialog untuk menampilkan QR
@@ -80,9 +85,13 @@ public class TiketModelAdapter extends RecyclerView.Adapter<TiketModelAdapter.Ti
             }});
         }else{
             if (tiket.getStatus().equals("digagal")) {
+                String text = "<b>Status: <font color='#FF0000'>"+tiket.getStatus()+"</font></b>";
+                holder.tiketStatus.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
                 holder.gambarQR.setBackgroundColor(Color.TRANSPARENT); // Mengubah background ke putih
             }
             if (tiket.getStatus().equals("diproses")) {
+                String text = "<b>Status: <font color='#FFCC00'>"+tiket.getStatus()+"</font></b>";
+                holder.tiketStatus.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
                 holder.gambarQR.setBackgroundColor(Color.TRANSPARENT); // Mengubah background ke putih
             }
 

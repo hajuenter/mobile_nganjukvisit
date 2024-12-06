@@ -25,6 +25,7 @@
                 android:id="@+id/keySearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistregular"
                 android:layout_marginHorizontal="4dp"
                 android:inputType="text"
                 android:longClickable="false"
@@ -52,6 +53,7 @@
             <TextView
                 android:id="@+id/favsKulinerJudul"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/urbanistbold"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Kuliner"

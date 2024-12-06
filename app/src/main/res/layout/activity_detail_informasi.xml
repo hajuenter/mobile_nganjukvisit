@@ -43,6 +43,7 @@
                 android:id="@+id/namaWisata"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/urbanistbold"
                 android:paddingEnd="50dp"
                 android:text="Sedudo"
                 android:textStyle="bold"
@@ -93,6 +94,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Deskripsi"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistbold"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"
                 android:textColor="@color/black"/>
@@ -102,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:fontFamily="@font/urbanistregular"
                 android:justificationMode="inter_word"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp"
@@ -112,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Jam Operasional : "
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -120,6 +124,7 @@
                 android:id="@+id/jamOperasional"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistregular"
                 android:text="12:00 - 14:30 / Setiap Hari"
                 android:textColor="@color/black"/>
 
@@ -128,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Harga Tiket : "
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -136,6 +142,7 @@
                 android:id="@+id/hargaTiket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistregular"
                 android:text="Rp 10.000 / orang"
                 android:textColor="@color/black"/>
 
@@ -145,6 +152,7 @@
                 android:layout_marginTop="4dp"
                 android:text="Alamat : "
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistbold"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
@@ -153,6 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ngliman Sawahan"
+                android:fontFamily="@font/urbanistregular"
                 android:textColor="@color/black"/>
 
             <androidx.cardview.widget.CardView
@@ -176,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/ralewaybold"
                 android:text="Lihat di Maps"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -189,6 +199,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Ulasan :"
                 android:textSize="20sp"
+                android:fontFamily="@font/urbanistbold"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
@@ -225,7 +236,7 @@
                     android:numStars="5"
                     android:rating="0"
                     android:stepSize="0.5"
-                    android:progressTint="@color/bluebutton"
+                    android:progressTint="@color/gold_shiny"
                     android:isIndicator="false"
                     android:layout_marginRight="4dp"/>
                 <EditText
@@ -233,6 +244,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
+                    android:fontFamily="@font/urbanistregular"
                     android:longClickable="false"
                     android:textSize="16sp"
                     android:hint="Add Comment"/>
@@ -241,9 +253,12 @@
                     android:id="@+id/btnSendComment"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/ralewaybold"
+                    android:background="@drawable/rounded_button"
                     android:layout_marginTop="4dp"
                     android:layout_gravity="end"
-                    android:text="kirim"/>
+                    android:text="kirim"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
@@ -258,6 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ulasan Anda"
+                    android:fontFamily="@font/urbanistbold"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -277,7 +293,7 @@
                     android:numStars="5"
                     android:rating="0"
                     android:stepSize="0.5"
-                    android:progressTint="@color/bluebutton"
+                    android:progressTint="@color/gold_shiny"
                     android:isIndicator="false"
                     android:layout_marginRight="4dp"/>
                 <EditText
@@ -285,6 +301,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/urbanistregular"
                     android:hint="ulasan anda"
                     android:textSize="16sp"
                     android:textColor="@color/black"
@@ -309,6 +326,7 @@
                         android:background="@drawable/rounded_button"
                         android:layout_marginTop="10dp"
                         android:text="Edit"
+                        android:fontFamily="@font/ralewaybold"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textAllCaps="false"
@@ -322,6 +340,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/rounded_button_danger"
                         android:layout_marginTop="10dp"
+                        android:fontFamily="@font/ralewaybold"
                         android:text="Hapus"
                         android:textColor="@color/white"
                         android:textSize="18sp"
@@ -338,6 +357,7 @@
                     android:layout_marginTop="14dp"
                     android:text="Edit Ulasan"
                     android:textSize="16sp"
+                    android:fontFamily="@font/urbanistbold"
                     android:textColor="@color/bluebutton"
                     android:layout_gravity="center_horizontal"
                     />

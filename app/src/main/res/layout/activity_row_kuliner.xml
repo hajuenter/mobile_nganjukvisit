@@ -68,6 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:fontFamily="@font/urbanistbold"
                         android:text="Nasi Becek"
                         android:textStyle="bold"
                         android:textSize="18sp"

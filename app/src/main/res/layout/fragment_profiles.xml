@@ -81,13 +81,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nama Lengkap"
-                android:fontFamily="@font/ralewayreguler"
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="20sp"
                 android:textColor="@color/greyfont"/>
 
             <EditText
                 android:id="@+id/textnama"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/urbanistregular"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Email"
-            android:fontFamily="@font/ralewayreguler"
+            android:fontFamily="@font/urbanistbold"
             android:textSize="20sp"
             android:textColor="@color/greyfont"/>
 
@@ -116,7 +116,7 @@
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/urbanistregular"
             android:hint="Email Anda"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Alamat"
-            android:fontFamily="@font/ralewayreguler"
+            android:fontFamily="@font/urbanistbold"
             android:textSize="20sp"
             android:textColor="@color/greyfont"/>
 
@@ -140,7 +140,7 @@
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/urbanistregular"
             android:hint="(Kosong)"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Nomor Telepon"
-            android:fontFamily="@font/ralewayreguler"
+            android:fontFamily="@font/urbanistbold"
             android:textSize="20sp"
             android:textColor="@color/greyfont"/>
 
@@ -165,7 +165,7 @@
             android:paddingHorizontal="10dp"
             android:inputType="phone"
             android:maxLength="13"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/urbanistregular"
             android:hint="(Kosong)"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"

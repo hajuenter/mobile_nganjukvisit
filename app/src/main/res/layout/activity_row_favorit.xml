@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="sedudo"
+                android:fontFamily="@font/urbanistbold"
                 android:textAllCaps="true"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -55,6 +56,7 @@
             android:id="@+id/textvwDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/urbanistregular"
             android:layout_marginStart="10dp"
             android:text="@string/loremipsumgenerator"/>
 

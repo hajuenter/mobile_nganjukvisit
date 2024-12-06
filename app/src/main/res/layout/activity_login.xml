@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_subheader"
             android:textColor="@color/white"
-            android:fontFamily="@font/ralewayreguler"
+            android:fontFamily="@font/poppins"
             android:textSize="23sp"
             android:textAlignment="center"
             />
@@ -62,6 +62,7 @@
             android:layout_marginStart="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/ralewaybold"
             android:text="Email:"
             android:textColor="@color/white"
             android:textSize="16sp"/>
@@ -71,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/urbanistregular"
             android:layout_marginHorizontal="30dp"
             android:inputType="textEmailAddress"
             android:maxLines="1"
@@ -87,6 +89,8 @@
             android:layout_marginStart="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/ralewaybold"
+
             android:text="Password:"
             android:textColor="@color/white"
             android:textSize="16sp"/>
@@ -101,6 +105,7 @@
             android:paddingRight="10dp"
             android:hint="Password"
             android:inputType="textPassword"
+            android:fontFamily="@font/urbanistregular"
             android:longClickable="false"
             android:background="@drawable/shapebackgroundtextfield"
             android:textColorHint="@color/abuabu_transparent"
@@ -115,6 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_gravity="end"
+            android:fontFamily="@font/ralewaysemibold"
             android:text="Lupa Password?"
             android:textColor="@color/white"
             android:layout_marginHorizontal="30dp"

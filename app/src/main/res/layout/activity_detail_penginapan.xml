@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="50dp"
+                android:fontFamily="@font/urbanistbold"
                 android:text="Hotel Frontone"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -86,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/urbanistbold"
                 android:text="Keterangan :"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -95,6 +97,7 @@
             <TextView
                 android:id="@+id/deskripsiPenginapan"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/urbanistregular"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -104,8 +107,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistbold"
                 android:layout_marginTop="4dp"
-                android:text="lokasi :"
+                android:text="Lokasi :"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -114,6 +118,7 @@
                 android:id="@+id/alamatPenginapan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistregular"
                 android:textSize="16sp"
                 android:text="Nganjuk"
                 android:textColor="@color/black"/>
@@ -123,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Nomor Telepon :"
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -132,6 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="085123456987"
+                android:fontFamily="@font/urbanistregular"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
 
@@ -142,6 +149,7 @@
                 android:text="petunjuk arah :"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/urbanistbold"
                 android:textColor="@color/black"/>
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -165,6 +173,7 @@
                 android:background="@drawable/rounded_button"
                 android:layout_marginTop="10dp"
                 android:text="Lihat di Maps"
+                android:fontFamily="@font/ralewaybold"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textAllCaps="false"
@@ -175,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Ulasan :"
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -212,7 +222,7 @@
                     android:numStars="5"
                     android:rating="0"
                     android:stepSize="0.5"
-                    android:progressTint="@color/bluebutton"
+                    android:progressTint="@color/gold_shiny"
                     android:isIndicator="false"
                     android:layout_marginRight="4dp"/>
                 <EditText
@@ -220,6 +230,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
+                    android:fontFamily="@font/urbanistregular"
                     android:longClickable="false"
                     android:textSize="16sp"
                     android:hint="Add Comment"/>
@@ -230,7 +241,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_gravity="end"
-                    android:text="kirim"/>
+                    android:background="@drawable/rounded_button"
+                    android:text="kirim"
+                    android:fontFamily="@font/ralewaybold"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
@@ -246,6 +260,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ulasan Anda"
                     android:textSize="18sp"
+                    android:fontFamily="@font/urbanistbold"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
 
@@ -264,7 +279,7 @@
                     android:numStars="5"
                     android:rating="0"
                     android:stepSize="0.5"
-                    android:progressTint="@color/bluebutton"
+                    android:progressTint="@color/gold_shiny"
                     android:isIndicator="false"
                     android:layout_marginRight="4dp"/>
 
@@ -275,6 +290,7 @@
                     android:layout_marginTop="4dp"
                     android:hint="ulasan anda"
                     android:textSize="16sp"
+                    android:fontFamily="@font/urbanistregular"
                     android:textColor="@color/black"
                     android:background="@null"
                     />
@@ -299,6 +315,7 @@
                         android:text="Edit"
                         android:textColor="@color/white"
                         android:textSize="18sp"
+                        android:fontFamily="@font/ralewaybold"
                         android:textAllCaps="false"
                         android:enabled="true"
                         />
@@ -311,6 +328,7 @@
                         android:background="@drawable/rounded_button_danger"
                         android:layout_marginTop="10dp"
                         android:text="Hapus"
+                        android:fontFamily="@font/ralewaybold"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textAllCaps="false"
@@ -326,6 +344,7 @@
                     android:layout_marginTop="14dp"
                     android:text="Edit Ulasan"
                     android:textSize="16sp"
+                    android:fontFamily="@font/urbanistbold"
                     android:textColor="@color/bluebutton"
                     android:layout_gravity="center_horizontal"
                     />

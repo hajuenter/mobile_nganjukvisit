@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sedudo"
+                android:fontFamily="@font/urbanistbold"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -42,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nama :"
+                android:fontFamily="@font/urbanistregular"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
@@ -51,6 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pengunjung :"
+                android:fontFamily="@font/urbanistregular"
+
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
@@ -60,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tanggal :"
+                android:fontFamily="@font/urbanistregular"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
@@ -69,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Status :"
+                android:fontFamily="@font/urbanistregular"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -86,6 +92,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAlignment="center"
+                android:fontFamily="@font/urbanistregular"
+
                 android:text="QR code akan muncul setelah tiket dikonfirmasi"
                 android:padding="16dp"/>
 

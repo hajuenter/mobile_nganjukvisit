@@ -13,7 +13,7 @@ import com.polije.sem3.model.NotifyModelNew;
 import java.util.List;
 
 public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyViewHolder> {
-    private List<NotifyModelNew> notifyList;
+    private final List<NotifyModelNew> notifyList;
 
     public NotifyAdapter(List<NotifyModelNew> notifyList) {
         this.notifyList = notifyList;

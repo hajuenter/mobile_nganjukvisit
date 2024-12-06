@@ -79,7 +79,7 @@ public class Notify extends Fragment implements WebSocketMessageListener {
         return rootView;
     }
 
-    private List<NotifyModelNew> allNotifications = new ArrayList<>(); // Global list untuk semua notifikasi
+    private final List<NotifyModelNew> allNotifications = new ArrayList<>(); // Global list untuk semua notifikasi
 
     public void getNotifikasi(String judulEvent, String judulTiket, String id_user) {
         // Memanggil API untuk mendapatkan "Event Baru"

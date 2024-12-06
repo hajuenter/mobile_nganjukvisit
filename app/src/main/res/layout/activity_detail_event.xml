@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="50dp"
+                android:fontFamily="@font/urbanistbold"
                 android:text="Festival Budaya"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -87,6 +88,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Keterangan :"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistbold"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"
                 android:textColor="@color/black"/>
@@ -95,6 +97,7 @@
                 android:id="@+id/deskripsiEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistregular"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp"
@@ -106,6 +109,7 @@
                 android:layout_marginTop="4dp"
                 android:text="Jadwal :"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistbold"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
@@ -114,6 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistregular"
                 android:text="Minggu, 12 November 2023 12:00"
                 android:textColor="@color/black"/>
 
@@ -122,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="lokasi :"
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -131,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ngliman, Sawahan"
+                android:fontFamily="@font/urbanistregular"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
     </LinearLayout>

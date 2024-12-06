@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Verifikasi OTP"
+            android:fontFamily="@font/ralewaybold"
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -39,6 +40,7 @@
         <TextView
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="3dp"
+            android:fontFamily="@font/poppins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/otpverification_subheader"
@@ -64,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Kode OTP"
+            android:fontFamily="@font/ralewaybold"
             android:textColor="@color/white"
             android:textSize="20sp"/>
 
@@ -111,6 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/ralewaybold"
             android:text="Expired"
             android:layout_marginHorizontal="30dp"
             android:textColor="@color/white"

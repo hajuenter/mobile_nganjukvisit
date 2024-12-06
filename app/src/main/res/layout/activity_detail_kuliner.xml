@@ -38,6 +38,7 @@
                 android:layout_height="match_parent"
                 android:paddingEnd="50dp"
                 android:text="Warung"
+                android:fontFamily="@font/urbanistbold"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/black"
@@ -86,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Keterangan :"
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"
@@ -95,6 +97,7 @@
                 android:id="@+id/deskripsiKuliner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/urbanistregular"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp"
@@ -104,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Harga :"
+                android:fontFamily="@font/urbanistbold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -113,6 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistregular"
                 android:text="Rp.10.000/porsi"
                 android:textColor="@color/black"/>
             <TextView
@@ -121,6 +126,7 @@
                 android:layout_marginTop="4dp"
                 android:text="Lokasi :"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistbold"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
@@ -129,6 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:fontFamily="@font/urbanistregular"
                 android:text="Nganjuk"
                 android:textColor="@color/black"/>
             <androidx.cardview.widget.CardView
@@ -153,6 +160,7 @@
                 android:background="@drawable/rounded_button"
                 android:layout_marginTop="10dp"
                 android:text="Lihat di Maps"
+                android:fontFamily="@font/ralewaybold"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textAllCaps="false"
@@ -161,7 +169,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*Untuk Jam buka dan Ulasan,silahkan lihat di Google Maps"/>
+                android:paddingTop="5dp"
+                android:fontFamily="@font/poppins"
+                android:text="*Untuk Jam buka dan Ulasan, silahkan lihat di Google Maps"/>
 
            <!-- <TextView
                 android:layout_width="match_parent"
