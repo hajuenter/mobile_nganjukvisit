@@ -6,7 +6,10 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".main_menu.Profiles">
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:id="@+id/scrollView"
@@ -207,4 +210,5 @@
     </LinearLayout>
 
     </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

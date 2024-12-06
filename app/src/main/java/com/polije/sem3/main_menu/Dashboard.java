@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +20,7 @@ public class Dashboard extends AppCompatActivity {
     MenuItem dashboardMenuItem;
     Fragment selectedFragment = null;
     public static String fragmentToLoad = "0";
+    private FloatingActionButton fab;
     private String getFragmentToLoad;
 
     private static final int PERMISSION_REQUEST_STORAGE = 2;
@@ -47,7 +49,6 @@ public class Dashboard extends AppCompatActivity {
                 .commit();
         Intent serviceIntent = new Intent(Dashboard.this, WebSocketService.class);
         startService(serviceIntent);
-        FloatingActionButton fab;
         btnView = findViewById(R.id.bottomNavigationView);
         btnView.setBackground(null);
         btnView.setItemIconTintList(
@@ -63,6 +64,7 @@ public class Dashboard extends AppCompatActivity {
         dashboardMenuItem.setEnabled(false);
 
         fab = findViewById(R.id.fab);
+        fab.setEnabled(false);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +72,7 @@ public class Dashboard extends AppCompatActivity {
                 selectedFragment = new Home();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame, new Home()).commit();
+                fab.setEnabled(false);
             }
         });
 
@@ -87,42 +90,43 @@ public class Dashboard extends AppCompatActivity {
 
 
         btnView.setOnNavigationItemSelectedListener(item -> {
-
+            if (item.isChecked()) {
+                return false;
+            }
             switch (item.getItemId()) {
                 case R.id.miBook:
-                    // Handle book item click
                     selectedFragment = new Book();
                     this.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, new Book()).commit();
+                    fab.setEnabled(true);
                     return true;
                 case R.id.miFavs:
                     // Handle favorites item click
                     selectedFragment = new Favs();
                     this.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, new Favs()).commit();
+                    fab.setEnabled(true);
                     return true;
                 case R.id.placeholder:
-                    // Handle placeholder item click
                     return true;
                 case R.id.miNotify:
                     // Handle notification item click
                     selectedFragment = new Notify();
                     this.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, selectedFragment).commit();
+                    fab.setEnabled(true);
                     return true;
                 case R.id.miProfiles:
                     // Handle profiles item click
                     selectedFragment = new Profiles();
                     this.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, selectedFragment).commit();
+                    fab.setEnabled(true);
                     return true;
             }
 
             return false;
         });
-
-
-
     }
 
 //    @Override

@@ -138,6 +138,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.datastore:datastore-core-android:1.1.1'
     implementation 'com.google.firebase:firebase-auth:23.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // testing libraries
     testImplementation 'junit:junit:4.13.2'
@@ -168,8 +169,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.3.0'
 
     // Glide for image loading
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 
     // Google Play services for authentication
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
@@ -182,6 +183,6 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     //zoomQR
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
 
 }

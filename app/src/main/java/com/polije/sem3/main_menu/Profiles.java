@@ -16,7 +16,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -64,6 +66,7 @@ public class Profiles extends Fragment {
     private ImageView imgThumb;
     private EditText editNamaText, emailText, alamatText, notelpText;
     private ProgressDialog progressDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public Profiles() {
         // Required empty public constructor
@@ -209,24 +212,10 @@ public class Profiles extends Fragment {
         btnChoose.setOnClickListener(v -> openGallery());
 
         btnUpload2.setOnClickListener(v -> {
-            // Run loading bar
             progressDialog.show();
-
-            if (uri != null) {
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), uri);
-                    String encoded = ImageUtils.bitmapToBase64String(bitmap, 100);
-                    Log.d("Profiles", "seng diupload: " + encoded);
-                    uploadImage();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    progressDialog.dismiss();
-                    Toast.makeText(requireActivity(), "Error loading image", Toast.LENGTH_SHORT).show();
-                }
-            } else {
                 updateProfiles(util.getUserPhoto());
                 Log.d("Profiles", "Just Update String Information");
-            }
+
         });
 
         btnLogout.setOnClickListener(v -> {
@@ -247,8 +236,23 @@ public class Profiles extends Fragment {
                 requireActivity().finish();
             }
         });
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
+// Listener untuk mendeteksi gesture refresh
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            refreshData();
+        });
     }
+    // Fungsi untuk mengontrol animasi loading selesai
+    private void refreshData() {
+        // Contoh: Delay 2 detik untuk simulasi proses refresh
+        new Handler().postDelayed(() -> {
+            updateUserData();
+            swipeRefreshLayout.setRefreshing(false);
+        }, 2000);
+    }
+
+
 
     private void setupScrollListener(ScrollView scrollView) {
         editNamaText.setOnFocusChangeListener((v, hasFocus) -> {
@@ -427,7 +431,9 @@ public class Profiles extends Fragment {
             try {
                 selectedBitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
                 Log.e("selectedBitmap", "onActivityResult: "+selectedBitmap );
-                imgThumb.setImageBitmap(selectedBitmap); // Set image to ImageView
+                Picasso.get().load(uri).into(imgThumb);
+//                Glide.with(requireContext()).load(uri).circleCrop().into(imgThumb);
+                uploadImage();
             } catch (IOException e) {
                 e.printStackTrace();
             }

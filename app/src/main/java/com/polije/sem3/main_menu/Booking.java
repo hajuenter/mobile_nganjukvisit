@@ -32,7 +32,6 @@ import com.polije.sem3.util.WebSocketService;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
