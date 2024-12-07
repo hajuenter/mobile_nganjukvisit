@@ -56,6 +56,7 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
             }
         });
     }
+
     private String getFirstImage(String gambar) {
         // Cek jika ada koma (berarti ada lebih dari satu gambar)
         if (gambar.contains(",")) {
